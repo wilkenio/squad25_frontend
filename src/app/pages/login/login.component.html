@@ -1,7 +1,11 @@
 <div class="login-container">
-    <h2>Login</h2>
-    <input type="email" [(ngModel)]="email" placeholder="Email">
-    <input type="password" [(ngModel)]="senha" placeholder="Senha">
-    <button (click)="onLogin()">Entrar</button>
-  </div>
+  <h2>Login</h2>
+  <input type="email" [(ngModel)]="email" placeholder="Email">
+  <input type="password" [(ngModel)]="senha" placeholder="Senha">
+  <div class="g-recaptcha" [attr.data-sitekey]="siteKey" id="recaptcha"></div>
+  <button (click)="onLogin()">Entrar</button>
   
+  
+  <p *ngIf="mensagem" class="success">{{ mensagem }}</p>
+  <p *ngIf="mensagemErro" class="error">{{ mensagemErro }}</p>
+</div>

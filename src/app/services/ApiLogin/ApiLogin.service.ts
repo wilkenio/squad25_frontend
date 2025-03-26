@@ -14,10 +14,11 @@ export class ApiLoginService {
     this.apiUrl = this.globalService.apiUrl + '/login/';
   }
 
-  login(email: string, senha: string): Observable<any> {
+  login(email: string, senha: string, recaptchaToken: string): Observable<any> {
     const params = new HttpParams()
       .set('email', email)  // Adiciona email como parâmetro de consulta
-      .set('senha', senha);  // Adiciona senha como parâmetro de consulta
+      .set('senha', senha)  // Adiciona senha como parâmetro de consulta
+      .set('recaptchaToken', recaptchaToken);  // Adiciona senha como parâmetro de consulta
 
     // Realiza a requisição GET com os parâmetros de consulta e tipo de resposta 'json'
     return this.http.get<any>(this.apiUrl, { params, responseType: 'json' });
