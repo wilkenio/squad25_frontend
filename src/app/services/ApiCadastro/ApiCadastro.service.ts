@@ -14,12 +14,13 @@ export class ApiCadastroService {
     this.apiUrl = this.globalService.apiUrl + '/cadastro/';
   }
 
-  cadastrar(nome: string, email: string, dataNascimento: string, senha: string): Observable<any> {
-    console.log("lol")
+  cadastrar(nome: string, email: string, dataNascimento: string, senha: string, recaptchaToken: string): Observable<any> {
+    
     const params = new HttpParams()
       .set('nome', nome)  // Adiciona nome como parâmetro de consulta
       .set('email', email)  // Adiciona email como parâmetro de consulta
       .set('dataNascimento', dataNascimento)  // Adiciona data de nascimento como parâmetro de consulta
+      .set('recaptchaToken', recaptchaToken)  // Adiciona data de nascimento como parâmetro de consulta
       .set('senha', senha);  // Adiciona senha como parâmetro de consulta
 
     // Realiza a requisição GET com os parâmetros de consulta e tipo de resposta 'json'

@@ -1,25 +1,11 @@
-/*import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-@Component({
-  selector: 'app-login',
-  templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.css'],
-  imports: [FormsModule],
-})
-export class CadastroComponent {
-  email: string = '';
-  senha: string = '';
-
-  onLogin() {
-    console.log('Login com', this.email, this.senha);
-    // Aqui você chama seu AuthService
-  }
-}*/
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { GlobalService } from '../../services/global.service';
 import { ApiCadastroService } from '../../services/ApiCadastro/ApiCadastro.service';
+
+declare var grecaptcha: any; // Declaração para evitar erro de TypeScript
 
 @Component({
   selector: 'app-cadastro',
@@ -35,11 +21,17 @@ export class CadastroComponent {
   senha: string = '';
   confirmarSenha: string = '';
   mensagemRetorno: string = ''; // Mensagem para exibir feedback ao usuário
+  siteKey: string = '';
 
-  constructor(private apiCadastroService: ApiCadastroService, private router: Router) {}
+  constructor(
+    private apiCadastroService: ApiCadastroService,
+    private router: Router,
+    private globalService: GlobalService
+  ) {
+    this.siteKey = this.globalService.siteKey;
+  }
 
-  validarDados(): string {
-    console.log(this.nome.length)
+  validarDados(recaptchaResponse: string): string {
     if (this.nome.length <= 0) return 'Preencha o campo Nome.';
     if (this.email.length <= 0) return 'Preencha o campo Email.';
     if (this.dataNascimento.length <= 0) return 'Preencha o campo Data de Nascimento.';
@@ -49,14 +41,18 @@ export class CadastroComponent {
     if (!/\d/.test(this.senha)) return 'A senha deve conter pelo menos um número.';
     if (!/[\W_]/.test(this.senha)) return 'A senha deve conter pelo menos um caractere especial.';
     if (this.senha !== this.confirmarSenha) return 'As senhas não coincidem.';
-    return ''; // Senha válida
+    if (!recaptchaResponse) return 'Por favor, preencha o reCAPTCHA.';
+    
+    return ''; // Dados válidos
   }
 
   onCadastro() {
-    this.mensagemRetorno = this.validarDados();
-    if (this.mensagemRetorno) return; // Interrompe se a senha for inválida
+    const recaptchaResponse = grecaptcha.getResponse(); // Obtém a resposta do reCAPTCHA
 
-    this.apiCadastroService.cadastrar(this.nome, this.email, this.dataNascimento, this.senha).subscribe(
+    this.mensagemRetorno = this.validarDados(recaptchaResponse);
+    if (this.mensagemRetorno) return; // Interrompe se houver erro
+
+    this.apiCadastroService.cadastrar(this.nome, this.email, this.dataNascimento, this.senha, recaptchaResponse).subscribe(
       (response) => {
         console.log('Cadastro bem-sucedido!', response);
         this.router.navigate(['/login']); // Redireciona após cadastro bem-sucedido
@@ -68,5 +64,3 @@ export class CadastroComponent {
     );
   }
 }
-
-
