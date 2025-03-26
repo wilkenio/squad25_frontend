@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';  // Adicione esta importação
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [RouterModule]  // Certifique-se de que RouterModule seja incluído aqui
 })
 export class AppComponent {
-  title = 'frontEndBradesco';
+  title = 'Sistema Bancário';
 }

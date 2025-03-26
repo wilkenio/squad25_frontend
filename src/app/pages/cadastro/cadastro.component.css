@@ -1,0 +1,74 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.cadastro-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 50px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.347);
+
+}
+
+.Dados{
+    width: 200px;
+    margin-top: 10px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.titulo{
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    border-color: rgb(255, 0, 25);
+  }
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(45deg, red,purple);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: linear-gradient 0.3s;
+    font-size: 15px;
+    margin-bottom: 20px;
+    margin-top: 5%;
+}
+
+button:hover{
+    color: rgb(0, 0, 0);
+}
+
+.cadastro {
+    text-align: center;
+    color: rgb(255, 0, 0);
+    display: block;
+    top: 30px;
+    position: relative;
+}
+
+.mensagem-retorno{
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.pagina-login{
+    text-decoration: underline;
+    margin-left: 25%;
+}
+  

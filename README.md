@@ -57,3 +57,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+### Justificativa para a arquitetura
+Organizei o projeto separando interface e lógica de dados. Dentro de pages/ estão os arquivos visuais e interativos de cada página. Em services/, concentro todas as conexões com a API, facilitando manutenção e evitando código duplicado. Essa estrutura também facilita testes e futuras expansões!
