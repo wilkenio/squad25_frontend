@@ -19,12 +19,17 @@ export class LoginComponent {
   siteKey: string = '';
   mensagem: string = '';
   mensagemErro: string = '';
+  mostrarSenha: boolean = false;
 
   constructor(
     private apiLoginService: ApiLoginService,
     private globalService: GlobalService
   ) {
     this.siteKey = this.globalService.siteKey;
+  }
+
+  togglePassword() {
+    this.mostrarSenha = !this.mostrarSenha;
   }
 
   onLogin() {
