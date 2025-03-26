@@ -5,7 +5,7 @@ import { GlobalService } from '../../services/global.service';
 import { CommonModule } from '@angular/common';
 
 declare var grecaptcha: any; // Declaração para evitar erro de TypeScript
-
+  
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
