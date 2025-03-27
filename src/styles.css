@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --cor-1: #a5a5a5;
+    --cor-2: #6D6D6D;
+    --cor-3: #5c5c5c;
+    --cor-4: #FFBB49;
+    --cor-5:#69582D;
+    --cor-6:#ffff;
+    --cor-7:#A1A1A1;
+    --cor-8:#b16d35;
+    --cor-9:#5F5F5F;
+    --cor-10:#888 ;
+    --cor-11:#ff6a14c2;
+    --cor-12:#696969de;
+    --cor-13:#fff;
+    --cor-14:#E44723;
+    --cor-15:#BB1600;
+    --cor-16:#3E3E3E;
+    --cor-17:#FF9811;
+    --cor-18:#1E1E1E;
+    --cor-19:#DADADA;
+    --cor-20:#2c812f;
+    --cor-21:#226424;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+#coteudo-geral{
+    /* width: 60%;
+    margin-left: 20%; */
+    transition: 0.6s ease-in-out;
+}
+
+@media screen and (max-width: 800px) {
+    #coteudo-geral{
+      width: 100%;
+      margin-left: 0 !important;
+    }
+}
+
+
+select, input{
+    padding: 10% 15% 10% 15%;
+    border: 1px solid var(--cor-11);
+    border-radius: 7px;
+    outline: none;
+}
+
+select:focus, input:focus{
+    border: 1px solid red !important;
+}
