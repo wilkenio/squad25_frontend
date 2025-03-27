@@ -1,0 +1,102 @@
+nav {
+    background-color: var(--cor-1);
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+    transition: 0.7s ease-in-out;
+    top: 0;
+    z-index: 99;
+    overflow: overlay;
+    left: 0;
+}
+
+.menu-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0% 10% 0% 10%;
+}
+
+.menu-cabecalho img {
+    width: 50%;
+    margin-top: 10%;
+}
+
+.menu-cabecalho i {
+    font-size: 2rem;
+    color: var(--cor-6);
+    cursor: pointer;
+}
+
+nav ul{
+    margin-top: 30%;
+    padding-left:0;
+}
+
+nav ul li {
+    border-left: 5px solid transparent;
+    color: var(--cor-6);
+    margin-right: 2%;
+    padding: 5% 1% 5% 7%;
+    margin: 1%;
+    font-weight: 400;
+    font-size: 1rem;
+    -webkit-border-top-right-radius: 12px;
+    -webkit-border-bottom-right-radius: 12px;
+    -moz-border-radius-topright: 12px;
+    -moz-border-radius-bottomright: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+}
+
+nav ul li a{
+    display: flex;
+}
+nav ul li a{
+    padding-right: 5%;
+}
+nav ul li i{
+    margin-right: 5%;
+    padding-right: 5%;
+    margin-left: 5%;
+    font-size: 1.1rem;
+}
+
+nav ul li:hover{
+    color: var(--cor-4);
+    background-color: var(--cor-8);
+    border-left: 5px solid var(--cor-4);
+}
+.nav-menu{
+    overflow: overlay;
+    height: 100vh;
+}
+.text-menu{
+    cursor: pointer;
+}
+@media screen and (max-width: 800px) {
+    nav{
+        width: 100%;
+        position: fixed;
+        overflow: hidden;
+        height: 22vw;
+    }
+
+    .menu-cabecalho {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0% 10% 0% 10%;
+    }
+    
+    .menu-cabecalho img {
+        width: 25%;
+        margin-top: 7%;
+    }
+    .menu-capa a{
+        text-align: center;
+    }
+}
