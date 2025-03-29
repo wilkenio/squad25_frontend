@@ -23,6 +23,7 @@ export class CadastroComponent implements AfterViewInit {
   mensagemRetorno: string = ''; // Mensagem para exibir feedback ao usuário
   siteKey: string = '';
   recaptchaWidgetId: any; // ID do reCAPTCHA para capturar a resposta corretamente
+  aceitouTermos: boolean = false; // Estado para checkbox dos termos
 
   constructor(
     private apiCadastroService: ApiCadastroService,
@@ -39,7 +40,7 @@ export class CadastroComponent implements AfterViewInit {
   loadRecaptcha() {
     if (typeof grecaptcha === 'undefined') {
       const script = document.createElement('script');
-      script.src = "https://www.google.com/recaptcha/api.js";
+      script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
@@ -60,6 +61,7 @@ export class CadastroComponent implements AfterViewInit {
   }
 
   validarDados(recaptchaResponse: string): string {
+    if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (this.nome.length <= 0) return 'Preencha o campo Nome.';
     if (this.email.length <= 0) return 'Preencha o campo Email.';
     if (this.dataNascimento.length <= 0) return 'Preencha o campo Data de Nascimento.';
