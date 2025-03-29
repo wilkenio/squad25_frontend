@@ -29,18 +29,18 @@ nav {
 }
 
 nav ul{
-    margin-top: 30%;
+    margin-top: 10%;
     padding-left:0;
 }
 
 nav ul li {
-    border-left: 5px solid transparent;
+    border-left: 20px solid transparent;
     color: var(--cor-6);
     margin-right: 2%;
     padding: 5% 1% 5% 7%;
     margin: 1%;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 15px;
     -webkit-border-top-right-radius: 12px;
     -webkit-border-bottom-right-radius: 12px;
     -moz-border-radius-topright: 12px;
