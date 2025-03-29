@@ -1,0 +1,37 @@
+#pricipais-despesas {
+    background-color:var(--cor-4);
+    padding: 2.5%;
+}
+
+.contain-despesas {
+    display: flex;
+}
+
+.contain-despesas .contain-1,
+.contain-despesas .contain-2 {
+    width: 50%;
+}
+
+.despesa {
+    display: flex;
+    align-items: center;
+    background-color: rgb(231, 231, 231);
+    margin: 1%;
+    justify-content: space-between;
+}
+
+.dados-despesa h5 {
+    margin: 0;
+}
+
+.numero-despesa{
+    padding: 2.5%;
+    background-color: rgb(88, 88, 88);
+    color: white;
+    border-radius: 10px;
+    margin: 1%;
+}
+
+.valor{
+    margin-right: 5%;
+}
