@@ -51,7 +51,7 @@ button {
     margin-bottom: 20px;
     margin-top: 5%;
 }
-
+ 
 button:hover{
     color: rgb(0, 0, 0);
 }
@@ -74,4 +74,19 @@ button:hover{
     text-decoration: underline;
     margin-left: 15%;
 }
+
+.termos{
+    display: flex;
+    align-items:center ; /* Alinha verticalmente */
+    gap: 8px; /* Espaço entre o checkbox e o texto */
+    font-size: 14px; /* Tamanho do texto */
+    
+  }
+  
+  .termos input {
+    width: 16px; /* Ajusta o tamanho do checkbox */
+    height: 16px;
+   
+  }
+  
   
