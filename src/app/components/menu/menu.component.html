@@ -10,10 +10,20 @@
             </select>
         </div>
         <div>
-            <i class="bi bi-plus-circle"></i>
+            <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
         </div>
         <div>
             <i class="bi bi-person-circle"></i>
         </div>
     </div>
 </div>
+
+<div class="options" [class.optionsShow]="optionsVisivel">
+    <div (click)="selecionarOpcao()">Nova Receita</div>
+    <div (click)="selecionarOpcao()">Nova Despesa</div>
+    <div (click)="selecionarOpcao()">Nova Despesa de Cartão</div>
+    <div (click)="selecionarOpcao()">Nova Transferência</div>
+    <div (click)="selecionarOpcao(); toggleNovaContaPopup()">Nova Conta</div>
+</div>
+
+<app-nova-conta></app-nova-conta>
