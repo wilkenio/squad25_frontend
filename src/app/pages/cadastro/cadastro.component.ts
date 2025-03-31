@@ -61,7 +61,6 @@ export class CadastroComponent implements AfterViewInit {
   }
 
   validarDados(recaptchaResponse: string): string {
-    if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (this.nome.length <= 0) return 'Preencha o campo Nome.';
     if (this.email.length <= 0) return 'Preencha o campo Email.';
     if (this.dataNascimento.length <= 0) return 'Preencha o campo Data de Nascimento.';
@@ -71,6 +70,7 @@ export class CadastroComponent implements AfterViewInit {
     if (!/\d/.test(this.senha)) return 'A senha deve conter pelo menos um número.';
     if (!/[\W_]/.test(this.senha)) return 'A senha deve conter pelo menos um caractere especial.';
     if (this.senha !== this.confirmarSenha) return 'As senhas não coincidem.';
+    if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (!recaptchaResponse) return 'Por favor, preencha o reCAPTCHA.';
     
     return ''; // Dados válidos

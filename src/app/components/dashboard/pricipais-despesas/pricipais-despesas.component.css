@@ -1,37 +1,100 @@
-#pricipais-despesas {
-    background-color:var(--cor-4);
-    padding: 2.5%;
+#principais-despesas {
+    background-color: #F0F0F0;
+    width: 40%;
+    margin: auto;
+    position: absolute;
+    top: 42%;
+    left: 56%;
+    
+  }
+
+  .more-icon{
+    position:absolute;
+    margin-left: 95%;
+    font-size: larger;
+    top: 22px;
+    cursor: pointer;
+  }
+  
+  .titulo{
+    margin: 20px;
+    
+  }
+
+  .coluna:first-child {
+    border-right: 2px solid #ccc; /* Cor e espessura da linha */
+    padding-right: 14px; /* Ajuste o espaçamento para não colar na borda */
 }
 
-.contain-despesas {
+  .contain-despesas {
     display: flex;
-}
-
-.contain-despesas .contain-1,
-.contain-despesas .contain-2 {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    
+  }
+  
+  .coluna {
     width: 50%;
-}
-
-.despesa {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 2%;
+  }
+  
+  .despesa {
     display: flex;
     align-items: center;
-    background-color: rgb(231, 231, 231);
-    margin: 1%;
     justify-content: space-between;
-}
-
-.dados-despesa h5 {
-    margin: 0;
-}
-
-.numero-despesa{
-    padding: 2.5%;
-    background-color: rgb(88, 88, 88);
+    font-size: 60%;
+    border-radius: 5px;
+    
+  }
+  
+  .numero-despesa {
+    padding: 9px;
+    background: linear-gradient(to bottom, #929292, #4A4A4A);
     color: white;
-    border-radius: 10px;
-    margin: 1%;
+    border-radius: 6px;
+    width: 15px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 150%;
+    
+    
+  }
+  
+  .valor {
+    color: red;
+    font-size: 130%;
+    width: 90px;
+    display: block;
+    margin-bottom: 4px;
+    padding-left: 40px;
+  }
+  
+  .dados-despesa{
+    
+    width: 180px;
+    color: #B2B2B2;
+    
+  }
+
+  .dados-despesa h5 {
+    margin-bottom: 2px; /* Reduz o espaço abaixo do título */
+    font-size: 140%;
+    
+    margin-top: 10px;
+    color: hsla(0, 0%, 0%, 0.521);
+    margin-left: 10px
+}
+ 
+.dados-despesa label{
+  margin-left: 10px;
+  font-size: smaller;
+  margin-bottom: 5%;
+  padding: 1px;
+    display: block; 
 }
 
-.valor{
-    margin-right: 5%;
-}
