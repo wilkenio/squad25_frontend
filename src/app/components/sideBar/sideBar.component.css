@@ -54,6 +54,8 @@ nav ul li {
 
 nav ul li a{
     display: flex;
+    color: var(--cor-7);
+    text-decoration: none;
 }
 nav ul li a{
     padding-right: 5%;
