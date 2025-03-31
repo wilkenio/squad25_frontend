@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sideBar.component.html',
   styleUrls: ['./sideBar.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule,RouterModule]
 })
 export class SidebarComponent implements OnInit {
   situacaoMenu: string = 'aberto';
