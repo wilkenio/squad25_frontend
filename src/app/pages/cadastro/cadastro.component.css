@@ -80,7 +80,7 @@ button:hover{
     align-items:center ; /* Alinha verticalmente */
     gap: 8px; /* Espaço entre o checkbox e o texto */
     font-size: 14px; /* Tamanho do texto */
-    
+    margin: 5% 0 5% 0;
   }
   
   .termos input {
