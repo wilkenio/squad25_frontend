@@ -50,9 +50,14 @@
     border-bottom: 1px solid var(--cor-4);
 }
 
+.contain-menu-1{
+    display: flex;
+    align-items:center ;
+}
 @media screen and (max-width: 800px) {
     .menu{
         margin-top: 23%;
+        justify-content: space-around;
     }
     .contain-menu-2{
         width: 80%;
