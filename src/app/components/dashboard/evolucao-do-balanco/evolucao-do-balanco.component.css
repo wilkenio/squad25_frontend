@@ -1,4 +1,18 @@
-.contain-teste{
+.contain-evolucao-balanco{
     background-color: var(--cor-6);
-    width: 95%;
+    width: 96%;
+    padding: 2%;
+    margin: 0;
+}
+.contain-evolucao-balanco h1{
+    margin: 0;
+}
+.titulo-evolucao-balanco{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 96%;
+}
+.titulo-evolucao-balanco i {
+    cursor: pointer;
 }
