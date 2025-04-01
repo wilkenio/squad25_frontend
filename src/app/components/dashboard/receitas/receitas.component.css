@@ -1,0 +1,42 @@
+.receitas{
+    background-color: var(--cor-6);
+    padding: 1%;
+    display:flex ;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+}
+.receitas h1{
+    margin: 0;
+}
+
+.titulo-receitas i{
+    cursor: pointer;
+}
+
+.titulo-receitas{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.saldo-mes-anterior{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.contain-receita-mes-prevista{
+    width: 100%;
+
+}
+
+.contain-receita-mes-prevista div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.contain-receita-mes-prevista h4,.contain-receita-mes-prevista h1{
+    margin: 0;
+}

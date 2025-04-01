@@ -1,0 +1,59 @@
+#dashboard{
+    margin: 2%;
+}
+.contas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 15%;
+}
+
+.contas select {
+    padding: 0.5% !important;
+    border: 1px solid var(--cor-6) !important;
+}
+
+.contas i {
+    cursor: pointer;
+}
+
+.contain-dashboard-1{
+    display: flex;
+}
+
+app-evolucao-do-balanco{
+    width: 70%;
+}
+
+app-receitas{
+    width: 30%;
+}
+
+app-despesaspor-categoria{
+    width: 50%;
+}
+
+app-pricipais-despesas{
+    width: 50%;
+}
+
+.contain-despesa-principais-categorias{
+    width: 100%;
+    display: flex;
+    gap: 2%;
+    margin-top: 5%;
+}
+
+@media screen and (max-width: 800px) {
+    .contain-dashboard-1{
+       flex-direction: column;
+       justify-content: flex-start;
+    }
+
+    .contain-despesa-principais-categorias{
+        flex-direction: column;
+    }
+    app-despesaspor-categoria,app-pricipais-despesas,   app-evolucao-do-balanco{
+        width: 100%;
+    }
+}

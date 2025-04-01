@@ -6,12 +6,14 @@ import { PricipaisDespesasComponent } from '../../components/dashboard/pricipais
 import { FiltrodeExtratoComponent } from '../../components/dashboard/filtrode-extrato/filtrode-extrato.component';
 import { DespesasPorCategoriaComponent } from '../../components/dashboard/despesaspor-categoria/despesaspor-categoria.component';
 import { DespesasComponent } from '../../components/dashboard/despesas/despesas.component';
+import { EvolucaoDoBalancoComponent } from '../../components/dashboard/evolucao-do-balanco/evolucao-do-balanco.component';
+import { ReceitasComponent } from '../../components/dashboard/receitas/receitas.component';
 @Component({
   selector: 'app-login',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   standalone: true,
-  imports: [FormsModule, SidebarComponent,MenuComponent, PricipaisDespesasComponent, FiltrodeExtratoComponent, DespesasPorCategoriaComponent, DespesasComponent],
+  imports: [FormsModule, SidebarComponent,MenuComponent, PricipaisDespesasComponent, FiltrodeExtratoComponent, DespesasPorCategoriaComponent, DespesasComponent,EvolucaoDoBalancoComponent,ReceitasComponent],
 })
 export class DashboardComponent {
   email: string = '';

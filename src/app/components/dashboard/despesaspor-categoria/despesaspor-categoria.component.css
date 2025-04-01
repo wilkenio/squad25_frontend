@@ -1,33 +1,38 @@
 .chart-container {
-    display: flex;
-    flex-direction: column;  /* Organiza o conteúdo em uma coluna */
-    justify-content: center;
-    align-items: center;
-    background-color: #F0F0F0;
-    position: absolute;
-    top: 42.1%;
-    left: 14%;
-    width: 40%;
-  }
-  
-  h1 {
-    margin-bottom: 20px;  /* Adiciona um espaçamento entre o título e o gráfico */
-    font-size: 24px;      /* Ajuste o tamanho da fonte conforme necessário */
-    padding-right: 50%;
-    
-  }
+  display: flex;
+  flex-direction: column;
+  /* Organiza o conteúdo em uma coluna */
+  justify-content: center;
+  align-items: center;
+  background-color: #F0F0F0;
+  /* position: absolute; */
+  width: 100%;
+}
 
-  .chart-container apx-chart {
-    margin-top: 40px;  /* Adiciona margem entre o título e o gráfico */
-    transform: translateX(-60px);
-  }
 
-  .more-icon{
-    position:absolute;
-    margin-left: 90%;
-    font-size: larger;
-    top: 22px;
-    cursor: pointer;
-  }
+.titulo-despesa-categoria {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 96%;
+  padding: 2%;
+}
 
-  
+.titulo-despesa-categoria h1{
+  margin: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .chart-container {
+    width: 80%;
+    margin: auto;
+    padding: 5%;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .chart-container {
+    height: 80vh;
+  }
+}
