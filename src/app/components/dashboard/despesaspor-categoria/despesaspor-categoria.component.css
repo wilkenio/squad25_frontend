@@ -1,0 +1,33 @@
+.chart-container {
+    display: flex;
+    flex-direction: column;  /* Organiza o conteúdo em uma coluna */
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F0F0;
+    position: absolute;
+    top: 42.1%;
+    left: 14%;
+    width: 40%;
+  }
+  
+  h1 {
+    margin-bottom: 20px;  /* Adiciona um espaçamento entre o título e o gráfico */
+    font-size: 24px;      /* Ajuste o tamanho da fonte conforme necessário */
+    padding-right: 50%;
+    
+  }
+
+  .chart-container apx-chart {
+    margin-top: 40px;  /* Adiciona margem entre o título e o gráfico */
+    transform: translateX(-60px);
+  }
+
+  .more-icon{
+    position:absolute;
+    margin-left: 90%;
+    font-size: larger;
+    top: 22px;
+    cursor: pointer;
+  }
+
+  
