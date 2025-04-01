@@ -1,10 +1,11 @@
 #principais-despesas {
-    background-color: #F0F0F0;
+    background-color: var(--cor-6);
     margin: auto;
     /* position: absolute; */
     top: 42%;
     left: 56%;
-    width: 100%;
+    width: 92%;
+    padding: 4%;
   }
 
   .more-icon{
@@ -20,11 +21,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2%;
   }
 
   .titulo h2{
     margin: 0;
+    font-size:1.2rem ;
   }
 
   .coluna:first-child {
@@ -84,8 +85,7 @@
 
   .dados-despesa h5 {
     margin-bottom: 2px; /* Reduz o espaço abaixo do título */
-    font-size: 140%;
-    
+    font-size: 120%;
     margin-top: 10px;
     color: hsla(0, 0%, 0%, 0.521);
     margin-left: 10px
@@ -93,7 +93,7 @@
  
 .dados-despesa label{
   margin-left: 10px;
-  font-size: smaller;
+  font-size:small;
   margin-bottom: 5%;
   padding: 1px;
     display: block; 
@@ -102,7 +102,7 @@
 
 @media screen and (max-width: 800px) {
   #principais-despesas{
-    width: 80%;
+    width: 90%;
     margin-top: 10%;
     padding: 5%;
   }
