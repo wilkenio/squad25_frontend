@@ -1,14 +1,11 @@
 <div class="chart-container">
-    <i class="bi bi-three-dots more-icon"></i>
+
+  <div class="titulo-despesa-categoria">
     <h1>Despesas por Categoria</h1>
-     
-    <apx-chart
-      #chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [labels]="chartOptions.labels"
-      [responsive]="chartOptions.responsive"
-      [colors]="chartOptions.colors">
-    </apx-chart>
+    <i class="bi bi-three-dots more-icon"></i>
   </div>
-  
+
+  <apx-chart #chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+    [responsive]="chartOptions.responsive" [colors]="chartOptions.colors">
+  </apx-chart>
+</div>

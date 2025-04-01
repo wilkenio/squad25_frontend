@@ -1,24 +1,30 @@
 #principais-despesas {
     background-color: #F0F0F0;
-    width: 40%;
     margin: auto;
-    position: absolute;
+    /* position: absolute; */
     top: 42%;
     left: 56%;
-    
+    width: 100%;
   }
 
   .more-icon{
-    position:absolute;
-    margin-left: 95%;
+    /* position:absolute; */
+    /* margin-left: 95%; */
     font-size: larger;
     top: 22px;
     cursor: pointer;
   }
   
   .titulo{
-    margin: 20px;
-    
+    width:95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2%;
+  }
+
+  .titulo h2{
+    margin: 0;
   }
 
   .coluna:first-child {
@@ -32,15 +38,14 @@
     width: 100%;
     max-width: 600px;
     margin: 20px;
-    
   }
   
   .coluna {
-    width: 50%;
+    width: 45%;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    margin-left: 2%;
+    margin: 1%;
   }
   
   .despesa {
@@ -49,7 +54,7 @@
     justify-content: space-between;
     font-size: 60%;
     border-radius: 5px;
-    
+    width: 100%;
   }
   
   .numero-despesa {
@@ -61,8 +66,6 @@
     font-weight: bold;
     text-align: center;
     font-size: 150%;
-    
-    
   }
   
   .valor {
@@ -71,14 +74,12 @@
     width: 90px;
     display: block;
     margin-bottom: 4px;
-    padding-left: 40px;
+    padding-left: 2%;
   }
   
   .dados-despesa{
-    
-    width: 180px;
+    width: 40%;
     color: #B2B2B2;
-    
   }
 
   .dados-despesa h5 {
@@ -98,3 +99,20 @@
     display: block; 
 }
 
+
+@media screen and (max-width: 800px) {
+  #principais-despesas{
+    width: 80%;
+    margin-top: 10%;
+    padding: 5%;
+  }
+  .coluna{
+    width: 90%;
+  }
+  .coluna:first-child {
+    border: none;
+  }
+  .contain-despesas{
+    flex-direction: column;
+  }
+}
