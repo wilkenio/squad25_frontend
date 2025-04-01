@@ -1,25 +1,26 @@
 .chart-container {
   display: flex;
   flex-direction: column;
-  /* Organiza o conteúdo em uma coluna */
   justify-content: center;
   align-items: center;
-  background-color: #F0F0F0;
-  /* position: absolute; */
-  width: 100%;
+  background-color: var(--cor-6);
+  width: 92%;
+  padding: 4%;
 }
-
 
 .titulo-despesa-categoria {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 96%;
-  padding: 2%;
 }
 
-.titulo-despesa-categoria h1{
+.titulo-despesa-categoria h1 {
   margin: 0;
+}
+
+.titulo-despesa-categoria i {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 800px) {
@@ -27,12 +28,13 @@
     width: 80%;
     margin: auto;
     padding: 5%;
-    justify-content: flex-start;
+    justify-content: space-around;
   }
 }
 
 @media screen and (max-width: 480px) {
   .chart-container {
-    height: 80vh;
+    width: 90%;
+    padding-bottom: 40%;
   }
 }
