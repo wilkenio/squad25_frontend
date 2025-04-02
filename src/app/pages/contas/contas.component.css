@@ -1,0 +1,55 @@
+.container {
+    width: 100vw;
+    max-width: 98%;
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 1%;
+    
+  }
+  
+  /* Estilizando linhas e células */
+  .row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    align-items: end;
+    
+  }
+  
+  .header {
+    font-weight: bold;
+    background: #f4f4f4;
+  }
+  
+  .totals {
+    font-weight: bold;
+    background: #f9f9f9;
+    height: 30vw;
+    position: sticky;
+    bottom: 0;
+  }
+  
+  /* Alinhamento das células */
+  .cell {
+    padding: 8px;
+    text-align:  left;
+
+  }
+  
+  /* Alternância de cores */
+  .row:nth-child(even) {
+    background: #fafafa;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768%) {
+    .row {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+  

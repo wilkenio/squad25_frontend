@@ -1,3 +1,37 @@
 <app-sidebar></app-sidebar>
 <app-menu></app-menu>
-<p>Contas</p>
+
+<div class="container">
+  <!-- Cabeçalho da Tabela -->
+  <div class="row header">
+    <div class="cell">Descrição</div>
+    <div class="cell">Saldo Inicial</div>
+    <div class="cell">Receitas</div>
+    <div class="cell">Despesas</div>
+    <div class="cell">Saldo</div>
+    <div class="cell">Previsto</div>
+    <div class="cell">Ações</div>
+  </div>
+
+  <!-- Linhas com os dados -->
+  <div class="row" *ngFor="let conta of contas">
+    <div class="cell">{{ conta.descricao }}</div>
+    <div class="cell">{{ conta.saldoInicial | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.receitas | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.despesas | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.saldo | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.previsto | currency:'BRL' }}</div>
+    <div class="cell">...</div>
+  </div>
+
+  <!-- Totais -->
+  <div class="row totals">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"><strong>Receitas totais:</strong> {{ getTotal('receitas') | currency:'BRL' }}</div>
+    <div class="cell"><strong>Despesas totais:</strong> {{ getTotal('despesas') | currency:'BRL' }}</div>
+    <div class="cell"><strong>Saldo total:</strong> {{ getTotal('saldo') | currency:'BRL' }}</div>
+    <div class="cell"><strong>Previsto:</strong> {{ getTotal('previsto') | currency:'BRL' }}</div>
+    <div class="cell"></div>
+  </div>
+</div>
