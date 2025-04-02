@@ -1,0 +1,40 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cor-6);
+  width: 92%;
+  padding: 4%;
+}
+
+.titulo-despesa-categoria {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 96%;
+}
+
+.titulo-despesa-categoria h1 {
+  margin: 0;
+}
+
+.titulo-despesa-categoria i {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .chart-container {
+    width: 80%;
+    margin: auto;
+    padding: 5%;
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .chart-container {
+    width: 90%;
+    padding-bottom: 40%;
+  }
+}
