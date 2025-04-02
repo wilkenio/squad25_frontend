@@ -23,7 +23,7 @@ export class EvolucaoDoBalancoComponent {
   series: ApexAxisChartSeries = [
     {
       name: 'Saldo',
-      data: [100, 200, 150, 300, 250, 400, 350]
+      data: [3000, 2300, 1890, 1800, 1434, 1290, 930]
     }
   ];
 
@@ -64,9 +64,17 @@ export class EvolucaoDoBalancoComponent {
     categories: ["01", "04", "09", "12", "15", "21", "23"],
     labels: {
       style: {
-        colors: "#9E9E9E",
+        colors: "#000000", // 🔹 Deixa os números pretos
         fontSize: '12px'
       }
+    },
+    axisBorder: {
+      show: true,
+      color: "#000000" // 🔹 Deixa a linha do eixo X preta
+    },
+    axisTicks: {
+      show: true,
+      color: "#000000" // 🔹 Deixa as marcações do eixo X pretas
     }
   };
 
@@ -75,6 +83,9 @@ export class EvolucaoDoBalancoComponent {
       style: {
         colors: "#9E9E9E",
         fontSize: '12px'
+      },
+      formatter: (value: number) => {
+        return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
       }
     }
   };
@@ -85,7 +96,7 @@ export class EvolucaoDoBalancoComponent {
       show: true
     },
     style: {
-      fontSize: '14px' // 🔹 Removemos a propriedade "colors" para evitar o erro
+      fontSize: '14px'
     }
   };
 }
