@@ -17,7 +17,6 @@ declare var grecaptcha: any; // Declaração para evitar erro de TypeScript
 export class CadastroComponent implements AfterViewInit {
   nome: string = '';
   email: string = '';
-  dataNascimento: string = '';
   senha: string = '';
   confirmarSenha: string = '';
   mensagemRetorno: string = ''; // Mensagem para exibir feedback ao usuário
@@ -63,7 +62,6 @@ export class CadastroComponent implements AfterViewInit {
   validarDados(recaptchaResponse: string): string {
     if (this.nome.length <= 0) return 'Preencha o campo Nome.';
     if (this.email.length <= 0) return 'Preencha o campo Email.';
-    if (this.dataNascimento.length <= 0) return 'Preencha o campo Data de Nascimento.';
     if (this.senha.length < 8) return 'A senha deve ter pelo menos 8 caracteres.';
     if (!/[A-Z]/.test(this.senha)) return 'A senha deve conter pelo menos uma letra maiúscula.';
     if (!/[a-z]/.test(this.senha)) return 'A senha deve conter pelo menos uma letra minúscula.';
@@ -82,7 +80,7 @@ export class CadastroComponent implements AfterViewInit {
     this.mensagemRetorno = this.validarDados(recaptchaResponse);
     if (this.mensagemRetorno) return; // Interrompe se houver erro
 
-    this.apiCadastroService.cadastrar(this.nome, this.email, this.dataNascimento, this.senha, recaptchaResponse).subscribe(
+    this.apiCadastroService.cadastrar(this.nome, this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
         console.log('Cadastro bem-sucedido!', response);
         this.router.navigate(['/login']); // Redireciona após cadastro bem-sucedido
