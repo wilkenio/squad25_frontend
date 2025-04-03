@@ -70,7 +70,7 @@ export class CadastroComponent implements AfterViewInit {
     if (this.senha !== this.confirmarSenha) return 'As senhas não coincidem.';
     if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (!recaptchaResponse) return 'Por favor, preencha o reCAPTCHA.';
-    
+
     return ''; // Dados válidos
   }
 
@@ -83,12 +83,24 @@ export class CadastroComponent implements AfterViewInit {
     this.apiCadastroService.cadastrar(this.nome, this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
         console.log('Cadastro bem-sucedido!', response);
-        this.router.navigate(['/login']); // Redireciona após cadastro bem-sucedido
+
+        // Verificando o status da resposta da API
+        if (response.statusCode === 200) { // Supondo que 201 seja para cadastro bem-sucedido
+          localStorage.setItem('isAuthentication', "true");
+          this.router.navigate(['/dashboard']); // Redireciona para o painel
+        }
+
+        // Resetar o reCAPTCHA também em caso de erro
+        grecaptcha.reset(this.recaptchaWidgetId);
+
       },
       (error) => {
         console.log('Erro no cadastro', error);
-        this.mensagemRetorno = 'Erro ao realizar cadastro. Tente novamente.';
+        this.mensagemRetorno = error.error?.error || 'Erro desconhecido';
+        // Resetar o reCAPTCHA também em caso de erro
+        grecaptcha.reset(this.recaptchaWidgetId);
       }
     );
   }
+
 }

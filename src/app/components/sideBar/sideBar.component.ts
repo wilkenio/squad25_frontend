@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service'; // Importando o AuthService
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sideBar.component.html',
   styleUrls: ['./sideBar.component.css'],
   standalone: true,
-  imports: [CommonModule,RouterModule]
+  imports: [CommonModule, RouterModule]
 })
 export class SidebarComponent implements OnInit {
   situacaoMenu: string = 'aberto';
   situacaoMenuMobile: string = 'fechado';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {} // Injetando AuthService
 
   ngOnInit(): void {
     const estadoSalvo = localStorage.getItem('estadoMenu');
@@ -29,6 +31,10 @@ export class SidebarComponent implements OnInit {
     } else {
       this.situacaoMenuMobile === 'fechado' ? this.abrirMenuMobile() : this.fecharMenuMobile();
     }
+  }
+
+  logout(): void {
+    this.authService.logout(); // Chamando o logout corretamente
   }
 
   fecharMenuPC(): void {
