@@ -10,11 +10,16 @@
     position: relative;
   }
   
-  .more-icon{
-    /* position:absolute; */
-    font-size: larger;
+  .icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     cursor: pointer;
-  }
+}
+
+.icons i {
+    font-size: 20px;
+}
   
   .despesas-info {
     display: flex;

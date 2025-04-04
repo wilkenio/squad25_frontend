@@ -45,3 +45,13 @@
 .contain-receita-mes-prevista h4,.contain-receita-mes-prevista h1{
     margin: 0;
 }
+.icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icons i {
+    font-size: 20px;
+}
