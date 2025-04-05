@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalService {
-  private _apiUrl: string = 'http://localhost:8080';
+  private _apiUrl: string = 'http://apisquad25.fourdevs.com.br';
   private _siteKey: string = '6LeuaOYqAAAAAN7yihtTobRvYE7_FTLfoUJBg0No'; // chave do recaptcha
 
   constructor() {}

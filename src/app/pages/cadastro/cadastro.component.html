@@ -21,6 +21,8 @@
 
     <p class="mensagem-retorno" *ngIf="mensagemRetorno">{{ mensagemRetorno }}</p>
     <div class="g-recaptcha" [attr.data-sitekey]="siteKey" id="recaptcha"></div>
+    <div *ngIf="carregando" class="spinner"></div>
+
     <button (click)="onCadastro()">Cadastrar</button>
 
     <a class="pagina-login" [routerLink]="'/login'">Já tem uma conta? Faça login</a>

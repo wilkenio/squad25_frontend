@@ -24,6 +24,7 @@ export class LoginComponent implements AfterViewInit {
   mostrarSenha: boolean = false;
   recaptchaWidgetId: any;
   respostaApi: any = null;  // Adicionado para armazenar a resposta da API
+  carregando: boolean = false;
 
   constructor(
     private apiLoginService: ApiLoginService,
@@ -70,49 +71,48 @@ export class LoginComponent implements AfterViewInit {
   onLogin() {
     this.mensagem = '';
     this.mensagemErro = '';
-    this.respostaApi = null;  // Resetar a resposta da API
+    this.respostaApi = null;
+    this.carregando = true; // 👉 Inicia o loader
   
     const recaptchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId);
   
-    if (!this.email) { 
-      this.mensagemErro = 'Por favor, preencha o email.'; 
-      return; 
+    if (!this.email) {
+      this.mensagemErro = 'Por favor, preencha o email.';
+      this.carregando = false;
+      return;
     }
-    if (!this.senha) { 
-      this.mensagemErro = 'Por favor, preencha a senha.'; 
-      return; 
+    if (!this.senha) {
+      this.mensagemErro = 'Por favor, preencha a senha.';
+      this.carregando = false;
+      return;
     }
-    if (!recaptchaResponse) { 
-      this.mensagemErro = 'Por favor, preencha o Recaptcha.'; 
-      return; 
+    if (!recaptchaResponse) {
+      this.mensagemErro = 'Por favor, preencha o Recaptcha.';
+      this.carregando = false;
+      return;
     }
-
   
-    // Passando o nome, email, senha e o token do reCAPTCHA para o login
     this.apiLoginService.login(this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
-        
         this.mensagem = 'Login bem-sucedido!';
         this.respostaApi = response;
-
-        console.log(this.respostaApi.statusCode)
-
-         if(this.respostaApi.statusCode === 200){
-          localStorage.setItem('isAuthentication', "true");
-          this.router.navigate(['/dashboard'])
-         }
   
-        // Resetar o reCAPTCHA
+        if (this.respostaApi.statusCode === 200) {
+          localStorage.setItem('isAuthentication', "true");
+          this.router.navigate(['/dashboard']);
+        }
+  
+        this.carregando = false; // 👉 Para o loader
         grecaptcha.reset(this.recaptchaWidgetId);
       },
       (error) => {
         console.log('Erro da API:', error.error);
         this.mensagemErro = error.error?.error || 'Erro desconhecido';
-  
-        // Resetar o reCAPTCHA também em caso de erro
+        this.carregando = false; // 👉 Para o loader
         grecaptcha.reset(this.recaptchaWidgetId);
       }
     );
   }
+  
   
 }

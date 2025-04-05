@@ -6,6 +6,13 @@
   background-color: var(--cor-6);
   width: 92%;
   padding: 4%;
+  border-radius: 15px;
+  transition: 0.7s ease-in-out;
+  /* box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.158); */
+}
+
+.chart-container:hover{
+  transform: scale(1.01);
 }
 
 .titulo-despesa-categoria {
