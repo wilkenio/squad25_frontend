@@ -1,9 +1,19 @@
 /* 🔹 Container principal */
 .contain-evolucao-balanco {
     background-color: var(--cor-6);
-    width: 96%;
-    padding: 2%;
+    width: 94%;
+    padding: 3%;
     margin: 0;
+    height: 47vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 15px;
+    transition: 0.7s ease-in-out;
+    /* box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.158); */
+}
+.contain-evolucao-balanco:hover{
+    transform: scale(1.01);
 }
 
 /* 🔹 Título */
@@ -38,10 +48,13 @@ apx-chart {
 
 /* 🔹 Caixa lateral */
 .info-lateral {
-    width: 15%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    justify-content: center;
+    font-size: 1rem !important;
+    margin-top: -2%;
 }
 
 /* 🔹 Primeira caixa (Transações no mês) */
@@ -51,30 +64,34 @@ apx-chart {
     text-align: right;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
+    padding: 10%;
+    border-radius: 3px;
+}
+apx-chart{
+    width: 75%;
 }
 
 /* 🔹 Segunda caixa (Saldo Atual) */
 .info-lateral-2 {
     background-color: #f5f5f5;
     padding: 1px;
-    
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: flex-end;
+    padding: 10%;
+    border-radius: 3px;
 }
 
 /* 🔹 Texto dentro das caixas */
 .info-title {
-    font-size: 19px;
+    /* font-size: 19px; */
     color: #666;
     margin: 0;
 }
 
 .info-number {
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: bold;
     color: #333;
 }
@@ -103,4 +120,17 @@ apx-chart {
 .saldo-atual,
 .saldo-previsto {
     margin-top: 1px; /* 🔹 Reduz o espaço entre os valores */
+}
+
+@media screen and (max-width: 800px) {
+    .conteudo-grafico{
+        flex-direction: column;
+    }
+    .contain-evolucao-balanco{
+        margin-top: 10%;
+        height: auto;
+    }
+    .info-lateral{
+        width: 90%;
+    }
 }

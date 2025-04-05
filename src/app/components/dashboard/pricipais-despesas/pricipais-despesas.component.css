@@ -1,118 +1,131 @@
 #principais-despesas {
-    background-color: var(--cor-6);
-    margin: auto;
-    /* position: absolute; */
-    top: 42%;
-    left: 56%;
-    width: 92%;
-    padding: 4%;
-  }
-
-  .more-icon{
-    /* position:absolute; */
-    /* margin-left: 95%; */
-    font-size: larger;
-    top: 22px;
-    cursor: pointer;
-  }
-  
-  .titulo{
-    width:95%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .titulo h2{
-    margin: 0;
-    font-size:1.2rem ;
-  }
-
-  .coluna:first-child {
-    border-right: 2px solid #ccc; /* Cor e espessura da linha */
-    padding-right: 14px; /* Ajuste o espaçamento para não colar na borda */
+  background-color: var(--cor-6);
+  margin: auto;
+  /* position: absolute; */
+  top: 42%;
+  left: 56%;
+  width: 92%;
+  padding: 4%;
+  border-radius: 15px;
+  transition: 0.7s ease-in-out;
+  /* box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.158); */
 }
 
-  .contain-despesas {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 600px;
-    margin: 20px;
-  }
-  
-  .coluna {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin: 1%;
-  }
-  
-  .despesa {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 60%;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
-  .numero-despesa {
-    padding: 9px;
-    background: linear-gradient(to bottom, #929292, #4A4A4A);
-    color: white;
-    border-radius: 6px;
-    width: 15px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 150%;
-  }
-  
-  .valor {
-    color: red;
-    font-size: 130%;
-    width: 90px;
-    display: block;
-    margin-bottom: 4px;
-    padding-left: 2%;
-  }
-  
-  .dados-despesa{
-    width: 40%;
-    color: #B2B2B2;
-  }
-
-  .dados-despesa h5 {
-    margin-bottom: 2px; /* Reduz o espaço abaixo do título */
-    font-size: 120%;
-    margin-top: 10px;
-    color: hsla(0, 0%, 0%, 0.521);
-    margin-left: 10px
+#principais-despesas:hover {
+  transform: scale(1.01);
 }
- 
-.dados-despesa label{
+
+.more-icon {
+  /* position:absolute; */
+  /* margin-left: 95%; */
+  font-size: larger;
+  top: 22px;
+  cursor: pointer;
+}
+
+.titulo {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titulo h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.coluna:first-child {
+  border-right: 2px solid #ccc;
+  /* Cor e espessura da linha */
+  padding-right: 14px;
+  /* Ajuste o espaçamento para não colar na borda */
+}
+
+.contain-despesas {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px;
+}
+
+.coluna {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 1%;
+}
+
+.despesa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 60%;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.numero-despesa {
+  padding: 9px;
+  background: linear-gradient(to bottom, #929292, #4A4A4A);
+  color: white;
+  border-radius: 6px;
+  width: 15px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 150%;
+}
+
+.valor {
+  color: red;
+  font-size: 130%;
+  width: 90px;
+  display: block;
+  margin-bottom: 4px;
+  padding-left: 2%;
+}
+
+.dados-despesa {
+  width: 40%;
+  color: #B2B2B2;
+}
+
+.dados-despesa h5 {
+  margin-bottom: 2px;
+  /* Reduz o espaço abaixo do título */
+  font-size: 120%;
+  margin-top: 10px;
+  color: hsla(0, 0%, 0%, 0.521);
+  margin-left: 10px
+}
+
+.dados-despesa label {
   margin-left: 10px;
-  font-size:small;
+  font-size: small;
   margin-bottom: 5%;
   padding: 1px;
-    display: block; 
+  display: block;
 }
 
 
 @media screen and (max-width: 800px) {
-  #principais-despesas{
+  #principais-despesas {
     width: 90%;
     margin-top: 10%;
     padding: 5%;
   }
-  .coluna{
+
+  .coluna {
     width: 90%;
   }
+
   .coluna:first-child {
     border: none;
   }
-  .contain-despesas{
+
+  .contain-despesas {
     flex-direction: column;
   }
 }
