@@ -3,9 +3,12 @@
 }
 .contas {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     width: 20%;
+    margin-bottom: 2%;
+}
+.contas h2{
+    margin: 0;
 }
 
 .contas select {
