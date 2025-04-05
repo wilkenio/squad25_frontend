@@ -1,20 +1,28 @@
 <div class="receitas">
     <div class="titulo-receitas">
         <h1>Receitas</h1>
-        <i class="bi bi-three-dots more-icon"></i>
+        <div class="icons">
+            <i class="bi bi-three-dots more-icon"></i>
+            <i class="bi" 
+               [ngClass]="{'bi-eye': !mostrarValores, 'bi-eye-slash': mostrarValores}" 
+               (click)="toggleValores()">
+            </i>
+        </div>
     </div>
+
     <div class="saldo-mes-anterior">
         <h4>Saldo do mês anterior</h4>
-        <h1 id="valor-do-saldo-mes-anterior">100,00</h1>
+        <h1>{{ mostrarValores ? valores.saldoMesAnterior.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : '******' }}</h1>
     </div>
+
     <div class="contain-receita-mes-prevista">
         <div>
-            <h4>Saldo do mês anterior</h4>
-            <h1 id="valor-do-saldo-mes-anterior">100,00</h1>
+            <h3>Receitas do mês</h3>
+            <h1>{{ mostrarValores ? valores.receitaMes.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : '******' }}</h1>
         </div>
         <div>
-            <h4>Saldo do mês anterior</h4>
-            <h1 id="valor-do-saldo-mes-anterior">100,00</h1>
+            <h4>Receitas previstas</h4>
+            <h1>{{ mostrarValores ? valores.receitaPrevista.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) : '******' }}</h1>
         </div>
-
     </div>
+</div>

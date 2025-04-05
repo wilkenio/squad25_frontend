@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';  // Importando HttpParams
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalService } from '../../services/global.service';
 
 @Injectable({
-  providedIn: 'root'  // Torna o serviço disponível globalmente
+  providedIn: 'root'
 })
 export class ApiLoginService {
   private apiUrl: string;
 
   constructor(private globalService: GlobalService, private http: HttpClient) {
-    // Inicializa a apiUrl usando a URL da API do GlobalService
-    this.apiUrl = this.globalService.apiUrl + '/login/';
+    // Certifique-se de que a URL do GlobalService está correta
+    this.apiUrl = this.globalService.apiUrl + '/auth/login';
   }
 
-  login(email: string, senha: string, recaptchaToken: string): Observable<any> {
-    const params = new HttpParams()
-      .set('email', email)  // Adiciona email como parâmetro de consulta
-      .set('senha', senha)  // Adiciona senha como parâmetro de consulta
-      .set('recaptchaToken', recaptchaToken);  // Adiciona senha como parâmetro de consulta
+  login(email: string, password: string, recaptchaToken: string): Observable<any> {
+    // Criando o objeto com as informações do login
+    const loginData = {
+      email: email,  // Email do Usuário
+      password: password,  // Senha do Usuário
+      recaptchaToken: recaptchaToken  // Token do reCAPTCHA
+    };
 
-    // Realiza a requisição GET com os parâmetros de consulta e tipo de resposta 'json'
-    return this.http.get<any>(this.apiUrl, { params, responseType: 'json' });
+    // Realiza a requisição POST com o corpo da requisição e envia cookies
+    return this.http.post<any>(this.apiUrl, loginData, { 
+      responseType: 'json',
+      withCredentials: true // Permite enviar cookies junto com a requisição
+    });
   }
 }

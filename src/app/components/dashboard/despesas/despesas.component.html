@@ -2,6 +2,14 @@
   <div class="despesas-header">
     <div class="titulo-despesa">
       <h3>Despesas</h3>
+      <div class="icons">
+        <i class="bi bi-three-dots more-icon"></i>
+        <i class="bi"
+            [ngClass]="{'bi-eye': !mostrarValores, 'bi-eye-slash': mostrarValores}" 
+            (click)="toggleValores()">
+        </i>
+      </div>
+    </div>
       <i title="lol" class="bi bi-three-dots more-icon"></i>
     </div>
     <div class="despesas-info">
@@ -9,10 +17,12 @@
         <p class="titulo">Despesas do mês</p>
         <p class="subtitulo">Despesas previstas</p>
       </div>
-      <div class="valores">
-        <p class="valor-atual">210,00</p>
-        <p class="valor-previsto">320,00</p>
+      <div class="valores">  
+        <p>{{ mostrarValores ? valores.despesasdoMes.toLocaleString('pt-BR',{ minimumFractionDigits: 2}) : '******' }}</p>
+        <p>{{ mostrarValores ? valores.despesasPrevistas.toLocaleString('pt-Br',{ minimumFractionDigits: 2}) : '******' }}</p>
       </div>
     </div>
   </div>
-</div>
+
+
+ 

@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router'; // ✅ Importação correta
 import { FormsModule } from '@angular/forms';
 import { ApiLoginService } from '../../services/ApiLogin/ApiLogin.service';
 import { GlobalService } from '../../services/global.service';
@@ -22,12 +23,18 @@ export class LoginComponent implements AfterViewInit {
   mensagemErro: string = '';
   mostrarSenha: boolean = false;
   recaptchaWidgetId: any;
+  respostaApi: any = null;  // Adicionado para armazenar a resposta da API
+  carregando: boolean = false;
 
   constructor(
     private apiLoginService: ApiLoginService,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private router: Router ,
   ) {
     this.siteKey = this.globalService.siteKey;
+    
+    //verificando se ja esta logado
+    if(localStorage.getItem('isAuthentication')){ this.router.navigate(['/dashboard'])}
   }
 
   ngAfterViewInit() {
@@ -49,7 +56,7 @@ export class LoginComponent implements AfterViewInit {
 
   renderRecaptcha() {
     setTimeout(() => {
-      if (document.getElementById('recaptcha')) {
+      if (document.getElementById('recaptcha') && !this.recaptchaWidgetId) {
         this.recaptchaWidgetId = grecaptcha.render('recaptcha', {
           sitekey: this.siteKey
         });
@@ -64,20 +71,48 @@ export class LoginComponent implements AfterViewInit {
   onLogin() {
     this.mensagem = '';
     this.mensagemErro = '';
-
+    this.respostaApi = null;
+    this.carregando = true; // 👉 Inicia o loader
+  
     const recaptchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId);
-
-    if (!this.email ) {this.mensagemErro = 'Por favor, preencha o email.'; return;}
-    if (!this.senha ) {this.mensagemErro = 'Por favor, preencha a senha.'; return;}
-    if (!recaptchaResponse ) {this.mensagemErro = 'Por favor, preencha o Recaptcha.'; return;}
-
+  
+    if (!this.email) {
+      this.mensagemErro = 'Por favor, preencha o email.';
+      this.carregando = false;
+      return;
+    }
+    if (!this.senha) {
+      this.mensagemErro = 'Por favor, preencha a senha.';
+      this.carregando = false;
+      return;
+    }
+    if (!recaptchaResponse) {
+      this.mensagemErro = 'Por favor, preencha o Recaptcha.';
+      this.carregando = false;
+      return;
+    }
+  
     this.apiLoginService.login(this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
         this.mensagem = 'Login bem-sucedido!';
+        this.respostaApi = response;
+  
+        if (this.respostaApi.statusCode === 200) {
+          localStorage.setItem('isAuthentication', "true");
+          this.router.navigate(['/dashboard']);
+        }
+  
+        this.carregando = false; // 👉 Para o loader
+        grecaptcha.reset(this.recaptchaWidgetId);
       },
       (error) => {
-        this.mensagemErro = 'Erro no login: ' + (error.error?.message || 'Tente novamente mais tarde.');
+        console.log('Erro da API:', error.error);
+        this.mensagemErro = error.error?.error || 'Erro desconhecido';
+        this.carregando = false; // 👉 Para o loader
+        grecaptcha.reset(this.recaptchaWidgetId);
       }
     );
   }
+  
+  
 }

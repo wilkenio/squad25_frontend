@@ -23,6 +23,7 @@ export class CadastroComponent implements AfterViewInit {
   siteKey: string = '';
   recaptchaWidgetId: any; // ID do reCAPTCHA para capturar a resposta corretamente
   aceitouTermos: boolean = false; // Estado para checkbox dos termos
+  carregando: boolean = false;
 
   constructor(
     private apiCadastroService: ApiCadastroService,
@@ -70,25 +71,38 @@ export class CadastroComponent implements AfterViewInit {
     if (this.senha !== this.confirmarSenha) return 'As senhas não coincidem.';
     if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (!recaptchaResponse) return 'Por favor, preencha o reCAPTCHA.';
-    
+
     return ''; // Dados válidos
   }
 
   onCadastro() {
-    const recaptchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId); // Obtém a resposta correta
-
+    const recaptchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId);
+  
     this.mensagemRetorno = this.validarDados(recaptchaResponse);
-    if (this.mensagemRetorno) return; // Interrompe se houver erro
-
+    if (this.mensagemRetorno) return;
+  
+    this.carregando = true; // 👉 Inicia o loader
+  
     this.apiCadastroService.cadastrar(this.nome, this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
         console.log('Cadastro bem-sucedido!', response);
-        this.router.navigate(['/login']); // Redireciona após cadastro bem-sucedido
+  
+        if (response.statusCode === 200) {
+          localStorage.setItem('isAuthentication', "true");
+          this.router.navigate(['/dashboard']);
+        }
+  
+        this.carregando = false; // 👉 Finaliza o loader
+        grecaptcha.reset(this.recaptchaWidgetId);
       },
       (error) => {
         console.log('Erro no cadastro', error);
-        this.mensagemRetorno = 'Erro ao realizar cadastro. Tente novamente.';
+        this.mensagemRetorno = error.error?.error || 'Erro desconhecido';
+        this.carregando = false; // 👉 Finaliza o loader
+        grecaptcha.reset(this.recaptchaWidgetId);
       }
     );
   }
+  
+
 }
