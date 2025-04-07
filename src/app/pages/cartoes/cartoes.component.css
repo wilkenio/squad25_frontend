@@ -1,0 +1,152 @@
+.cartao-wrapper {
+    width: 350px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+  }
+  
+  .titulo-cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .titulo-texto {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bandeira {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .icones-topo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .icone-acao {
+    font-size: 1.2rem;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .icone-acao:hover {
+    color: #000;
+  }
+  
+  
+  .barrinha-topo {
+    height: 15px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    /* background-color removido (vem do TS) */
+  }
+  
+  .cartao-conteudo {
+    padding: 16px;
+  }
+  
+  .titulo-cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .limites {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  
+  .label {
+    color: gray;
+    margin-bottom: 2px;
+  }
+  
+  .valor {
+    font-weight: bold;
+  }
+  
+  .text-end {
+    text-align: right;
+  }
+  
+  .barra-limite {
+    background-color: #f0f0f0;
+    height: 15px;
+    overflow: hidden;
+    margin: 12px 0;
+    position: relative;
+  }
+  
+  .barra-usada {
+    /* background-color e width removidos (vem do TS) */
+    height: 100%;
+    position: relative;
+  }
+  
+  .barra-fatura {
+    /* background-color e width removidos (vem do TS) */
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .info-cartao {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  
+  .valor-fatura {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  
+  .valor-fatura h2 {
+    margin: 4px 0 0;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .rodape-cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .link-fatura {
+    color: #1e88e5;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .botao-pagamento {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .cartoes-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  

@@ -85,7 +85,7 @@ nav ul li:hover{
         overflow: hidden;
         height: 22vw;
     }
-
+ 
     .menu-cabecalho {
         display: flex;
         align-items: center;
@@ -100,4 +100,13 @@ nav ul li:hover{
     .menu-capa a{
         text-align: center;
     }
+}
+li.active {
+    background-color: rgb(209, 207, 207);
+    border-left: 5px solid var(--cor-4) !important;
+}
+
+li.active:hover {
+    background-color: rgb(209, 207, 207);
+    border-left: 5px solid var(--cor-4) !important;
 }

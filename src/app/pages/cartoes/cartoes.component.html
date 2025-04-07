@@ -1,3 +1,62 @@
 <app-sidebar></app-sidebar>
 <app-menu></app-menu>
-<p>cartoes works!</p>
+
+<div class="cartoes-flex" cdkDropList (cdkDropListDropped)="moverCartao($event)">
+  <div
+    class="cartao-wrapper"
+    *ngFor="let cartao of cartoes"
+    cdkDrag
+  >
+    <div class="barrinha-topo" [ngStyle]="{ 'background-color': cartao.cor }"></div>
+
+    <div class="cartao-conteudo">
+      <div class="titulo-cartao">
+        <div class="titulo-texto">
+          <strong>{{ cartao.nome }}</strong>
+          <div class="bandeira">{{ cartao.bandeira }}</div>
+        </div>
+
+        <div class="icones-topo">
+          <i class="bi bi-plus-lg icone-acao"></i>
+          <i class="bi bi-bookmark icone-acao"></i>
+          <i class="bi bi-three-dots icone-acao"></i>
+        </div>
+      </div>
+
+      <div class="limites">
+        <div>
+          <p class="label">Limite</p>
+          <p class="valor">R$ {{ cartao.limite | number: '1.2-2' }}</p>
+        </div>
+        <div class="text-end">
+          <p class="label">Limite disponível</p>
+          <p class="valor">R$ {{ cartao.disponivel | number: '1.2-2' }}</p>
+        </div>
+      </div>
+
+      <div class="barra-limite">
+        <div class="barra-usada" [ngStyle]="{ width: calcularPercentualUsado(cartao), backgroundColor: cartao.cor }">
+          <div class="barra-fatura" [ngStyle]="{ width: calcularPercentualFatura(cartao), backgroundColor: cartao.corFatura }"></div>
+        </div>
+      </div>
+
+      <div class="info-cartao">
+        <div><strong>Conta</strong><br>{{ cartao.conta }}</div>
+        <div><strong>Fechamento</strong><br>{{ cartao.fechamento }}</div>
+        <div><strong>Vencimento</strong><br>{{ cartao.vencimento }}</div>
+      </div>
+
+      <div class="valor-fatura">
+        <p>Valor {{ cartao.status === 'Fatura Aberta' ? 'parcial' : 'total' }} da fatura</p>
+        <h2>R$ {{ cartao.faturaAtual | number: '1.2-2' }}</h2>
+      </div>
+
+      <div class="rodape-cartao">
+        <div class="status-cartao" [ngStyle]="{ color: cartao.statusCor }">
+          {{ cartao.status }} {{ cartao.statusIcone }}
+        </div>
+        <button class="botao-pagamento">Registrar Pagamento</button>
+      </div>
+    </div>
+  </div>
+</div>

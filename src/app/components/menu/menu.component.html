@@ -13,17 +13,75 @@
             <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
         </div>
         <div>
-            <i class="bi bi-person-circle"></i>
+             <i class="bi bi-person-circle"></i>
         </div>
     </div>
 </div>
 
-<div class="options" [class.optionsShow]="optionsVisivel">
-    <div (click)="selecionarOpcao()">Nova Receita</div>
-    <div (click)="selecionarOpcao()">Nova Despesa</div>
-    <div (click)="selecionarOpcao()">Nova Despesa de Cartão</div>
-    <div (click)="selecionarOpcao()">Nova Transferência</div>
-    <div (click)="selecionarOpcao(); toggleNovaContaPopup()">Nova Conta</div>
+<div class="options" [class.optionsShow]="optionsDashboard">
+    <div>Nova conta</div>
+    <div>Novo cartão</div>
+    <div>Receita</div>
+    <div>Despesa</div>
+    <div (click)="toggleNovaContaPopup()">Nova transfêrencia entre contas</div>
 </div>
 
+<div class="options" [class.optionsShow]="optionsContas">
+    <div>Nova receita</div>
+    <div>Nova despesa</div>
+    <div>Nova despesa de cartão</div>
+    <div>Nova transfêrencia</div>
+    <div (click)="toggleNovaContaPopup()">Nova conta</div>
+  </div>
+  
+<div class="options" [class.optionsShow]="optionsCartoes">
+    <div (click)="toggleNovoCartaoPopup()">Novo Cartão</div>
+    <div>Editar Cartão</div>
+    <div>Nova Fatura</div>
+    <div>Pagamento de Fatura</div>
+    <div (click)="toggleNovoCartaoPopup()">Cadastrar Cartão</div>
+  </div>  
+
+<div class="options" [class.optionsShow]="optionsTransacoes">
+    <div (click)="toggleNovaContaPopup()">Nova Receita</div>
+    <div>Nova Despesa</div>
+    <div>Nova Despesa de Cartão</div>
+    <div>Nova Transação</div>
+    <div>Cadastrar Conta</div>
+</div>
+
+<div class="options" [class.optionsShow]="optionsRelatorios">
+    <div>Relatório Mensal</div>
+    <div>Relatório Anual</div>
+    <div>Por Categoria</div>
+    <div>Por Conta</div>
+    <div (click)="toggleNovaContaPopup()">Personalizado</div>
+</div>
+
+<div class="options" [class.optionsShow]="optionsCategorias">
+    <div>Nova categoria </div>
+    <div>Nova subcategoria</div>
+    <div>Por Categoria</div>
+    <div>Por Conta</div>
+    <div (click)="toggleNovaContaPopup()">Personalizado</div>
+</div>
+
+<div class="options" [class.optionsShow]="optionsPlanejamento">
+    <div>Novo planejamento</div>
+    <div>Novo item de planejamento</div>
+    <div>Planejamento mensal</div>
+    <div>Planejamento anual</div>
+    <div (click)="toggleNovaContaPopup()">Planejamento personalizado</div>
+</div>
+
+<div class="options" [class.optionsShow]="optionsObjetivos">
+    <div>Novo objetivo</div>
+    <div>Novo subobjetivo</div>
+    <div>Objetivos de curto prazo</div>
+    <div>Objetivos de longo prazo</div>
+    <div (click)="toggleNovaContaPopup()">Objetivo personalizado</div>
+</div>
+
+
 <app-nova-conta></app-nova-conta>
+
