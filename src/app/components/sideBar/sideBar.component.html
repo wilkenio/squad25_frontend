@@ -6,12 +6,12 @@
         <img src="https://img.freepik.com/vetores-gratis/design-de-comemoracao-do-25-aniversario_460848-13706.jpg?t=st=1743107116~exp=1743110716~hmac=3bb2a380d31213193398b666b67406b3b8da9d17bcdbfc252bf4b047276f20fd&w=740" alt="logo do restaurante donphellipe">
         <i id="icon-hambur" class="bi bi-list" (click)="toggleMenu()"></i>
     </div>
-    <ul>
-        <li class="itens-menu" id="dashboard">
+    <ul> 
+        <li routerLinkActive="active" class="itens-menu" id="dashboard">
             <a [routerLink]="'/dashboard'"><i class="bi bi-file-text"></i> <label class="text-menu">Resumo</label></a>
         </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/contas'"><i class="bi bi-building"></i> <label class="text-menu">Contas</label></a>
+        <li routerLinkActive="active" class="itens-menu">
+            <a [routerLink]="'/contas'" ><i class="bi bi-building"></i> <label class="text-menu">Contas</label></a>
         </li>
         <li class="itens-menu">
             <a [routerLink]="'/cartoes'"><i class="bi bi-credit-card-2-front"></i> <label class="text-menu">Cartões</label></a>
