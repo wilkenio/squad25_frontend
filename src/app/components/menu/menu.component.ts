@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
 import { Router } from '@angular/router';
-import { NovaReceitaComponent } from '../pop-up/nova-receita/nova-receita.component';
 import { NovoCartaoComponent} from '../pop-up/novo-cartao/novo-cartao.component';
 
 @Component({
@@ -9,11 +8,10 @@ import { NovoCartaoComponent} from '../pop-up/novo-cartao/novo-cartao.component'
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
   standalone: true,
-  imports: [NovaContaComponent, NovaReceitaComponent],
+  imports: [NovaContaComponent],
 })
 export class MenuComponent {
   @ViewChild(NovaContaComponent) novaContaComponent!: NovaContaComponent;
-  @ViewChild(NovaReceitaComponent) novaReceitaComponent!: NovaReceitaComponent;
   @ViewChild(NovoCartaoComponent) novoCartaoComponent!: NovoCartaoComponent;
 
   optionsDashboard = false;
@@ -95,9 +93,7 @@ export class MenuComponent {
     this.novaContaComponent.togglePopup();
   }
 
-  toggleNovaReceitaPopup() {
-    this.novaReceitaComponent.togglePopup();
-  }
+  
   
   toggleNovoCartaoPopup() {
     this.novoCartaoComponent.togglePopup();
