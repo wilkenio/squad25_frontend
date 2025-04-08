@@ -1,0 +1,208 @@
+.container {
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+    
+  }
+  
+  /* Sidebar + conteúdo principal */
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .conteudo {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  /* Painel com duas tabelas lado a lado */
+  .painel-categorias {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 19px;
+    padding: 20px;
+    height: 100%;
+    flex-wrap: wrap;
+  }
+  
+  /* Abas */
+  .abas {
+    display: flex;
+    justify-content: center;
+    gap: 27%;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .abas button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    position: relative;
+    color: black;
+  }
+  
+  .abas button.ativa::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: -20vh;
+    width: 50vh;
+    height: 25%;
+    background-color: black;
+    border-radius: 2px;
+  }
+  
+  .linha-aba {
+    width: 89%;
+    height: 2px;
+    background-color: black;
+    margin: 5px auto 0 auto;
+    border-radius: 2px;
+  }
+  
+  /* Estilo das tabelas */
+  .tabela {
+    background: #E4E4E4;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Grid nas linhas */
+  .cabecalho,
+  .subcabecalho,
+  .linha {
+    display: grid;
+    grid-template-columns: 1fr 150px 60px;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    border-bottom: 1px solid #c5c3c3;   
+  }
+  
+  
+  .cabecalho,
+  .subcabecalho {
+    background-color: #F0F0F0;
+    font-weight: bold;
+    color: #444;
+    
+  }
+  
+  .cabecalho{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .cabecalho-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #F0F0F0;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .cabecalho div:nth-child(2),
+  .subcabecalho div:nth-child(2),
+  .linha div:nth-child(2),
+  .rodape div:nth-child(2) {
+    text-align: right;
+  }
+  
+  .cabecalho div:nth-child(3),
+  .subcabecalho div:nth-child(3),
+  .linha div:nth-child(3) {
+    text-align: center;
+  }
+  
+  /* Rodapé */
+  .rodape {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: #F0F0F0;
+    margin-top: auto;
+    gap: 10px;
+  }
+  
+  .bi-plus-circle {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s;
+  }
+  
+  .bi-plus-circle:hover {
+    transform: scale(1.2);
+  }
+  
+  .icone-acao {
+    cursor: pointer;
+  }
+  
+  /* 🔽 RESPONSIVO */
+  @media (max-width: 900px) {
+    .painel-categorias {
+      flex-direction: column;
+    }
+  
+    .cabecalho,
+    .subcabecalho,
+    .linha {
+      grid-template-columns: 1fr 100px 50px;
+    }
+  
+    .abas {
+      gap: 15%;
+      flex-wrap: wrap;
+    }
+  
+    .abas button {
+      font-size: 1rem;
+    }
+  
+    .abas button.ativa::after {
+      width: 30vh;
+      left: -10vh;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .cabecalho,
+    .subcabecalho,
+    .linha {
+      grid-template-columns: 1fr 80px 40px;
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+  
+    .rodape {
+      font-size: 0.8rem;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      text-align: center;
+    }
+  
+    .abas {
+      gap: 10%;
+    }
+  }
+  
