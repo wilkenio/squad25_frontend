@@ -1,4 +1,70 @@
-<app-sidebar></app-sidebar>
-<app-menu></app-menu>
-<p>categorias works!</p>
- 
+<div class="container">
+    <app-sidebar></app-sidebar>
+  
+    <div class="main-content">
+      <app-menu></app-menu>
+  
+      <!-- Abas -->
+      <div class="abas">
+        <button [class.ativa]="abaSelecionada === 'receitas'" (click)="abaSelecionada = 'receitas'">Receitas</button>
+        <button [class.ativa]="abaSelecionada === 'despesas'" (click)="abaSelecionada = 'despesas'">Despesas</button>
+        <button [class.ativa]="abaSelecionada === 'contas'" (click)="abaSelecionada = 'contas'">Contas</button>
+      </div>
+      <div class="linha-aba"></div>
+  
+      <!-- Conteúdo das Categorias -->
+      <div class="conteudo" *ngIf="abaSelecionada === 'receitas'">
+        <div class="painel-categorias">
+          <!-- Categorias -->
+          <div class="tabela">
+            <div class="cabecalho">
+              <div>Descrição</div>
+              <div>Total</div>
+              <div>Ações</div>
+            </div>
+  
+            <div class="linha" *ngFor="let categoria of categoriasReceitas">
+              <div>⭐ {{ categoria.descricao }}</div>
+              <div>{{ categoria.total.toFixed(2).replace('.', ',') }}</div>
+              <div><i class="bi bi-three-dots icone-acao"></i></div>
+            </div>
+  
+            <div class="rodape">
+              <div>Categorias: <b>{{ categoriasReceitas.length }}</b></div>
+              <div>Total: <b>R$ {{ calcularTotalReceitas().toFixed(2).replace('.', ',') }}</b></div>
+            </div>
+          </div>
+  
+          <!-- Subcategorias -->
+          <div class="tabela">
+            <!-- Título + botão -->
+            <div class="cabecalho-titulo">
+              <div><b>Subcategorias de Trabalhos extras</b></div>
+              <div>
+                <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
+              </div>
+            </div>
+  
+            <!-- Subcabeçalho com alinhamento igual -->
+            <div class="subcabecalho">
+              <div>Descrição</div>
+              <div>Total</div>
+              <div>Ações</div>
+            </div>
+  
+            <div class="linha" *ngFor="let sub of subcategoriasTrabalhoExtra">
+              <div>⭐ {{ sub.descricao }}</div>
+              <div>{{ sub.total.toFixed(2).replace('.', ',') }}</div>
+              <div><i class="bi bi-three-dots icone-acao"></i></div>
+            </div>
+  
+            <div class="rodape">
+              <div>Subcategorias: <b>{{ subcategoriasTrabalhoExtra.length }}</b></div>
+              <div>Total: <b>R$ {{ calcularTotalSubcategorias().toFixed(2).replace('.', ',') }}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
