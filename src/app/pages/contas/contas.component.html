@@ -14,14 +14,23 @@
   </div>
 
   <!-- Linhas com os dados -->
-  <div class="row" *ngFor="let conta of contas">
+  <div class="row" *ngFor="let conta of contas; let i = index">
     <div class="cell">{{ conta.descricao }}</div>
     <div class="cell">{{ conta.saldoInicial | currency:'BRL' }}</div>
     <div class="cell">{{ conta.receitas | currency:'BRL' }}</div>
     <div class="cell">{{ conta.despesas | currency:'BRL' }}</div>
     <div class="cell">{{ conta.saldo | currency:'BRL' }}</div>
     <div class="cell">{{ conta.previsto | currency:'BRL' }}</div>
-    <div class="cell">...</div>
+    <div class="cell" style="position: relative;">
+      <button class="menu-btn" (click)="toggleMenu(i)">⋯</button>
+
+      <div class="dropdown-menu" *ngIf="showMenuIndex === i">
+        <button class="dropdown-item top" (click)="editarConta(conta)">Editar</button>
+        <button class="dropdown-item" (click)="verExtrato(conta)">Extrato</button>
+        <div class="placeholder-box"></div>
+        <button class="dropdown-item bottom" (click)="excluirConta(conta)">Excluir</button>
+      </div>
+    </div>
   </div>
 
   <!-- Totais -->
