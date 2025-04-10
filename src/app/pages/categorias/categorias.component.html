@@ -21,7 +21,7 @@
           <div class="cabecalho-titulo">
             
             <div>
-              <i class="bi bi-plus-circle" (click)="abrirPopupCategoria()"></i>
+              <i class="bi bi-plus-circle" (click)="toggleNovaCategoriaPopup()"></i>
             </div>
           </div>
 
@@ -38,9 +38,9 @@
               <i class="bi bi-three-dots icone-acao" (click)="toggleMenu(categoria)"></i>
 
               <div class="menu-popup" *ngIf="categoria.menuAberto">
-                <div class="opcao" (click)="editarCategoria(categoria)">Editar</div>
-                <div class="opcao" (click)="excluirCategoria(categoria)">Excluir</div>
-                <div class="opcao" (click)="verGrafico(categoria)">Gráfico evolução mensal</div>
+                <div class="opcao" >Editar</div>
+                <div class="opcao" >Excluir</div>
+                <div class="opcao">Gráfico evolução mensal</div>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@
           <div class="cabecalho-titulo">
             <div><b>Subcategorias de Trabalhos extras</b></div>
             <div>
-              <i class="bi bi-plus-circle" (click)="toggleOptions()"></i>
+              <i class="bi bi-plus-circle" ></i>
             </div>
           </div>
 
@@ -73,9 +73,9 @@
               <i class="bi bi-three-dots icone-acao" (click)="toggleMenuSub(sub)"></i>
 
               <div class="menu-popup" *ngIf="sub.menuAberto">
-                <div class="opcao" (click)="editarSubcategoria(sub)">Editar</div>
-                <div class="opcao" (click)="excluirSubcategoria(sub)">Excluir</div>
-                <div class="opcao" (click)="verGraficoSub(sub)">Gráfico evolução mensal</div>
+                <div class="opcao" >Editar</div>
+                <div class="opcao">Excluir</div>
+                <div class="opcao" >Gráfico evolução mensal</div>
               </div>
             </div>
           </div>
@@ -88,36 +88,6 @@
       </div>
     </div>
   </div>
-
-  <!-- POPUP NOVA CATEGORIA -->
-  <div class="popup-backdrop" *ngIf="mostrarPopupCategoria">
-    <div class="popup">
-      <div class="popup-topo">
-        <span><b>Nova categoria</b></span>
-        <button class="btn-salvar">Salvar</button>
-        <button class="btn-fechar" (click)="fecharPopupCategoria()">×</button>
-      </div>
-
-      <div class="popup-conteudo">
-        <label>Nome</label>
-        <input type="text" />
-
-        <label>Ícone</label>
-        <div class="icone-selector">
-          <i class="bi" [ngClass]="iconeSelecionado" (click)="mostrarOpcoesIcone = !mostrarOpcoesIcone"></i>
-          <div class="icones-opcoes" *ngIf="mostrarOpcoesIcone">
-            <i *ngFor="let icone of iconesDisponiveis" class="bi" [ngClass]="icone" (click)="selecionarIcone(icone)"></i>
-          </div>
-        </div>
-
-        <label>Cor</label>
-        <div class="cor-selector">
-          <span class="cor-bolinha" [ngStyle]="{'background-color': corSelecionada}" (click)="trocarCor()"></span>
-        </div>
-
-        <label>Informação Adicional</label>
-        <textarea></textarea>
-      </div>
-    </div>
-  </div>
 </div>  
+
+<app-nova-categoria></app-nova-categoria>
