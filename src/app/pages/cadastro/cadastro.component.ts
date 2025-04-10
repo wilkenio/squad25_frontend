@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { GlobalService } from '../../services/global.service';
 import { ApiCadastroService } from '../../services/ApiCadastro/ApiCadastro.service';
 
-declare var grecaptcha: any; // Declaração para evitar erro de TypeScript
+declare var grecaptcha: any;
 
 @Component({
   selector: 'app-cadastro',
@@ -19,10 +19,10 @@ export class CadastroComponent implements AfterViewInit {
   email: string = '';
   senha: string = '';
   confirmarSenha: string = '';
-  mensagemRetorno: string = ''; // Mensagem para exibir feedback ao usuário
+  mensagemRetorno: string = '';
   siteKey: string = '';
-  recaptchaWidgetId: any; // ID do reCAPTCHA para capturar a resposta corretamente
-  aceitouTermos: boolean = false; // Estado para checkbox dos termos
+  recaptchaWidgetId: any;
+  aceitouTermos: boolean = false;
   carregando: boolean = false;
 
   constructor(
@@ -63,6 +63,10 @@ export class CadastroComponent implements AfterViewInit {
   validarDados(recaptchaResponse: string): string {
     if (this.nome.length <= 0) return 'Preencha o campo Nome.';
     if (this.email.length <= 0) return 'Preencha o campo Email.';
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) return 'Digite um e-mail válido.';
+
     if (this.senha.length < 8) return 'A senha deve ter pelo menos 8 caracteres.';
     if (!/[A-Z]/.test(this.senha)) return 'A senha deve conter pelo menos uma letra maiúscula.';
     if (!/[a-z]/.test(this.senha)) return 'A senha deve conter pelo menos uma letra minúscula.';
@@ -72,37 +76,35 @@ export class CadastroComponent implements AfterViewInit {
     if (!this.aceitouTermos) return 'Você deve aceitar os termos e condições para continuar.';
     if (!recaptchaResponse) return 'Por favor, preencha o reCAPTCHA.';
 
-    return ''; // Dados válidos
+    return '';
   }
 
   onCadastro() {
     const recaptchaResponse = grecaptcha.getResponse(this.recaptchaWidgetId);
-  
+
     this.mensagemRetorno = this.validarDados(recaptchaResponse);
     if (this.mensagemRetorno) return;
-  
-    this.carregando = true; // 👉 Inicia o loader
-  
+
+    this.carregando = true;
+
     this.apiCadastroService.cadastrar(this.nome, this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
         console.log('Cadastro bem-sucedido!', response);
-  
+
         if (response.statusCode === 200) {
           localStorage.setItem('isAuthentication', "true");
           this.router.navigate(['/dashboard']);
         }
-  
-        this.carregando = false; // 👉 Finaliza o loader
+
+        this.carregando = false;
         grecaptcha.reset(this.recaptchaWidgetId);
       },
       (error) => {
         console.log('Erro no cadastro', error);
         this.mensagemRetorno = error.error?.error || 'Erro desconhecido';
-        this.carregando = false; // 👉 Finaliza o loader
+        this.carregando = false;
         grecaptcha.reset(this.recaptchaWidgetId);
       }
     );
   }
-  
-
 }
