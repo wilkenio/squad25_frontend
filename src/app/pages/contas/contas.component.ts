@@ -17,6 +17,24 @@ export class ContasComponent {
     { descricao: 'Principal', saldoInicial: 0, receitas: 200, despesas: 100, saldo: 100, previsto: 300 }
   ];
 
+  showMenuIndex: number | null = null;
+
+  toggleMenu(index: number) {
+    this.showMenuIndex = this.showMenuIndex === index ? null : index;
+  }
+
+  editarConta(conta: any) {
+    console.log('Editar', conta);
+  }
+
+  verExtrato(conta: any) {
+    console.log('Extrato', conta);
+  }
+
+  excluirConta(conta: any) {
+    console.log('Excluir', conta);
+  }
+
   getTotal(tipo: 'receitas' | 'despesas' | 'saldo' | 'previsto'): number {
     return this.contas.reduce((acc, conta) => acc + conta[tipo], 0);
   }
