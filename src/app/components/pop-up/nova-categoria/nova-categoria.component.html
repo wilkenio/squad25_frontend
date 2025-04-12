@@ -1,52 +1,54 @@
 <div class="contain-popup" [style.visibility]="mostrarNovaCategoria ? 'visible' : 'hidden'">
     <div class="popUp">
-        <div class="menu-pop-up">
-            <input type="text" value="Nova categoria">
-            <div class="btns-operacoes">
-                <button class="btn-salvar-pop-up">Salvar</button>
-                <i class="bi bi-x icon-fechar-pop-up" (click)="fecharNovaCategoria()"></i> <!-- Botão de fechar -->
-            </div>
+      <div class="menu-pop-up">
+        <input type="text" value="Nova categoria">
+        <div class="btns-operacoes">
+          <button class="btn-salvar-pop-up">Salvar</button>
+          <i class="bi bi-x icon-fechar-pop-up" (click)="fecharNovaCategoria()"></i>
         </div>
-
-        <div class="dados-nova-conta">
-            <div class="dados-descricao">
-                <h5>Descrição</h5>
-                <input type="text">
-                <i class="bi iconEscolherIcons" [ngClass]="iconeSelecionado" (click)="toggleOpcoes()"></i>
-
-                <!-- Opções de Ícones -->
-                <div class="opcoesDeIcones" *ngIf="mostrarOpcoes">
-                    <i class="bi bi-skip-start-circle-fill" (click)="selecionarIcone('bi-skip-start-circle-fill')"></i>
-                    <i class="bi bi-star-half" (click)="selecionarIcone('bi-star-half')"></i>
-                    <i class="bi bi-heart-fill" (click)="selecionarIcone('bi-heart-fill')"></i>
-                    <i class="bi bi-lightning-fill" (click)="selecionarIcone('bi-lightning-fill')"></i>
-                </div>
-            </div>
-
-            <div class="dados-saldo-inicial">
-                <h5>Saldo Inicial +/-</h5>
-                <input type="text" placeholder="R$ 0,00">
-                <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
-            </div>
-
-            <div class="dados-cheque-especial">
-                <h5>Cheque Especial</h5>
-                <input type="text" placeholder="R$ 0,00">
-                <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
-            </div>
-
-            <div class="dados-cheque-especial">
-                <h5>Color</h5>
-                <label class="inputColor" for="inputColorNovaCategoria" #labelColor></label>
-                <input (input)="mostrarCorSelecionada($event, labelColor)" id="inputColorNovaCategoria" type="color" placeholder="R$ 0,00">
-             
-            </div>
-
-            <div class="dados-informacoes-adicionais">
-                <h5>Informações adicionais</h5>
-                <textarea type="text"></textarea>
-                <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
-            </div>
+      </div>
+  
+      <div class="dados-nova-conta">
+        <!-- Nome -->
+        <div class="nome">
+          <h5>Nome:</h5>
+          <input type="text">
         </div>
+  
+        <!-- Ícone + Cor agrupados -->
+        <div class="linha-icones-cores">
+          <!-- Labels à esquerda -->
+          <div class="label-icones-cores">
+            <h5>Ícone</h5>
+            <h5>Cor</h5>
+          </div>
+  
+          <!-- Ações à direita -->
+          <div class="acoes-icones-cores">
+            <!-- Botão do ícone -->
+            <i class="bi iconEscolherIcons" [ngClass]="iconeSelecionado" (click)="toggleOpcoes()"></i>
+  
+            <!-- Opções de ícones -->
+            <div class="opcoesDeIcones" *ngIf="mostrarOpcoes">
+              <i class="bi bi-skip-start-circle-fill" (click)="selecionarIcone('bi-skip-start-circle-fill')"></i>
+              <i class="bi bi-star-half" (click)="selecionarIcone('bi-star-half')"></i>
+              <i class="bi bi-heart-fill" (click)="selecionarIcone('bi-heart-fill')"></i>
+              <i class="bi bi-lightning-fill" (click)="selecionarIcone('bi-lightning-fill')"></i>
+            </div>
+  
+            <!-- Seletor de cor -->
+            <label class="inputColor" for="inputColorNovaCategoria" #labelColor></label>
+            <input (input)="mostrarCorSelecionada($event, labelColor)" id="inputColorNovaCategoria" type="color">
+          </div>
+        </div>
+  
+        <!-- Informações adicionais -->
+        <div class="dados-informacoes-adicionais">
+          <h5>Informações adicionais</h5>
+          <textarea type="text"></textarea>
+          <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  
