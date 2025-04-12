@@ -2,7 +2,7 @@
   <app-sidebar></app-sidebar>
 
   <div class="main-content">
-    <app-menu></app-menu>
+   <app-menu-categorias></app-menu-categorias> 
 
     <!-- Abas -->
     <div class="abas">
@@ -56,7 +56,7 @@
           <div class="cabecalho-titulo">
             <div><b>Subcategorias de Trabalhos extras</b></div>
             <div>
-              <i class="bi bi-plus-circle" ></i>
+              <i class="bi bi-plus-circle" (click)="toggleNovaSubcategoriaPopup()"></i>
             </div>
           </div>
 
@@ -91,3 +91,5 @@
 </div>  
 
 <app-nova-categoria></app-nova-categoria>
+<app-nova-subcategoria></app-nova-subcategoria>
+
