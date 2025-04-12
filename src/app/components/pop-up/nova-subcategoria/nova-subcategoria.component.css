@@ -93,16 +93,16 @@
     align-items: center;
     justify-content: space-between;
     margin: 0.7% 0;
-    margin-top: 10%;
     width: 41vh;
     font-size: larger;
+    color: var(--cor-3);
   }
   
   .nome input {
     width: 80%;
     height: 2.5vh;
     background-color: var(--cor-6);
-    font-size: small;
+    font-size: medium;
   }
   
   /* Ícone + Cor na mesma linha */
@@ -159,7 +159,7 @@
     cursor: pointer;
   }
   
-  #inputColorNovaCategoria {
+  #inputColorNovaSubcategoria {
     visibility: hidden;
   }
   
@@ -190,6 +190,40 @@
     
   }
   
+  .categoria-select-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2% 0;
+    font-size: medium;
+    width: 100%;
+    margin-top: 10%;
+  }
+  
+  .categoria-select-linha label {
+    font-weight: 500;
+    color: var(--cor-3);
+  }
+  
+  .select-categoria {
+    background-color: var(--cor-6);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    color: #333;
+    width: 60%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23999' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 6px;
+  }
+  
+
+
   /* Responsivo */
   @media screen and (max-width: 800px) {
     .popUp {

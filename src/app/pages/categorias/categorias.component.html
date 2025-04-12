@@ -1,70 +1,95 @@
 <div class="container">
-    <app-sidebar></app-sidebar>
-  
-    <div class="main-content">
-      <app-menu></app-menu>
-  
-      <!-- Abas -->
-      <div class="abas">
-        <button [class.ativa]="abaSelecionada === 'receitas'" (click)="abaSelecionada = 'receitas'">Receitas</button>
-        <button [class.ativa]="abaSelecionada === 'despesas'" (click)="abaSelecionada = 'despesas'">Despesas</button>
-        <button [class.ativa]="abaSelecionada === 'contas'" (click)="abaSelecionada = 'contas'">Contas</button>
-      </div>
-      <div class="linha-aba"></div>
-  
-      <!-- Conteúdo das Categorias -->
-      <div class="conteudo" *ngIf="abaSelecionada === 'receitas'">
-        <div class="painel-categorias">
-          <!-- Categorias -->
-          <div class="tabela">
-            <div class="cabecalho">
-              <div>Descrição</div>
-              <div>Total</div>
-              <div>Ações</div>
-            </div>
-  
-            <div class="linha" *ngFor="let categoria of categoriasReceitas">
-              <div>⭐ {{ categoria.descricao }}</div>
-              <div>{{ categoria.total.toFixed(2).replace('.', ',') }}</div>
-              <div><i class="bi bi-three-dots icone-acao"></i></div>
-            </div>
-  
-            <div class="rodape">
-              <div>Categorias: <b>{{ categoriasReceitas.length }}</b></div>
-              <div>Total: <b>R$ {{ calcularTotalReceitas().toFixed(2).replace('.', ',') }}</b></div>
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+   <app-menu-categorias></app-menu-categorias> 
+
+    <!-- Abas -->
+    <div class="abas">
+      <button [class.ativa]="abaSelecionada === 'receitas'" (click)="abaSelecionada = 'receitas'">Receitas</button>
+      <button [class.ativa]="abaSelecionada === 'despesas'" (click)="abaSelecionada = 'despesas'">Despesas</button>
+      <button [class.ativa]="abaSelecionada === 'contas'" (click)="abaSelecionada = 'contas'">Contas</button>
+    </div>
+    <div class="linha-aba"></div>
+
+    <!-- Conteúdo das Categorias -->
+    <div class="conteudo" *ngIf="abaSelecionada === 'receitas'">
+      <div class="painel-categorias">
+
+        <!-- CATEGORIAS -->
+        <div class="tabela">
+          <div class="cabecalho-titulo">
+            
+            <div>
+              <i class="bi bi-plus-circle" (click)="toggleNovaCategoriaPopup()"></i>
             </div>
           </div>
-  
-          <!-- Subcategorias -->
-          <div class="tabela">
-            <!-- Título + botão -->
-            <div class="cabecalho-titulo">
-              <div><b>Subcategorias de Trabalhos extras</b></div>
-              <div>
-                <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
+
+          <div class="cabecalho">
+            <div>Descrição</div>
+            <div>Total</div>
+            <div>Ações</div>
+          </div>
+
+          <div class="linha" *ngFor="let categoria of categoriasReceitas">
+            <div>⭐ {{ categoria.descricao }}</div>
+            <div>{{ categoria.total.toFixed(2).replace('.', ',') }}</div>
+            <div class="menu-acao-wrapper">
+              <i class="bi bi-three-dots icone-acao" (click)="toggleMenu(categoria)"></i>
+
+              <div class="menu-popup" *ngIf="categoria.menuAberto">
+                <div class="opcao" >Editar</div>
+                <div class="opcao" >Excluir</div>
+                <div class="opcao">Gráfico evolução mensal</div>
               </div>
             </div>
-  
-            <!-- Subcabeçalho com alinhamento igual -->
-            <div class="subcabecalho">
-              <div>Descrição</div>
-              <div>Total</div>
-              <div>Ações</div>
+          </div>
+
+          <div class="rodape">
+            <div>Categorias: <b>{{ categoriasReceitas.length }}</b></div>
+            <div>Total: <b>R$ {{ calcularTotalReceitas().toFixed(2).replace('.', ',') }}</b></div>
+          </div>
+        </div>
+
+        <!-- SUBCATEGORIAS -->
+        <div class="tabela">
+          <div class="cabecalho-titulo">
+            <div><b>Subcategorias de Trabalhos extras</b></div>
+            <div>
+              <i class="bi bi-plus-circle" (click)="toggleNovaSubcategoriaPopup()"></i>
             </div>
-  
-            <div class="linha" *ngFor="let sub of subcategoriasTrabalhoExtra">
-              <div>⭐ {{ sub.descricao }}</div>
-              <div>{{ sub.total.toFixed(2).replace('.', ',') }}</div>
-              <div><i class="bi bi-three-dots icone-acao"></i></div>
+          </div>
+
+          <div class="subcabecalho">
+            <div>Descrição</div>
+            <div>Total</div>
+            <div>Ações</div>
+          </div>
+
+          <div class="linha" *ngFor="let sub of subcategoriasTrabalhoExtra">
+            <div>⭐ {{ sub.descricao }}</div>
+            <div>{{ sub.total.toFixed(2).replace('.', ',') }}</div>
+            <div class="menu-acao-wrapper">
+              <i class="bi bi-three-dots icone-acao" (click)="toggleMenuSub(sub)"></i>
+
+              <div class="menu-popup" *ngIf="sub.menuAberto">
+                <div class="opcao" >Editar</div>
+                <div class="opcao">Excluir</div>
+                <div class="opcao" >Gráfico evolução mensal</div>
+              </div>
             </div>
-  
-            <div class="rodape">
-              <div>Subcategorias: <b>{{ subcategoriasTrabalhoExtra.length }}</b></div>
-              <div>Total: <b>R$ {{ calcularTotalSubcategorias().toFixed(2).replace('.', ',') }}</b></div>
-            </div>
+          </div>
+
+          <div class="rodape">
+            <div>Subcategorias: <b>{{ subcategoriasTrabalhoExtra.length }}</b></div>
+            <div>Total: <b>R$ {{ calcularTotalSubcategorias().toFixed(2).replace('.', ',') }}</b></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>  
+
+<app-nova-categoria></app-nova-categoria>
+<app-nova-subcategoria></app-nova-subcategoria>
+

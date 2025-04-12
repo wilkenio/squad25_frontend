@@ -1,112 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap');
+
+/* Sidebar principal */
 nav {
-    background-color: var(--cor-6);
-    width: 13%;
-    height: 100vh;
-    position: fixed;
-    transition: 0.7s ease-in-out;
-    top: 0;
-    z-index: 99;
-    overflow: overlay;
-    left: 0;
+  background-color: white;
+  width: 13%;
+  min-width: 70px;
+  height: 100vh;
+  position: fixed;
+  transition: 0.5s ease-in-out;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 
+/* Botão para expandir/recolher */
+.toggle-sidebar {
+  position: absolute;
+  top: 10px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Cabeçalho com logo */
 .menu-cabecalho {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0% 8% 0% 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
 }
 
-.menu-cabecalho img {
-    width: 50%;
-    margin-top: 10%;
+.logo-lumen {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  color: #5A2994;
+  font-size: 2rem;
+  margin-top: 5%;
 }
 
-.menu-cabecalho i {
-    font-size: 1.7rem;
-    cursor: pointer;
-    margin-left: 30%;
-}
-
-nav ul{
-    margin-top: 10%;
-    padding-left:0;
+/* Lista de navegação */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 35%;
 }
 
 nav ul li {
-    border-left: 10px solid transparent;
-    color: var(--cor-7);
-    margin-right: 2%;
-    padding: 5% 1% 5% 7%;
-    margin: 1%;
-    font-weight: 400;
-    font-size: 15px;
-    -webkit-border-top-right-radius: 12px;
-    -webkit-border-bottom-right-radius: 12px;
-    -moz-border-radius-topright: 12px;
-    -moz-border-radius-bottomright: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    display: flex;
-    align-items: center;
-    transition: 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  transition: 0.3s;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 14px;
 }
 
-nav ul li a{
-    display: flex;
-    color: var(--cor-7);
-    text-decoration: none;
-}
-nav ul li a{
-    padding-right: 5%;
-}
-nav ul li i{
-    margin-right: 5%;
-    padding-right: 5%;
-    font-size: 1.1rem;
+nav ul li.active,
+nav ul li:hover {
+  background: linear-gradient(to right, #5A89F0, #3C217A);
+  color: white;
 }
 
-nav ul li:hover{
-    color: var(--cor-4);
-    background-color: var(--cor-8);
-    border-left: 5px solid var(--cor-4);
+nav ul li.active i,
+nav ul li:hover i,
+nav ul li.active label,
+nav ul li:hover label {
+  color: white;
 }
-.nav-menu{
-    overflow: overlay;
-    height: 100vh;
+
+nav ul li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
 }
-.text-menu{
-    cursor: pointer;
+
+nav ul li i {
+  font-size: 1.2rem;
+  margin-right: 10px;
 }
+
+.text-menu {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Área do usuário */
+.usuario {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background-color: #f8f8f8;
+  margin-top: auto;
+}
+
+.usuario-icon {
+  background-color: #d6cfe5;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.usuario-icon i {
+  font-size: 2rem;
+  color: #3c1d75;
+}
+
+.usuario .nome {
+  font-weight: 600;
+  color: #3C217A;
+  font-size: 14px;
+}
+
+.usuario a {
+  font-size: 15px;
+  color: #888;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.usuario a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
 @media screen and (max-width: 800px) {
-    nav{
-        width: 100%;
-        position: fixed;
-        overflow: hidden;
-        height: 22vw;
-    }
- 
-    .menu-cabecalho {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0% 10% 0% 10%;
-    }
-    
-    .menu-cabecalho img {
-        width: 25%;
-        margin-top: 7%;
-    }
-    .menu-capa a{
-        text-align: center;
-    }
-}
-li.active {
-    background-color: rgb(209, 207, 207);
-    border-left: 5px solid var(--cor-4) !important;
-}
+  nav {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
 
-li.active:hover {
-    background-color: rgb(209, 207, 207);
-    border-left: 5px solid var(--cor-4) !important;
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-top: 0;
+  }
+
+  nav ul li {
+    flex: 0 0 auto;
+    padding: 10px;
+  }
+
+  .text-menu {
+    display: block;
+    font-size: 12px;
+  }
+
+  .logo-lumen {
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+
+  .usuario {
+    display: none;
+  }
+
+  .toggle-sidebar {
+    bottom: 10px;
+    top: auto;
+    right: 10px;
+  }
 }

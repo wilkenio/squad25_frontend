@@ -1,17 +1,24 @@
-<div class="contain-popup" [style.visibility]="mostrarNovaCategoria ? 'visible' : 'hidden'">
+<div class="contain-popup" [style.visibility]="mostrarNovaSubcategoria ? 'visible' : 'hidden'">
     <div class="popUp">
       <div class="menu-pop-up">
-        <input type="text" value="Nova categoria">
+        <input type="text" value="Nova subcategoria">
         <div class="btns-operacoes">
           <button class="btn-salvar-pop-up">Salvar</button>
-          <i class="bi bi-x icon-fechar-pop-up" (click)="fecharNovaCategoria()"></i>
+          <i class="bi bi-x icon-fechar-pop-up" (click)="fecharNovaSubcategoria()"></i>
         </div>
       </div>
   
       <div class="dados-nova-conta">
         <!-- Nome -->
+        <div class="categoria-select-linha">
+            <label for="selectCategoria">Categoria</label>
+            <select id="selectCategoria" class="select-categoria">
+              <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+            </select>
+          </div>
+          
         <div class="nome">
-          <h5>Nome:</h5>
+          <h5>Nome</h5>
           <input type="text">
         </div>
   
@@ -37,10 +44,12 @@
             </div>
   
             <!-- Seletor de cor -->
-            <label class="inputColor" for="inputColorNovaCategoria" #labelColor></label>
-            <input (input)="mostrarCorSelecionada($event, labelColor)" id="inputColorNovaCategoria" type="color">
+            <label class="inputColor" for="inputColorNovaSubcategoria" #labelColor></label>
+            <input (input)="mostrarCorSelecionada($event, labelColor)" id="inputColorNovaSubcategoria" type="color">
           </div>
         </div>
+  
+      
   
         <!-- Informações adicionais -->
         <div class="dados-informacoes-adicionais">
