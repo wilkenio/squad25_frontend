@@ -89,10 +89,11 @@ export class CadastroComponent implements AfterViewInit {
 
     this.apiCadastroService.cadastrar(this.nome, this.email, this.senha, recaptchaResponse).subscribe(
       (response) => {
-        console.log('Cadastro bem-sucedido!', response);
-
+        
         if (response.statusCode === 200) {
           localStorage.setItem('isAuthentication', "true");
+          localStorage.setItem('token', response.body.token);
+          localStorage.setItem('nomeUsuario', response.body.name);
           this.router.navigate(['/dashboard']);
         }
 
