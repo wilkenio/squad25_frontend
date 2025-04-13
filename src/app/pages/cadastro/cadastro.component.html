@@ -1,34 +1,40 @@
 <section id="cadastro">
-  <div class="cadastro-container">
-    <h2 class="titulo">Cadastro</h2>
+  <div class="contain-1"> <img class="logo-contain-1" src="logo-branca-lumen.png" alt=""></div>
 
-    <p class="Dados">Nome:</p>
-    <input type="text" [(ngModel)]="nome" placeholder="Digite seu nome" required>
+  <div class="contain-2">
+    <div class="cadastro-container">
+      <h2 class="titulo">Cadastro</h2>
 
-    <p class="Dados">Email:</p>
-    <input type="email" [(ngModel)]="email" placeholder="Digite seu email" required>
+      <p class="Dados">Nome:</p>
+      <input type="text" [(ngModel)]="nome" placeholder="Digite seu nome" required>
 
-    <p class="Dados">Senha:</p>
-    <input type="password" [(ngModel)]="senha" placeholder="Crie uma senha" required>
+      <p class="Dados">Email:</p>
+      <input type="email" [(ngModel)]="email" placeholder="Digite seu email" required>
 
-    <p class="Dados">Confirmar Senha:</p>
-    <input type="password" [(ngModel)]="confirmarSenha" placeholder="Repita a senha" required>
+      <p class="Dados">Senha:</p>
+      <input type="password" [(ngModel)]="senha" placeholder="Crie uma senha" required>
 
-    <div class="termos">
-      <input type="checkbox" [(ngModel)]="aceitouTermos" id="termos">
-      <label for="termos">
-        Li e concordo com os 
-        <a target="_blank" href="https://www.gov.br/governodigital/pt-br/privacidade-e-seguranca/ppsi/guia_termo_uso_politica_privacidade.pdf">termos de uso</a>
-      </label>
+      <p class="Dados">Confirmar Senha:</p>
+      <input type="password" [(ngModel)]="confirmarSenha" placeholder="Repita a senha" required>
+
+      <div class="termos">
+        <input type="checkbox" [(ngModel)]="aceitouTermos" id="termos">
+        <label for="termos">
+          Li e concordo com os
+          <a target="_blank"
+          [routerLink]="'/termos-de-uso'">termos
+            de uso</a>
+        </label>
+      </div>
+
+      <p class="mensagem-retorno" *ngIf="mensagemRetorno">{{ mensagemRetorno }}</p>
+
+      <div class="g-recaptcha" [attr.data-sitekey]="siteKey" id="recaptcha"></div>
+      <div *ngIf="carregando" class="spinner"></div>
+
+      <button (click)="onCadastro()">Cadastrar</button>
+
+      <a class="pagina-login" [routerLink]="'/login'">Já tem uma conta? Faça login</a>
     </div>
-
-    <p class="mensagem-retorno" *ngIf="mensagemRetorno">{{ mensagemRetorno }}</p>
-
-    <div class="g-recaptcha" [attr.data-sitekey]="siteKey" id="recaptcha"></div>
-    <div *ngIf="carregando" class="spinner"></div>
-
-    <button (click)="onCadastro()">Cadastrar</button>
-
-    <a class="pagina-login" [routerLink]="'/login'">Já tem uma conta? Faça login</a>
   </div>
 </section>

@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth/auth.service'; // Importando o 
 export class SidebarComponent implements OnInit {
   situacaoMenu: string = 'aberto';
   situacaoMenuMobile: string = 'fechado';
+  nomeUsuario: string = ''; 
 
   constructor(private router: Router, private authService: AuthService) {} // Injetando AuthService
 
@@ -23,6 +24,9 @@ export class SidebarComponent implements OnInit {
       this.situacaoMenu = estadoSalvo;
       this.aplicarEstadoMenu();
     }
+
+    const nome = localStorage.getItem('nomeUsuario');
+    this.nomeUsuario = nome ? nome : 'Usuário'; // valor padrão caso esteja vazio
   }
 
   toggleMenu(): void {
@@ -48,7 +52,7 @@ export class SidebarComponent implements OnInit {
     textMenus.forEach(menu => (menu as HTMLElement).style.display = 'none');
     itensMenus.forEach(item => {
       (item as HTMLElement).style.justifyContent = 'end';
-      (item as HTMLElement).style.marginRight = '1vh';
+      //(item as HTMLElement).style.marginRight = '1vh';
     });
 
     if (containMain) containMain.style.marginLeft = '4%';
@@ -89,7 +93,7 @@ export class SidebarComponent implements OnInit {
   fecharMenuMobile(): void {
     const nav = document.getElementById('nav');
     if (nav) {
-      nav.style.height = '22vw';
+      nav.style.height = '18vw';
       nav.style.overflow = 'hidden';
     }
     this.situacaoMenuMobile = 'fechado';

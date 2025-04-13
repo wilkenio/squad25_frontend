@@ -10,11 +10,13 @@ import { RelatoriosComponent} from './pages/relatorios/relatorios.component';
 import { CategoriasComponent} from './pages/categorias/categorias.component';
 import { PlanejamentoComponent} from './pages/planejamento/planejamento.component';
 import { ObjetivosComponent} from './pages/objetivos/objetivos.component';
+import { TermosDeUsoComponent} from './pages/termos-de-uso/termos-de-uso.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'cadastro', component: CadastroComponent },
+  { path: 'termos-de-uso', component: TermosDeUsoComponent },
   
   // Rotas protegidas pelo AuthGuard
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
