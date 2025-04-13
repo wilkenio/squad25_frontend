@@ -4,8 +4,9 @@
 <nav id="nav">
   <div class="menu-cabecalho">
     <h2 class="logo-lumen">Lúmen</h2>
+    <i id="icon-hambur" class="bi bi-list" (click)="toggleMenu()"></i>
   </div>
-  <ul> 
+  <ul>
     <li routerLinkActive="active" class="itens-menu">
       <a [routerLink]="'/dashboard'"><i class="bi bi-grid-fill"></i> <label class="text-menu">Dashboard</label></a>
     </li>
@@ -13,32 +14,36 @@
       <a [routerLink]="'/contas'"><i class="bi bi-bank"></i> <label class="text-menu">Contas</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
-      <a [routerLink]="'/transacoes'"><i class="bi bi-arrow-left-right"></i> <label class="text-menu">Transações</label></a>
+      <a [routerLink]="'/transacoes'"><i class="bi bi-arrow-left-right"></i> <label
+          class="text-menu">Transações</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
-      <a [routerLink]="'/relatorios'"><i class="bi bi-bar-chart-line-fill"></i> <label class="text-menu">Relatórios</label></a>
+      <a [routerLink]="'/relatorios'"><i class="bi bi-bar-chart-line-fill"></i> <label
+          class="text-menu">Relatórios</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
       <a [routerLink]="'/categorias'"><i class="bi bi-people-fill"></i> <label class="text-menu">Categorias</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
-      <a [routerLink]="'/cartoes'"><i class="bi bi-credit-card-2-front-fill"></i> <label class="text-menu">Cartões</label></a>
+      <a [routerLink]="'/cartoes'"><i class="bi bi-credit-card-2-front-fill"></i> <label
+          class="text-menu">Cartões</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
       <a [routerLink]="'/objetivos'"><i class="bi bi-bullseye"></i> <label class="text-menu">Objetivos</label></a>
     </li>
     <li routerLinkActive="active" class="itens-menu">
-      <a [routerLink]="'/orcamento'"><i class="bi bi-calendar-check-fill"></i> <label class="text-menu">Orçamento Mensal</label></a>
+      <a [routerLink]="'/orcamento'"><i class="bi bi-calendar-check-fill"></i> <label class="text-menu">Orçamento
+          Mensal</label></a>
     </li>
   </ul>
   <div class="usuario">
     <div class="usuario-icon">
       <i class="bi bi-person-fill"></i>
     </div>
-    <div>
-      <span class="nome">Álvaro Fagundes</span><br>
+    <div class="contain-nome-user">
+      <span class="nome">{{ nomeUsuario }}</span>
       <a (click)="logout()">Sair</a>
     </div>
   </div>
-  
+
 </nav>
