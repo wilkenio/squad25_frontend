@@ -189,6 +189,12 @@
   font-weight: 500;
 }
 
+.linha i{
+  padding: 1.7% 2% 1.7% 2%;
+  color: var(--cor-1);
+  border-radius: 500px;
+}
+
 /* 🔽 RESPONSIVO */
 @media (max-width: 900px) {
   .painel-categorias {
