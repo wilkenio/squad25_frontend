@@ -30,7 +30,7 @@ export class PreloaderComponent {
       if (event instanceof NavigationEnd) {
         setTimeout(() => {
           this.loading$.next(false);
-        }, 700); // Espera 1 segundo para esconder o preloader
+        }, 1000); // Espera 1 segundo para esconder o preloader
       }
     });
   }
