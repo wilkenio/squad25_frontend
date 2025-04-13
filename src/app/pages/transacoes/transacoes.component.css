@@ -1,0 +1,90 @@
+.abas {
+    display: flex;
+    justify-content: center;
+    gap: 20%;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .abas button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: black;
+    border-bottom: 4px solid transparent; /* espaço reservado */
+  }
+  
+  .abas button.ativa {
+    border-bottom: 4px solid black; /* mostra quando está ativo */
+  }
+  
+  
+  .abas button.ativa::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: -10vh;
+    width: 30vh;
+    height: 25%;
+    background-color: black;
+    border-radius: 2px;
+  }
+  
+  .linha-aba {
+    width: 89%;
+    height: 2px;
+    background-color: black;
+    margin: 5px auto 0 auto;
+    border-radius: 2px;
+  }
+  
+  .tabela-transacoes {
+    margin: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    overflow-x: auto;
+  }
+  
+  .cabecalho,
+  .linha {
+    display: flex;
+    gap: 11%;
+    padding: 14px;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cabecalho {
+    background: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .categoria {
+    background: #ddd;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    margin-right: 5px;
+    display: inline-block;
+    margin-top: 2px;
+  }
+  
+  .icone-acao {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .cabecalho, .linha {
+      grid-template-columns: 1fr 2fr;
+      grid-auto-rows: auto;
+      grid-gap: 8px;
+      font-size: 0.9rem;
+    }
+  }
+  

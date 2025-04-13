@@ -19,7 +19,9 @@ export class DashboardComponent implements OnInit {
   email: string = '';
   senha: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log(localStorage.getItem('nomeUsuario'));
+  }
 
   ngOnInit(): void {
   

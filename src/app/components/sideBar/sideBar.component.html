@@ -2,38 +2,48 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
 <nav id="nav">
-    <div class="menu-cabecalho">
-        <img src="https://img.freepik.com/vetores-gratis/design-de-comemoracao-do-25-aniversario_460848-13706.jpg?t=st=1743107116~exp=1743110716~hmac=3bb2a380d31213193398b666b67406b3b8da9d17bcdbfc252bf4b047276f20fd&w=740" alt="logo do restaurante donphellipe">
-        <i id="icon-hambur" class="bi bi-list" (click)="toggleMenu()"></i>
+  <div class="menu-cabecalho">
+    <h2 class="logo-lumen">Lúmen</h2>
+    <i id="icon-hambur" class="bi bi-list" (click)="toggleMenu()"></i>
+  </div>
+  <ul>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/dashboard'"><i class="bi bi-grid-fill"></i> <label class="text-menu">Dashboard</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/contas'"><i class="bi bi-bank"></i> <label class="text-menu">Contas</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/transacoes'"><i class="bi bi-arrow-left-right"></i> <label
+          class="text-menu">Transações</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/relatorios'"><i class="bi bi-bar-chart-line-fill"></i> <label
+          class="text-menu">Relatórios</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/categorias'"><i class="bi bi-people-fill"></i> <label class="text-menu">Categorias</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/cartoes'"><i class="bi bi-credit-card-2-front-fill"></i> <label
+          class="text-menu">Cartões</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/objetivos'"><i class="bi bi-bullseye"></i> <label class="text-menu">Objetivos</label></a>
+    </li>
+    <li routerLinkActive="active" class="itens-menu">
+      <a [routerLink]="'/orcamento'"><i class="bi bi-calendar-check-fill"></i> <label class="text-menu">Orçamento
+          Mensal</label></a>
+    </li>
+  </ul>
+  <div class="usuario">
+    <div class="usuario-icon">
+      <i class="bi bi-person-fill"></i>
     </div>
-    <ul>
-        <li class="itens-menu" id="dashboard">
-            <a [routerLink]="'/dashboard'"><i class="bi bi-file-text"></i> <label class="text-menu">Resumo</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/contas'"><i class="bi bi-building"></i> <label class="text-menu">Contas</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/cartoes'"><i class="bi bi-credit-card-2-front"></i> <label class="text-menu">Cartões</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/transacoes'"><i class="bi bi-arrow-left-right"></i> <label class="text-menu">Transações</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/relatorios'"><i class="bi bi-clipboard-data"></i> <label class="text-menu">Relatórios</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/categorias'"><i class="bi bi-tags"></i> <label class="text-menu">Categorias</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/planejamento'"><i class="bi bi-lightbulb"></i> <label class="text-menu">Planejamento</label></a>
-        </li>
-        <li class="itens-menu">
-            <a [routerLink]="'/objetivos'"><i class="bi bi-bullseye"></i> <label class="text-menu">Objetivos</label></a>
-        </li>
-        <li class="itens-menu">
-            <a  (click)="logout()"><i class="bi bi-box-arrow-left"></i> <label class="text-menu">Sair</label></a>
-        </li>
-        
-    </ul>
+    <div class="contain-nome-user">
+      <span class="nome">{{ nomeUsuario }}</span>
+      <a (click)="logout()">Sair</a>
+    </div>
+  </div>
+
 </nav>

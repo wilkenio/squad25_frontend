@@ -1,4 +1,34 @@
-<app-sidebar></app-sidebar>
-<app-menu></app-menu>
-<p>transacoes works!</p>
- 
+<div class="container">
+    <app-sidebar></app-sidebar>
+  
+    <div class="main-content">
+      <app-menu></app-menu>
+  
+      <!-- Abas -->
+      <div class="abas">
+        <button [class.ativa]="abaSelecionada === 'despesas'" (click)="abaSelecionada = 'despesas'">Despesas</button>
+        <button [class.ativa]="abaSelecionada === 'receitas'" (click)="abaSelecionada = 'receitas'">Receitas</button>
+        <button [class.ativa]="abaSelecionada === 'transferencias'" (click)="abaSelecionada = 'transferencias'">Transferências</button>
+        <button [class.ativa]="abaSelecionada === 'extrato'" (click)="abaSelecionada = 'extrato'">Extrato</button>
+      </div>
+      <div class="linha-aba"></div>
+  
+      <!-- Conteúdo da Tabela (vazia) -->
+      <div class="conteudo" *ngIf="abaSelecionada === 'despesas'">
+        <div class="tabela-transacoes">
+          <div class="cabecalho">
+            <div>Situação</div>
+            <div>Descrição</div>
+            <div>Categoria</div>
+            <div>Conta</div>
+            <div>Vencimento</div>
+            <div>Valor</div>
+            <div>Ações</div>
+          </div>
+  
+          <!-- Nenhuma linha por enquanto -->
+        </div>
+      </div>
+    </div>
+  </div>
+  

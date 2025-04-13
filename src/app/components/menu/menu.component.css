@@ -1,69 +1,131 @@
-.menu{
-    background-color: var(--cor-6);
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap');
+
+.menu {
+    background: linear-gradient(to right, #647DEE, #7F53AC);
     display: flex;
     justify-content: space-between;
-    padding: 1%;
-    width: 98%;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-
-
-
-.contain-menu-2{
-    display: flex;
-    justify-content: end;
     align-items: center;
-    gap: 20%;
-    width: 20%;
+    padding: 0 2%;
+    width: 96%;
+    height: 70px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.contain-menu-2 i{
-    font-size: 1.3rem;
+/* Lado esquerdo (logo ou nome) */
+.contain-menu-1 {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: white;
 }
 
-.contain-menu-2 div{
+/* Lado direito (ícones, select, etc) */
+.contain-menu-2 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Ícones */
+.contain-menu-2 i {
+    font-size: 1.6rem;
+    color: white;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.options{
-    width: 10%;
+.contain-menu-2 i:hover {
+    transform: scale(1.1);
+}
+
+/* Select do mês */
+.contain-menu-2 select {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    background-color: white;
+    color: #3C217A;
+    outline: none;
+}
+
+/* Dropdown de opções */
+.options {
     position: absolute;
     right: 2%;
-    background-color: var(--cor-6);
-    padding: 10px;
+    top: 60px;
+    width: 200px;
+    background-color: white;
+    padding: 10px 0;
+    border-radius: 6px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    height: 00px;
+    height: 0;
     visibility: hidden;
-    transition: 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
+    z-index: 10;
+    font-family: 'Nunito', sans-serif;
 }
 
-.optionsShow{
-    height:210px;
+/* Exibir dropdown */
+.optionsShow {
+    height: auto;
     visibility: visible;
 }
 
-.options div{
-    margin: 4% 0 4% 0;
-    padding: 2%;
+/* Itens do dropdown */
+.options div {
+    padding: 10px 20px;
     cursor: pointer;
-    border-bottom: 1px solid var(--cor-4);
+    font-size: 14px;
+    color: #3C217A;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.contain-menu-1{
-    display: flex;
-    align-items:center ;
+.options div:hover {
+    background-color: #f5f5f5;
 }
+
+/* RESPONSIVO */
 @media screen and (max-width: 800px) {
-    .menu{
-        margin-top: 23%;
-        justify-content: space-around;
+    .menu {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 5%;
+        height: auto;
     }
-    .contain-menu-2{
-        width: 80%;
+
+    .contain-menu-1 {
+        width: 100%;
+        font-size: 1.5rem;
+        justify-content: center;
     }
-    .options{
-        width: 45%;
-        right: 2%;
+
+    .contain-menu-2 {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        display: inline-flex;
+        margin-top: 10px;
+    }
+
+    .contain-menu-2 select {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .options {
+        width: 90%;
+        right: 5%;
+        top: 110px;
     }
 }

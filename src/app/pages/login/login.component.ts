@@ -99,6 +99,8 @@ export class LoginComponent implements AfterViewInit {
   
         if (this.respostaApi.statusCode === 200) {
           localStorage.setItem('isAuthentication', "true");
+          localStorage.setItem('token', this.respostaApi.body.token);
+          localStorage.setItem('nomeUsuario', this.respostaApi.body.name);
           this.router.navigate(['/dashboard']);
         }
   

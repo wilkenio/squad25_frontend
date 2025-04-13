@@ -1,0 +1,59 @@
+<div class="overlay" *ngIf="mostrarNovoCartao" [ngClass]="{'fade-out': animandoSaida}">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Novo Cartão</h2>
+        <button class="fechar" (click)="fecharNovoCartao()">✕</button>
+      </div>
+  
+      <form>
+        <label>Cor</label>
+        <input type="color" />
+  
+        <label>Descrição</label>
+        <input type="text" />
+  
+        <label>Limite do Cartão</label>
+        <input type="number" />
+  
+        <label>Conta para débito da fatura</label>
+        <select>
+          <option>Principal</option>
+          <option>Outra</option>
+        </select>
+  
+        <label>Dia de fechamento da fatura</label>
+        <input type="number" min="1" max="31" />
+  
+        <label>Dia de vencimento da fatura</label>
+        <input type="number" min="1" max="31" />
+  
+        <label>Bandeira do Cartão</label>
+        <select>
+          <option>Mastercard</option>
+          <option>Visa</option>
+          <option>Elo</option>
+        </select>
+  
+        <label>Últimos 4 dígitos</label>
+        <input type="text" maxlength="4" />
+  
+        <div class="icon-selector">
+          <label>Ícone</label>
+          <button type="button" (click)="toggleOpcoes()">
+            <i class="bi" [ngClass]="iconeSelecionado"></i>
+          </button>
+  
+          <div *ngIf="mostrarOpcoes" class="icon-options">
+            <i class="bi bi-star-fill" (click)="selecionarIcone('bi-star-fill')"></i>
+            <i class="bi bi-heart-fill" (click)="selecionarIcone('bi-heart-fill')"></i>
+            <i class="bi bi-lightning-fill" (click)="selecionarIcone('bi-lightning-fill')"></i>
+          </div>
+        </div>
+  
+        <div class="btn-salvar">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+   
