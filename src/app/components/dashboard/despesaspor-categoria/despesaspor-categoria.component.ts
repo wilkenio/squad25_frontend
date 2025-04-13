@@ -75,6 +75,6 @@ export class DespesasPorCategoriaComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit() {
-    console.log(this.chart);
+    //console.log(this.chart);
   }
 }
