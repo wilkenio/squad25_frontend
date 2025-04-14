@@ -89,3 +89,14 @@
     color: white;
   }
   
+
+  @media screen and (max-width: 800px) {
+    .menu-categorias {
+        width: 90%;
+        margin-top: 5%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 5%;
+        height: auto;
+    }
+  }

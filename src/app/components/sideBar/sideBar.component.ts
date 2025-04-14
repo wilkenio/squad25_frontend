@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit {
     const itensMenus = document.querySelectorAll('.itens-menu');
     const containMain = document.getElementById('coteudo-geral');
 
-    if (nav) nav.style.left = '-9%';
+    if (nav) nav.style.left = '-130px';
 
     textMenus.forEach(menu => (menu as HTMLElement).style.display = 'none');
     itensMenus.forEach(item => {
@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
       //(item as HTMLElement).style.marginRight = '1vh';
     });
 
-    if (containMain) containMain.style.marginLeft = '4%';
+    if (containMain) containMain.style.marginLeft = '3.5%';
     
     this.situacaoMenu = 'fechado';
     localStorage.setItem('estadoMenu', 'fechado');
@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit {
       (item as HTMLElement).style.marginRight = '0';
     });
 
-    if (containMain) containMain.style.marginLeft = '13%';
+    if (containMain) containMain.style.marginLeft = '195px';
     
     this.situacaoMenu = 'aberto';
     localStorage.setItem('estadoMenu', 'aberto');
@@ -93,7 +93,7 @@ export class SidebarComponent implements OnInit {
   fecharMenuMobile(): void {
     const nav = document.getElementById('nav');
     if (nav) {
-      nav.style.height = '18vw';
+      nav.style.height = '65px';
       nav.style.overflow = 'hidden';
     }
     this.situacaoMenuMobile = 'fechado';
