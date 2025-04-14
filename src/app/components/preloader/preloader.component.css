@@ -18,7 +18,9 @@
   display: flex;
   /* Mostra o preloader */
 }
-
+.requisicao{
+  background-color: rgba(255, 255, 255, 0.836);
+}
 .preloader-container.hide {
   display: none;
   /* Garante que o preloader será oculto */
