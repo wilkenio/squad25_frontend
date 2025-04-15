@@ -23,7 +23,7 @@
 }
 
 .titulo {
-  background: linear-gradient(to right, var(--cor-4), var(--cor-9));
+  background: linear-gradient(to right, var(--cor-4), var(--cor-5));
   color: var(--cor-1);
   font-size: 1.3rem;
   padding: 5%;
@@ -183,7 +183,7 @@
 }
 
 #salvar {
-  background-color: var(--cor-9);
+  background-color: var(--cor-5);
   color: var(--cor-1);
   border: none;
   padding: 3% 5% 3% 5%;
@@ -192,8 +192,8 @@
 }
 
 #cancelar {
-  color: var(--cor-9);
-  border: 1px solid var(--cor-9);
+  color: var(--cor-5);
+  border: 1px solid var(--cor-5);
   padding: 3% 5% 3% 5%;
   border-radius: 5px;
   cursor: pointer;
