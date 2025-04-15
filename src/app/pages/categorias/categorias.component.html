@@ -26,9 +26,12 @@
         <div>Valor</div>
         <div>Ações</div>
       </div>
-
+      <div class="msg-naoEncontrado" *ngIf="categoriasSelecionadas.length === 0">
+        <p>😭 Nenhuma categoria encontrada.</p>
+      </div>
       <div class="linha linha-categoria" *ngFor="let categoria of categoriasSelecionadas"
-        (click)="buscarSubcategoriasPorCategoria(categoria.id)">
+        (click)="buscarSubcategoriasPorCategoria(categoria)"
+        [class.categoriaSelecionada]="categoriaSelecionada === categoria.id">
         <div>
           <i [class]="categoria.icone" [style.background]="categoria.cor"></i>
           <b> {{ categoria.nome }}</b>
@@ -39,7 +42,9 @@
           <i class="bi bi-three-dots icone-acao" (click)="toggleMenu(categoria); $event.stopPropagation()"></i>
           <div class="menu-popup" *ngIf="categoria.menuAberto">
             <div class="opcao" (click)="fecharMenusCategorias();toggleEditCategoriaPopup(categoria.id)">Editar</div>
-            <div class="opcao opcao-excluir" (click)="fecharMenusCategorias(); toggleDeleteCategoria(categoria.id); $event.stopPropagation()">Excluir</div>
+            <div class="opcao opcao-excluir"
+              (click)="fecharMenusCategorias(); toggleDeleteCategoria(categoria.id); $event.stopPropagation()">Excluir
+            </div>
             <div class="opcao" (click)="fecharMenusCategorias();">Gráfico evolução mensal</div>
           </div>
         </div>
@@ -66,7 +71,9 @@
         <div>Valor</div>
         <div>Ações</div>
       </div>
-
+      <div class="msg-naoEncontrado" *ngIf="subcategoriasSelecionadas.length === 0">
+        Nenhuma subcategoria Encontrada 😔.
+      </div>
       <div class="linha" *ngFor="let sub of subcategoriasSelecionadas">
         <div>
           <i [class]="sub.icone" [style.background]="sub.cor"></i> {{ sub.descricao }}
@@ -75,9 +82,9 @@
         <div class="menu-acao-wrapper">
           <i class="bi bi-three-dots icone-acao" (click)="toggleMenuSub(sub)"></i>
           <div class="menu-popup" *ngIf="sub.menuAberto">
-            <div class="opcao" (click)="fecharMenusCategorias();">Editar</div>
-            <div class="opcao" (click)="fecharMenusCategorias();">Excluir</div>
-            <div class="opcao" (click)="fecharMenusCategorias();">Gráfico evolução mensal</div>
+            <div class="opcao" (click)="fecharMenusSubcategorias(); toggleEditSubcategoriaPopup(sub.id)">Editar</div>
+            <div class="opcao" (click)="fecharMenusSubcategorias();">Excluir</div>
+            <div class="opcao" (click)="fecharMenusSubcategorias();">Gráfico evolução mensal</div>
           </div>
         </div>
       </div>
@@ -92,11 +99,7 @@
 </div>
 
 <app-nova-categoria (categoriaSalva)="buscarCategorias()"></app-nova-categoria>
-<app-nova-subcategoria></app-nova-subcategoria>
-<app-confirm-popup
-  [message]="'Tem certeza que deseja excluir esta categoria?'"
-  [visible]="confirmPopupVisible"
-  (confirm)="deletarCategoriaConfirmada(idCategoriaParaExcluir)"
-
-  (cancel)="confirmPopupVisible = false">
+<app-nova-subcategoria (subCategoriaSalva)="buscarSubcategoriasPorCategoria($event)"></app-nova-subcategoria>
+<app-confirm-popup [message]="'Tem certeza que deseja excluir esta categoria?'" [visible]="confirmPopupVisible"
+  (confirm)="deletarCategoriaConfirmada(idCategoriaParaExcluir)" (cancel)="confirmPopupVisible = false">
 </app-confirm-popup>

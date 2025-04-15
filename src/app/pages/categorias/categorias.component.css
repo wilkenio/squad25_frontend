@@ -363,13 +363,23 @@
   font-size: 14px;
 }
 
+.msg-naoEncontrado{
+  padding: 2%;
+}
+
 /* Estilizando ícone e cor como na imagem */
 .popup-conteudo span {
   display: inline-block;
   margin-bottom: 16px;
   font-size: 18px;
 }
-
+.linha-categoria{
+  border-left: 4px solid transparent;
+}
+.linha-categoria.categoriaSelecionada {
+  background-color: var(--cor-2) !important; /* Escolha a cor que quiser */
+  border-left: 4px solid var(--cor-5);
+}
 /* Bolinha de cor */
 .cor-bolinha {
   width: 24px;

@@ -1,63 +1,62 @@
-<div class="contain-popup" [style.visibility]="mostrarNovaSubcategoria ? 'visible' : 'hidden'">
-    <div class="popUp">
-      <div class="menu-pop-up">
-        <input type="text" value="Nova subcategoria">
-        <div class="btns-operacoes">
-          <button class="btn-salvar-pop-up">Salvar</button>
-          <i class="bi bi-x icon-fechar-pop-up" (click)="fecharNovaSubcategoria()"></i>
+<div class="contain-popup" [style.visibility]="mostrarNovaCategoria ? 'visible' : 'hidden'">
+  <div class="popUp">
+    <div class="titulo">{{typePopUp === "edit" ?'Editar SubCategoria' : 'Nova SubCategoria'}}</div>
+
+    <div class="dados-nova-conta">
+      <div class="nome">
+        <h5>Categoria:</h5>
+
+        <select [(ngModel)]="categoriaId">
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.name }}
+          </option>
+        </select>
+        
+      </div>
+      <!-- Nome -->
+      <div class="nome">
+        <h5>Nome:</h5>
+        <input type="text" [(ngModel)]="nome" />
+      </div>
+
+      <!-- Ícone + Cor agrupados -->
+      <div class="linha-icones-cores">
+        <!-- Labels à esquerda -->
+        <div class="label-icones-cores">
+          <h5>Ícone</h5>
+          <h5>Cor</h5>
+        </div>
+
+        <!-- Ações à direita -->
+        <div class="acoes-icones-cores">
+          <!-- Ícones -->
+          <!-- <app-opcoes-icones (iconeSelecionado)="iconeSelecionado = $event"></app-opcoes-icones> -->
+          <app-opcoes-icones 
+          [iconeSelecionado]="iconeSelecionado" 
+          (iconeSelecionadoChange)="iconeSelecionado = $event">
+        </app-opcoes-icones>
+          <!-- Seletor de cor -->
+          <input
+          (input)="mostrarCorSelecionada($event, labelColorRef)"
+          type="color"
+          [(ngModel)]="cor"
+          id="inputColorSubCategoria"
+        />
+          <label class="inputColor" for="inputColorSubCategoria"  #labelColorRef ></label>
         </div>
       </div>
-  
-      <div class="dados-nova-conta">
-        <!-- Nome -->
-        <div class="categoria-select-linha">
-            <label for="selectCategoria">Categoria</label>
-            <select id="selectCategoria" class="select-categoria">
-              <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
-            </select>
-          </div>
-          
-        <div class="nome">
-          <h5>Nome</h5>
-          <input type="text">
-        </div>
-  
-        <!-- Ícone + Cor agrupados -->
-        <div class="linha-icones-cores">
-          <!-- Labels à esquerda -->
-          <div class="label-icones-cores">
-            <h5>Ícone</h5>
-            <h5>Cor</h5>
-          </div>
-  
-          <!-- Ações à direita -->
-          <div class="acoes-icones-cores">
-            <!-- Botão do ícone -->
-            <i class="bi iconEscolherIcons" [ngClass]="iconeSelecionado" (click)="toggleOpcoes()"></i>
-  
-            <!-- Opções de ícones -->
-            <div class="opcoesDeIcones" *ngIf="mostrarOpcoes">
-              <i class="bi bi-skip-start-circle-fill" (click)="selecionarIcone('bi-skip-start-circle-fill')"></i>
-              <i class="bi bi-star-half" (click)="selecionarIcone('bi-star-half')"></i>
-              <i class="bi bi-heart-fill" (click)="selecionarIcone('bi-heart-fill')"></i>
-              <i class="bi bi-lightning-fill" (click)="selecionarIcone('bi-lightning-fill')"></i>
-            </div>
-  
-            <!-- Seletor de cor -->
-            <label class="inputColor" for="inputColorNovaSubcategoria" #labelColor></label>
-            <input (input)="mostrarCorSelecionada($event, labelColor)" id="inputColorNovaSubcategoria" type="color">
-          </div>
-        </div>
-  
-      
-  
-        <!-- Informações adicionais -->
-        <div class="dados-informacoes-adicionais">
-          <h5>Informações adicionais</h5>
-          <textarea type="text"></textarea>
-          <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
-        </div>
+
+      <!-- Informações adicionais -->
+      <div class="dados-informacoes-adicionais">
+        <h5>Informações adicionais</h5>
+        <textarea maxlength="40" type="text" [(ngModel)]="infoAdicional"></textarea>
+        <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
       </div>
     </div>
+
+    <div class="btns">
+      <button id="cancelar" (click)="fecharNovaCategoria()">Cancelar</button>
+      <button id="salvar" (click)="salvarCategoria()">Salvar</button>
+    </div>
   </div>
-  
+</div>
