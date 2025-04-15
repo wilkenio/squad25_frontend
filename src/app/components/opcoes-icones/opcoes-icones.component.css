@@ -1,0 +1,31 @@
+.opcoesDeIcones {
+    position: absolute;
+    background-color: var(--cor-1);
+    border: 1px solid var(--cor-4);
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3%;
+    font-size: 1.3rem;
+    z-index: 1000;
+    right: 10%;
+    width: 73%;
+    top: 19.5vh;
+    border-radius: 5px;
+  }
+  
+  .opcoesDeIcones i {
+    cursor: pointer;
+  }
+
+  .iconEscolherIcons {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--cor-4);
+    border-radius: 100px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--cor-3);
+  }

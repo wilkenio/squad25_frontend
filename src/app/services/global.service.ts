@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalService {
   private _apiUrl: string = 'https://apisquad25.fourdevs.com.br';
+   //private _apiUrl: string = 'http://localhost:8080';
   private _siteKey: string = '6LeuaOYqAAAAAN7yihtTobRvYE7_FTLfoUJBg0No'; // chave do recaptcha
 
   constructor() {}
@@ -17,13 +18,16 @@ export class GlobalService {
     this._apiUrl = value;
   }
 
-  // Getter para acessar o siteKey
   get siteKey(): string {
     return this._siteKey;
   }
 
-  // Setter para modificar o siteKey (se necessário)
   set siteKey(value: string) {
     this._siteKey = value;
+  }
+
+  // Novo getter para pegar o token do localStorage
+  get userToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

@@ -34,10 +34,29 @@
 /* Abas */
 .abas {
   display: flex;
-  justify-content: center;
-  gap: 27%;
+  justify-content: space-around;
+  align-items: center;
   margin-top: 10px;
-  flex-wrap: wrap;
+  margin: 2%;
+}
+
+.abas button{
+  width:100% !important ;
+}
+
+#btn-receitas{
+  border-bottom: 2px solid var(--cor-5);
+  color:var(--cor-5) ;
+}
+
+#btn-despesas{
+  border-bottom: 2px solid var(--cor-4);
+  color: var(--cor-4);
+}
+
+#btn-contas{
+  border-bottom: 2px solid var(--cor-8);
+  color:var(--cor-8) ;
 }
 
 .abas button {
@@ -46,7 +65,7 @@
   font-weight: bold;
   padding: 10px 0;
   font-size: 1.1rem;
-  cursor: pointer;
+  cursor: pointer !important;
   position: relative;
   color: black;
 }
@@ -58,10 +77,11 @@
   left: -20vh;
   width: 50vh;
   height: 25%;
-  background-color: black;
   border-radius: 2px;
 }
-
+.ativo{
+  border-width: 6px !important;
+}
 .linha-aba {
   width: 89%;
   height: 2px;
@@ -72,10 +92,10 @@
 
 /* Estilo das tabelas */
 .tabela {
-  background: #E4E4E4;
+  background: var(--cor-1);
   border-radius: 10px;
   flex: 1;
-  min-width: 300px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
@@ -95,7 +115,6 @@
 
 .cabecalho,
 .subcabecalho {
-  background-color: #F0F0F0;
   font-weight: bold;
   color: #444;
 }
@@ -110,7 +129,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: #F0F0F0;
   font-weight: bold;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -136,7 +154,6 @@
   padding: 12px 16px;
   font-size: 0.9rem;
   font-weight: 500;
-  background-color: #F0F0F0;
   margin-top: auto;
   gap: 10px;
 }
@@ -160,6 +177,10 @@
 .menu-acao-wrapper {
   position: relative;
   display: inline-block;
+}
+
+.menu-acao-wrapper i{
+  color: var(--cor-3) !important;
 }
 
 .menu-popup {
@@ -189,14 +210,32 @@
   font-weight: 500;
 }
 
+.linha-categoria{
+  cursor: pointer;
+  transition: 0.7s ease-in-out;
+}
+
+.linha-categoria:hover{
+  background-color: var(--cor-2);
+}
+
+
 .linha i{
   padding: 1.7% 2% 1.7% 2%;
   color: var(--cor-1);
   border-radius: 500px;
 }
-
+.opcao-excluir{
+  color: var(--cor-7) !important;
+}
 /* 🔽 RESPONSIVO */
 @media (max-width: 900px) {
+.abas{
+  gap: 1% !important;
+}
+  .abas button{
+    width:32% !important ;
+  }
   .painel-categorias {
     flex-direction: column;
   }

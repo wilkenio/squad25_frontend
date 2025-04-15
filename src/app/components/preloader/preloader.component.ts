@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { CommonModule } from '@angular/common';  // Importando CommonModule
+import { CommonModule } from '@angular/common';
+import { PreloaderService } from '../../services/preloaderService/preloader.service'; // ajuste o caminho se necessário
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-preloader',
@@ -11,26 +12,29 @@ import { CommonModule } from '@angular/common';  // Importando CommonModule
   imports: [CommonModule],
 })
 export class PreloaderComponent {
-  loading$ = new BehaviorSubject<boolean>(false);
+  loading$: Observable<boolean>;
+  preloaderColor$: Observable<string>;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private preloaderService: PreloaderService
+  ) {
+    this.loading$ = this.preloaderService.loading$;
+    this.preloaderColor$ = this.preloaderService.preloaderColor$;
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        // Verificar se a rota é 'login' ou 'cadastro'
         if (event.url.includes('login') || event.url.includes('cadastro')) {
-          // Não exibe o preloader nas páginas de login ou cadastro
-          this.loading$.next(false);
+          this.preloaderService.setLoading(false, 'default');
         } else {
-          // Exibe o preloader para outras rotas
-          this.loading$.next(true);
+          this.preloaderService.setLoading(true, 'default');
         }
       }
 
-      // Após a navegação, esconde o preloader
       if (event instanceof NavigationEnd) {
         setTimeout(() => {
-          this.loading$.next(false);
-        }, 1000); // Espera 1 segundo para esconder o preloader
+          this.preloaderService.setLoading(false, 'default');
+        }, 1000);
       }
     });
   }

@@ -1,162 +1,175 @@
-import { Component, ViewChild, OnInit, inject } from '@angular/core';
+import { Component, ViewChild, OnInit, inject, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { NovaCategoriaComponent } from '../../components/pop-up/nova-categoria/nova-categoria.component';
 import { NovaSubcategoriaComponent } from '../../components/pop-up/nova-subcategoria/nova-subcategoria.component';
 import { MenuCategoriasComponent } from '../../components/menu-paginas/menu-categorias/menu-categorias.component';
-
 import { GlobalService } from '../../services/global.service';
+import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [
-    CommonModule,
-    SidebarComponent,
-    NovaCategoriaComponent,
-    NovaSubcategoriaComponent,
-    MenuCategoriasComponent
-  ],
+  imports: [CommonModule, SidebarComponent, NovaCategoriaComponent, NovaSubcategoriaComponent, MenuCategoriasComponent, ConfirmPopupComponent],
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.css']
 })
 export class CategoriasComponent implements OnInit {
+  private http = inject(HttpClient);
+  private globalService = inject(GlobalService);
+  private renderer = inject(Renderer2);
+
+  confirmPopupVisible: boolean = false;
+  idCategoriaParaExcluir: string = '';
+
+  toggleDeleteCategoria(id: string) {
+    this.idCategoriaParaExcluir = id;
+    this.confirmPopupVisible = true;
+  }
+
   @ViewChild(NovaCategoriaComponent) novaCategoriaComponent!: NovaCategoriaComponent;
   @ViewChild(NovaSubcategoriaComponent) novaSubcategoriaComponent!: NovaSubcategoriaComponent;
 
-  abaSelecionada: 'receitas' | 'despesas' | 'contas' = 'receitas';
+  abaSelecionada: 'REVENUE' | 'EXPENSE' | 'ACCOUNT' = 'REVENUE';
 
-  categoriasReceitas: any[] = [];
-  categoriasDespesas: any[] = [];
-  categoriasContas: any[] = [];
-  subcategoriasTrabalhoExtra: any[] = [];
+  categorias: Record<'REVENUE' | 'EXPENSE' | 'ACCOUNT', any[]> = {
+    REVENUE: [],
+    EXPENSE: [],
+    ACCOUNT: []
+  };
 
-  private globalService = inject(GlobalService);
+  subcategorias: Record<'REVENUE' | 'EXPENSE' | 'ACCOUNT', any[]> = {
+    REVENUE: [],
+    EXPENSE: [],
+    ACCOUNT: []
+  };
+
+  private clickListener: () => void = () => { };
 
   ngOnInit(): void {
     this.buscarCategorias();
-    this.buscarSubcategorias();
+    this.clickListener = this.renderer.listen('document', 'click', (event) => {
+      this.fecharTodosMenus(event);
+    });
   }
 
-  toggleNovaCategoriaPopup(): void {
-    this.novaCategoriaComponent.togglePopup();
+  ngOnDestroy(): void {
+    if (this.clickListener) this.clickListener();
   }
 
-  toggleNovaSubcategoriaPopup(): void {
+  fecharTodosMenus(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.menu-acao-wrapper')) {
+      this.fecharMenusCategorias();
+      this.fecharMenusSubcategorias();
+    }
+  }
+
+  selecionarAba(aba: 'REVENUE' | 'EXPENSE' | 'ACCOUNT') {
+    this.abaSelecionada = aba;
+  }
+
+  async toggleNovaCategoriaPopup() {
+    this.novaCategoriaComponent.togglePopup('add', this.abaSelecionada);
+  }
+
+  toggleEditCategoriaPopup(idCategoria: string) {
+    this.novaCategoriaComponent.togglePopup('edit', '', idCategoria);
+  }
+
+  toggleNovaSubcategoriaPopup() {
     this.novaSubcategoriaComponent.togglePopup();
   }
 
   buscarCategorias(): void {
-    const token = localStorage.getItem('token');
+    const token = this.globalService.userToken;
+    if (!token) return;
 
-    if (!token) {
-      console.error('Token não encontrado no localStorage');
-      return;
-    }
+    this.categorias = { REVENUE: [], EXPENSE: [], ACCOUNT: [] };
 
-    const url = `${this.globalService.apiUrl}/categories/get`;
+    const url = `${this.globalService.apiUrl}/categories`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
 
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao buscar categorias');
-        }
-        return response.json();
-      })
-      .then(data => {
-        this.categoriasReceitas = [];
-        this.categoriasDespesas = [];
-        this.categoriasContas = [];
-
-        data.forEach((item: any) => {
-          const categoriaFormatada = {
-            descricao: item.name,
+    this.http.get<any[]>(url, { headers }).subscribe({
+      next: data => {
+        data.forEach(item => {
+          const categoria = {
+            id: item.id,
+            nome: item.name,
+            descricao: item.additionalInfo,
             total: 0,
             menuAberto: false,
-            cor: this.gerarCorAleatoria(),
-            icone: this.definirIcone(item.iconClass)
+            cor: item.color || '#3C217A',
+            icone: item.iconClass || 'bi bi-exclamation-triangle'
           };
 
           switch (item.type) {
             case 'REVENUE':
-              this.categoriasReceitas.push(categoriaFormatada);
+              this.categorias['REVENUE'].push(categoria);
               break;
             case 'EXPENSE':
-              this.categoriasDespesas.push(categoriaFormatada);
+              this.categorias['EXPENSE'].push(categoria);
               break;
             case 'ACCOUNT':
-              this.categoriasContas.push(categoriaFormatada);
+              this.categorias['ACCOUNT'].push(categoria);
               break;
           }
         });
-      })
-      .catch(error => {
-        console.error('Erro ao buscar categorias:', error);
-      });
+      },
+      error: err => console.error('Erro ao buscar categorias:', err)
+    });
   }
 
-  buscarSubcategorias(): void {
-    const token = localStorage.getItem('token');
 
-    if (!token) {
-      console.error('Token não encontrado no localStorage');
-      return;
-    }
+  buscarSubcategoriasPorCategoria(categoriaId: string): void {
+    const token = this.globalService.userToken;
+    if (!token) return;
 
-    const url = `${this.globalService.apiUrl}/subcategories/get`;
+    this.subcategorias[this.abaSelecionada] = [];
 
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao buscar subcategorias');
-        }
-        return response.json();
-      })
-      .then(data => {
-        this.subcategoriasTrabalhoExtra = data.map((item: any) => ({
+    const url = `${this.globalService.apiUrl}/subcategory/by-category/${categoriaId}`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    this.http.get<any[]>(url, { headers }).subscribe({
+      next: data => {
+        this.subcategorias[this.abaSelecionada] = data.map(item => ({
           descricao: item.name,
-          total: item.total,
-          menuAberto: false
+          total: 0,
+          menuAberto: false,
+          cor: item.color || '#3C217A',
+          icone: item.iconClass || 'bi bi-exclamation-triangle'
         }));
-      })
-      .catch(error => {
-        console.error('Erro ao buscar subcategorias:', error);
-      });
+      },
+      error: err => console.error('Erro ao buscar subcategorias:', err)
+    });
   }
 
-  gerarCorAleatoria(): string {
-    const cores = ['#f4a426', '#56d798', '#50b5f0', '#e66262'];
-    return cores[Math.floor(Math.random() * cores.length)];
+  get categoriasSelecionadas(): any[] {
+    return this.categorias[this.abaSelecionada] || [];
   }
 
-  definirIcone(iconClass: string): string {
-    return iconClass || 'bi-wallet2';
+  get subcategoriasSelecionadas(): any[] {
+    return this.subcategorias[this.abaSelecionada] || [];
   }
 
-  calcularTotalReceitas(): number {
-    return this.categoriasReceitas.reduce((soma, cat) => soma + cat.total, 0);
+  calcularTotalCategorias(): number {
+    return this.categoriasSelecionadas.reduce((soma, c) => soma + c.total, 0);
   }
 
   calcularTotalSubcategorias(): number {
-    return this.subcategoriasTrabalhoExtra.reduce((soma, sub) => soma + sub.total, 0);
+    return this.subcategoriasSelecionadas.reduce((soma, s) => soma + s.total, 0);
   }
 
-  toggleMenu(categoria: any): void {
-    categoria.menuAberto = !categoria.menuAberto;
-    this.fecharMenusSubcategorias();
+  toggleMenu(item: any, isSub = false): void {
+    item.menuAberto = !item.menuAberto;
+    (isSub ? this.fecharMenusCategorias() : this.fecharMenusSubcategorias());
   }
 
   toggleMenuSub(sub: any): void {
@@ -164,30 +177,36 @@ export class CategoriasComponent implements OnInit {
     this.fecharMenusCategorias();
   }
 
-  fecharMenusCategorias(): void {
-    this.categoriasReceitas.forEach(cat => cat.menuAberto = false);
+  fecharMenusCategorias() {
+    this.categoriasSelecionadas.forEach(c => c.menuAberto = false);
   }
 
-  fecharMenusSubcategorias(): void {
-    this.subcategoriasTrabalhoExtra.forEach(sub => sub.menuAberto = false);
+  fecharMenusSubcategorias() {
+    this.subcategoriasSelecionadas.forEach(s => s.menuAberto = false);
   }
 
-  // ✅ Getter adicionado para corrigir o erro no HTML
-  get categoriasSelecionadas(): any[] {
-    switch (this.abaSelecionada) {
-      case 'receitas':
-        return this.categoriasReceitas;
-      case 'despesas':
-        return this.categoriasDespesas;
-      case 'contas':
-        return this.categoriasContas;
-      default:
-        return [];
-    }
+  deletarCategoriaConfirmada(idCategoria: string): void {
+    const token = this.globalService.userToken;
+    if (!token) return;
+
+    fetch(`${this.globalService.apiUrl}/categories/${idCategoria}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir a categoria');
+        }
+        this.confirmPopupVisible = false;
+        // Atualiza a lista de categorias após exclusão
+        this.buscarCategorias();
+      })
+      .catch(error => {
+        console.error('Erro ao deletar categoria:', error);
+      });
   }
 
-  // ✅ Getter para subcategorias
-  get subcategoriasSelecionadas(): any[] {
-    return this.subcategoriasTrabalhoExtra;
-  }
 }
