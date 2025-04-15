@@ -23,7 +23,7 @@
 
       <div class="cabecalho">
         <div>Descrição</div>
-        <div>Total</div>
+        <div>Valor</div>
         <div>Ações</div>
       </div>
 
@@ -34,7 +34,7 @@
           <b> {{ categoria.nome }}</b>
           {{ categoria.descricao }}
         </div>
-        <div>{{ categoria.total.toFixed(2).replace('.', ',') }}</div>
+        <div class="valor-categoria">R$ {{ categoria.total.toFixed(2).replace('.', ',') }}</div>
         <div class="menu-acao-wrapper">
           <i class="bi bi-three-dots icone-acao" (click)="toggleMenu(categoria); $event.stopPropagation()"></i>
           <div class="menu-popup" *ngIf="categoria.menuAberto">
@@ -63,7 +63,7 @@
 
       <div class="subcabecalho">
         <div>Descrição</div>
-        <div>Total</div>
+        <div>Valor</div>
         <div>Ações</div>
       </div>
 

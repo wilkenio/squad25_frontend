@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
 
 
 /* You can add global styles to this file, and also import other style files */
@@ -13,8 +15,9 @@
     --cor-6:#058a00;
     --cor-7:#b30000;
     --cor-8:#F47922;
-    --cor-9:#3C217A;
+    --cor-9:#484848;
     --cor-10: #d1d1d1;
+    
 }
 
 body{

@@ -141,7 +141,7 @@ export class CategoriasComponent implements OnInit {
       next: data => {
         this.subcategorias[this.abaSelecionada] = data.map(item => ({
           descricao: item.name,
-          total: 0,
+          valor: 0,
           menuAberto: false,
           cor: item.color || '#3C217A',
           icone: item.iconClass || 'bi bi-exclamation-triangle'

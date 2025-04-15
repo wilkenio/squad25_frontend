@@ -19,6 +19,14 @@
   }
   
   
+
+
+
+  /*<div class="campo-busca">
+  <input type="text"  />
+  <i class="bi bi-search"></i>
+  </div>
+
   .campo-busca {
     position: relative;
     background: rgba(255, 255, 255, 0.15);
@@ -55,7 +63,7 @@
   .campo-busca i {
     color: white;
     font-size: 16px;
-  }
+  }*/
   
 
   .menu-categorias-direita {
@@ -64,6 +72,12 @@
     gap: 20px;
   }
   
+
+
+
+
+
+  /*<button class="btn-adicionar">Adicionar</button>
   .btn-adicionar {
     background-color: transparent;
     color: white;
@@ -77,8 +91,8 @@
   }
   
   .btn-adicionar:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* leve destaque ao passar o mouse */
-  }
+    background-color: rgba(255, 255, 255, 0.1); /* leve destaque ao passar o mouse 
+  }*/
   
   
   .titulo {

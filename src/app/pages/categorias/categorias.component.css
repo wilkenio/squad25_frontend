@@ -116,7 +116,7 @@
 .cabecalho,
 .subcabecalho {
   font-weight: bold;
-  color: #444;
+  color: var(--cor-5);
 }
 
 .cabecalho {
@@ -134,6 +134,10 @@
   border-top-right-radius: 10px;
 }
 
+.cabecalho-titulo b{
+  color: var(--cor-5);
+}
+
 .cabecalho div:nth-child(2),
 .subcabecalho div:nth-child(2),
 .linha div:nth-child(2),
@@ -141,10 +145,15 @@
   text-align: right;
 }
 
+.valor-categoria {
+  color: var(--cor-3); 
+
+}
 .cabecalho div:nth-child(3),
 .subcabecalho div:nth-child(3),
 .linha div:nth-child(3) {
   text-align: center;
+  
 }
 
 /* Rodapé */
@@ -156,6 +165,7 @@
   font-weight: 500;
   margin-top: auto;
   gap: 10px;
+  color: var(--cor-9);
 }
 
 .bi-plus-circle {
