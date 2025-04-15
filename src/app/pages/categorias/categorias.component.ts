@@ -22,6 +22,7 @@ export class CategoriasComponent implements OnInit {
 
   confirmPopupVisible: boolean = false;
   idCategoriaParaExcluir: string = '';
+  categoriaSelecionada: string = '';
 
   toggleDeleteCategoria(id: string) {
     this.idCategoriaParaExcluir = id;
@@ -67,8 +68,10 @@ export class CategoriasComponent implements OnInit {
   }
 
   selecionarAba(aba: 'REVENUE' | 'EXPENSE' | 'ACCOUNT') {
+    this.subcategorias[this.abaSelecionada] = []; // Limpa as subcategorias da aba atual
     this.abaSelecionada = aba;
   }
+  
 
   async toggleNovaCategoriaPopup() {
     this.novaCategoriaComponent.togglePopup('add', this.abaSelecionada);
@@ -79,7 +82,11 @@ export class CategoriasComponent implements OnInit {
   }
 
   toggleNovaSubcategoriaPopup() {
-    this.novaSubcategoriaComponent.togglePopup();
+    this.novaSubcategoriaComponent.togglePopup('add', this.abaSelecionada);
+  }
+
+  toggleEditSubcategoriaPopup(idSubcategoria: string) {
+    this.novaSubcategoriaComponent.togglePopup('edit', '', idSubcategoria);
   }
 
   buscarCategorias(): void {
@@ -125,21 +132,41 @@ export class CategoriasComponent implements OnInit {
   }
 
 
-  buscarSubcategoriasPorCategoria(categoriaId: string): void {
+  buscarSubcategoriasPorCategoria(event: { id: string, type: string }): void {
+
+    const categoriaId = event.id;  // ID da categoria
+    const tipoCategoria = event.type;  // Tipo da categoria
+
+    this.categoriaSelecionada = categoriaId;
+
+      // Limpa as subcategorias antes de buscar novas
+      this.subcategorias[this.abaSelecionada] = [];
+
+    
     const token = this.globalService.userToken;
     if (!token) return;
-
-    this.subcategorias[this.abaSelecionada] = [];
-
+  
     const url = `${this.globalService.apiUrl}/subcategory/by-category/${categoriaId}`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
+  
     this.http.get<any[]>(url, { headers }).subscribe({
       next: data => {
+        if (!data || data.length === 0) {
+          console.warn('Nenhuma subcategoria encontrada.');
+          return;
+        }
+  
+        // Define a abaSelecionada com base no 'type' da categoria linkada a subcategoria adicionada
+        if (tipoCategoria === 'REVENUE' || tipoCategoria === 'EXPENSE' || tipoCategoria === 'ACCOUNT') {
+          this.abaSelecionada = tipoCategoria;
+        } 
+  
+        // Inicializa o array da aba correspondente
         this.subcategorias[this.abaSelecionada] = data.map(item => ({
+          id: item.id,
           descricao: item.name,
           total: 0,
           menuAberto: false,
@@ -147,9 +174,12 @@ export class CategoriasComponent implements OnInit {
           icone: item.iconClass || 'bi bi-exclamation-triangle'
         }));
       },
-      error: err => console.error('Erro ao buscar subcategorias:', err)
+      error: err => {
+        console.error('Erro ao buscar subcategorias:', err);
+      }
     });
   }
+  
 
   get categoriasSelecionadas(): any[] {
     return this.categorias[this.abaSelecionada] || [];
