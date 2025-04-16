@@ -1,0 +1,10 @@
+<div *ngIf="visible" class="popup-overlay">
+    <div class="popup-box">
+      <p>{{ message }}</p>
+      <div class="popup-actions">
+        <button (click)="onConfirm()" class="btn-confirm">Sim</button>
+        <button (click)="onCancel()" class="btn-cancel">Não</button>
+      </div>
+    </div>
+  </div>
+  
