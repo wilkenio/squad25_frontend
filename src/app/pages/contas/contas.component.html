@@ -7,9 +7,11 @@
     <div class="cell">Descrição</div>
     <div class="cell">Saldo Inicial</div>
     <div class="cell">Receitas</div>
+    <div class="cell">Rec. previstas</div>
     <div class="cell">Despesas</div>
-    <div class="cell">Saldo</div>
-    <div class="cell">Previsto</div>
+    <div class="cell">Desp. previstas</div>
+    <div class="cell">Saldo atual</div>
+    <div class="cell">Saldo previsto</div>
     <div class="cell">Ações</div>
   </div>
 
@@ -18,12 +20,13 @@
     <div class="cell">{{ conta.descricao }}</div>
     <div class="cell">{{ conta.saldoInicial | currency:'BRL' }}</div>
     <div class="cell">{{ conta.receitas | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.receitasPrevistas | currency:'BRL' }}</div>
     <div class="cell">{{ conta.despesas | currency:'BRL' }}</div>
+    <div class="cell">{{ conta.despesasPrevistas | currency:'BRL' }}</div>
     <div class="cell">{{ conta.saldo | currency:'BRL' }}</div>
     <div class="cell">{{ conta.previsto | currency:'BRL' }}</div>
     <div class="cell" style="position: relative;">
       <button class="menu-btn" (click)="toggleMenu(i)">⋯</button>
-
       <div class="dropdown-menu" *ngIf="showMenuIndex === i">
         <button class="dropdown-item top" (click)="editarConta(conta)">Editar</button>
         <button class="dropdown-item" (click)="verExtrato(conta)">Extrato</button>
@@ -34,13 +37,15 @@
   </div>
 
   <!-- Totais -->
-  <div class="row totals">
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"><strong>Receitas totais:</strong> {{ getTotal('receitas') | currency:'BRL' }}</div>
-    <div class="cell"><strong>Despesas totais:</strong> {{ getTotal('despesas') | currency:'BRL' }}</div>
-    <div class="cell"><strong>Saldo total:</strong> {{ getTotal('saldo') | currency:'BRL' }}</div>
-    <div class="cell"><strong>Previsto:</strong> {{ getTotal('previsto') | currency:'BRL' }}</div>
-    <div class="cell"></div>
-  </div>
+  <!-- Totais -->
+<div class="row totals">
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"><strong>Receitas totais:</strong> {{ getTotal('receitas') | currency:'BRL' }}</div>
+  <div class="cell"><strong>Despesas totais:</strong> {{ getTotal('despesas') | currency:'BRL' }}</div>
+  <div class="cell"><strong>Saldo total:</strong> {{ getTotal('saldo') | currency:'BRL' }}</div>
+  <div class="cell"><strong>Saldo previsto:</strong> {{ getTotal('previsto') | currency:'BRL' }}</div>
+  <div class="cell"></div>
+</div>
+
 </div>

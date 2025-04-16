@@ -8,16 +8,19 @@
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   overflow: overlay;
+ 
 }
 
 
 .row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  padding: 16px;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  padding: 10px;
   border-bottom: 1px solid #e0e0e0;
   align-items: center;
+  
 }
+
 
 .header {
   background: #f0f2f5;
@@ -26,16 +29,20 @@
 }
 
 .totals {
-  background: #f9f9f9;
+  background: #ffffff;
   font-weight: bold;
   position: sticky;
   bottom: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  margin-top: 24%;
+  padding-bottom: 1%;
+  margin-left: 36%;
+  display: flex;
+  
 }
 
 .cell {
-  padding: 8px 12px;
+  padding: 8px ;
+  left: 6%;
   text-align: left;
   color: #555;
 }
