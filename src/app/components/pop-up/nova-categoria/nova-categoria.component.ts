@@ -74,7 +74,7 @@ export class NovaCategoriaComponent {
   resetarFormulario() {
     this.nome = '';
     this.cor = '#000000';
-    this.iconeSelecionado = '';
+    this.iconeSelecionado = 'bi-question-circle';
     this.infoAdicional = '';
     this.categoriaId = '';
     if (this.labelColor?.nativeElement) {
@@ -94,7 +94,6 @@ export class NovaCategoriaComponent {
   }
 
   salvarCategoria() {
-    console.log( this.typePopUp);
     const payload = {
       name: this.nome,
       type: this.typePopUp === 'edit' ? this.typeCategoryEdit : this.typeCategory,
@@ -104,7 +103,6 @@ export class NovaCategoriaComponent {
       standardRecommendation: false,
       status: 'SIM'
     };
-    console.log('Payload:', payload);
 
     const baseUrl = `${this.globalService.apiUrl}/categories`;
     const url = this.typePopUp === 'edit'

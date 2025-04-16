@@ -155,7 +155,9 @@
   text-align: center;
   
 }
-
+.ocultaSubCategoria{
+  visibility: hidden;
+}
 /* Rodapé */
 .rodape {
   display: grid;
@@ -163,9 +165,14 @@
   padding: 12px 16px;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-top: auto;
+  margin-top: 2%;
   gap: 10px;
   color: var(--cor-9);
+}
+
+.rodape h6{
+  margin: -7% 0 0 0;
+  font-weight: 500;
 }
 
 .bi-plus-circle {
@@ -365,6 +372,7 @@
 
 .msg-naoEncontrado{
   padding: 2%;
+  color: var(--cor-9);
 }
 
 /* Estilizando ícone e cor como na imagem */

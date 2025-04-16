@@ -17,16 +17,26 @@ import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/con
 })
 export class CategoriasComponent implements OnInit {
   private http = inject(HttpClient);
-  private globalService = inject(GlobalService);
+  public globalService = inject(GlobalService);
   private renderer = inject(Renderer2);
 
   confirmPopupVisible: boolean = false;
+  confirmPopupVisibleSubCategoria: boolean = false;
   idCategoriaParaExcluir: string = '';
+  idSubCategoriaParaExcluir: string = '';
   categoriaSelecionada: string = '';
+  abaContasSelecionada: boolean = false; 
+  idCategoryInSubCategory: string = '';
 
   toggleDeleteCategoria(id: string) {
     this.idCategoriaParaExcluir = id;
     this.confirmPopupVisible = true;
+  }
+
+  toggleDeleteSubCategoria(id: string, categoryId: string) {
+    this.idSubCategoriaParaExcluir = id;
+    this.idCategoryInSubCategory = categoryId;
+    this.confirmPopupVisibleSubCategoria = true;
   }
 
   @ViewChild(NovaCategoriaComponent) novaCategoriaComponent!: NovaCategoriaComponent;
@@ -68,6 +78,9 @@ export class CategoriasComponent implements OnInit {
   }
 
   selecionarAba(aba: 'REVENUE' | 'EXPENSE' | 'ACCOUNT') {
+    if(aba === 'ACCOUNT'){
+      this.abaContasSelecionada =true
+    }  // Não faz nada se a aba já estiver selecionada
     this.subcategorias[this.abaSelecionada] = []; // Limpa as subcategorias da aba atual
     this.abaSelecionada = aba;
   }
@@ -111,7 +124,7 @@ export class CategoriasComponent implements OnInit {
             total: 0,
             menuAberto: false,
             cor: item.color || '#3C217A',
-            icone: item.iconClass || 'bi bi-exclamation-triangle'
+            icone: item.iconClass || 'bi bi-question-circle'
           };
 
           switch (item.type) {
@@ -163,15 +176,16 @@ export class CategoriasComponent implements OnInit {
         if (tipoCategoria === 'REVENUE' || tipoCategoria === 'EXPENSE' || tipoCategoria === 'ACCOUNT') {
           this.abaSelecionada = tipoCategoria;
         } 
-  
+
         // Inicializa o array da aba correspondente
         this.subcategorias[this.abaSelecionada] = data.map(item => ({
           id: item.id,
+          categoryId: item.categoryId,
           descricao: item.name,
           valor: 0,
           menuAberto: false,
           cor: item.color || '#3C217A',
-          icone: item.iconClass || 'bi bi-exclamation-triangle'
+          icone: item.iconClass || 'bi bi-question-circle'
         }));
       },
       error: err => {
@@ -238,5 +252,30 @@ export class CategoriasComponent implements OnInit {
         console.error('Erro ao deletar categoria:', error);
       });
   }
+
+  deletarSubCategoriaConfirmada(idSubCategoria: string,idCategoryInSubCategory:string): void {
+    const token = this.globalService.userToken;
+    if (!token) return;
+  
+    fetch(`${this.globalService.apiUrl}/subcategory/${idSubCategoria}`, {  // Alterando o endpoint para subcategorias
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir a subcategoria');
+        }
+        this.confirmPopupVisibleSubCategoria = false;
+       this.buscarSubcategoriasPorCategoria({ id: idCategoryInSubCategory, type: this.abaSelecionada });
+      })
+      .catch(error => {
+        console.error('Erro ao deletar subcategoria:', error);
+      });
+  }
+  
+
 
 }

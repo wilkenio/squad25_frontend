@@ -27,7 +27,9 @@ export const AuthInterceptor: HttpInterceptorFn = (
     }),
     finalize(() => {
       // Desativa o preloader ao finalizar a requisição (sucesso ou erro)
-      preloaderService.setLoading(false, 'requisicao');
+      setTimeout(() => {
+        preloaderService.setLoading(false, 'requisicao');
+      }, 700); // 700 milissegundos
     })
   );
 };

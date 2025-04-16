@@ -3,7 +3,7 @@
     <div class="titulo">{{typePopUp === "edit" ?'Editar SubCategoria' : 'Nova SubCategoria'}}</div>
 
     <div class="dados-nova-conta">
-      <div class="nome">
+      <div class="nome border-bottom">
         <h5>Categoria:</h5>
 
         <select [(ngModel)]="categoriaId">
@@ -14,35 +14,33 @@
         
       </div>
       <!-- Nome -->
-      <div class="nome">
-        <h5>Nome:</h5>
-        <input type="text" [(ngModel)]="nome" />
+      <div class="nome border-bottom">
+        <h5>Nome</h5>
+        <input type="text" [(ngModel)]="nome" placeholder="Digite aqui" />
       </div>
 
-      <!-- Ícone + Cor agrupados -->
-      <div class="linha-icones-cores">
-        <!-- Labels à esquerda -->
-        <div class="label-icones-cores">
-          <h5>Ícone</h5>
-          <h5>Cor</h5>
-        </div>
+      <div class="label-icones-cores border-bottom">
+        <h5>Ícone</h5>
+        <app-opcoes-icones 
+        [iconeSelecionado]="iconeSelecionado" 
+        (iconeSelecionadoChange)="iconeSelecionado = $event">
+      </app-opcoes-icones>
+      </div>
 
+      <div class="linha-icones-cores border-bottom">
+        <h5>Cor</h5>    
+        <!-- Seletor de cor -->
+        <input
+        (input)="mostrarCorSelecionada($event, labelColorRef)"
+        type="color"
+        [(ngModel)]="cor"
+        id="inputColorSubCategoria"
+      />
+        <label class="inputColor" for="inputColorSubCategoria"  #labelColorRef ></label>
+        <!-- Labels à esquerda -->
         <!-- Ações à direita -->
         <div class="acoes-icones-cores">
-          <!-- Ícones -->
-          <!-- <app-opcoes-icones (iconeSelecionado)="iconeSelecionado = $event"></app-opcoes-icones> -->
-          <app-opcoes-icones 
-          [iconeSelecionado]="iconeSelecionado" 
-          (iconeSelecionadoChange)="iconeSelecionado = $event">
-        </app-opcoes-icones>
-          <!-- Seletor de cor -->
-          <input
-          (input)="mostrarCorSelecionada($event, labelColorRef)"
-          type="color"
-          [(ngModel)]="cor"
-          id="inputColorSubCategoria"
-        />
-          <label class="inputColor" for="inputColorSubCategoria"  #labelColorRef ></label>
+        
         </div>
       </div>
 
