@@ -30,7 +30,7 @@
         <p>😭 Nenhuma categoria encontrada.</p>
       </div>
       <div class="linha linha-categoria" *ngFor="let categoria of categoriasSelecionadas"
-        (click)="buscarSubcategoriasPorCategoria(categoria)"
+      (click)="buscarSubcategoriasPorCategoria({ id: categoria.id, type: abaSelecionada })"
         [class.categoriaSelecionada]="categoriaSelecionada === categoria.id">
         <div>
           <i [class]="categoria.icone" [style.background]="categoria.cor"></i>
@@ -45,7 +45,7 @@
             <div class="opcao opcao-excluir"
               (click)="fecharMenusCategorias(); toggleDeleteCategoria(categoria.id); $event.stopPropagation()">Excluir
             </div>
-            <div class="opcao" (click)="fecharMenusCategorias();">Gráfico evolução mensal</div>
+            <div class="opcao" (click)="fecharMenusCategorias();">Gráfico evolução mensal(mvp2)</div>
           </div>
         </div>
       </div>
@@ -54,11 +54,13 @@
       <div class="rodape">
         <div>Categorias: <b>{{ categoriasSelecionadas.length }}</b></div>
         <div>Total: <b>R$ {{ calcularTotalCategorias().toFixed(2).replace('.', ',') }}</b></div>
+        <br>
+        <h6>Dados do mês de {{globalService.currentMonthName}}</h6>
       </div>
     </div>
 
     <!-- SUBCATEGORIAS -->
-    <div class="tabela">
+    <div class="tabela" [class.ocultaSubCategoria]="abaSelecionada === 'ACCOUNT'">
       <div class="cabecalho-titulo">
         <div><b>Subcategorias</b></div>
         <div>
@@ -78,13 +80,13 @@
         <div>
           <i [class]="sub.icone" [style.background]="sub.cor"></i> {{ sub.descricao }}
         </div>
-        <div>{{ sub.total.toFixed(2).replace('.', ',') }}</div>
+        <div>{{ sub.total ? sub.total.toFixed(2).replace('.', ',') : '0,00' }}</div>
         <div class="menu-acao-wrapper">
           <i class="bi bi-three-dots icone-acao" (click)="toggleMenuSub(sub)"></i>
           <div class="menu-popup" *ngIf="sub.menuAberto">
             <div class="opcao" (click)="fecharMenusSubcategorias(); toggleEditSubcategoriaPopup(sub.id)">Editar</div>
-            <div class="opcao" (click)="fecharMenusSubcategorias();">Excluir</div>
-            <div class="opcao" (click)="fecharMenusSubcategorias();">Gráfico evolução mensal</div>
+            <div class="opcao opcao-excluir" (click)="fecharMenusSubcategorias();  toggleDeleteSubCategoria(sub.id, sub.categoryId); $event.stopPropagation()">Excluir</div>
+            <div class="opcao" (click)="fecharMenusSubcategorias();">Gráfico evolução mensal(mvp2)</div>
           </div>
         </div>
       </div>
@@ -92,6 +94,8 @@
       <div class="rodape">
         <div>Subcategorias: <b>{{ subcategoriasSelecionadas.length }}</b></div>
         <div>Total: <b>R$ {{ calcularTotalSubcategorias().toFixed(2).replace('.', ',') }}</b></div>
+        <br>
+        <h6>Dados do mês de {{globalService.currentMonthName}}</h6>
       </div>
     </div>
 
@@ -102,4 +106,8 @@
 <app-nova-subcategoria (subCategoriaSalva)="buscarSubcategoriasPorCategoria($event)"></app-nova-subcategoria>
 <app-confirm-popup [message]="'Tem certeza que deseja excluir esta categoria?'" [visible]="confirmPopupVisible"
   (confirm)="deletarCategoriaConfirmada(idCategoriaParaExcluir)" (cancel)="confirmPopupVisible = false">
+</app-confirm-popup>
+
+<app-confirm-popup [message]="'Tem certeza que deseja excluir esta Subcategoria?'" [visible]="confirmPopupVisibleSubCategoria"
+  (confirm)="deletarSubCategoriaConfirmada(idSubCategoriaParaExcluir,idCategoryInSubCategory)" (cancel)="confirmPopupVisibleSubCategoria = false">
 </app-confirm-popup>

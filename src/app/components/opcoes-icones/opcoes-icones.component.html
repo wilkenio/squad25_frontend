@@ -1,8 +1,8 @@
 <!-- Botão do ícone -->
-<i class="bi iconEscolherIcons" [ngClass]="iconeSelecionado" (click)="toggleOpcoes()"></i>
-
+<i class="bi  iconEscolherIcons" [ngClass]="iconeSelecionado" (click)="toggleOpcoes()"></i>
 <!-- Opções de ícones -->
 <div class="opcoesDeIcones" *ngIf="mostrarOpcoes">
+  <span (click)="toggleOpcoes()"><label><b>Escolher Ícone</b></label> <label>Fechar</label> </span>
   <i class="bi bi-house-fill" (click)="selecionarIcone('bi-house-fill')"></i>
   <i class="bi bi-lightning-fill" (click)="selecionarIcone('bi-lightning-fill')"></i>
   <i class="bi bi-droplet-fill" (click)="selecionarIcone('bi-droplet-fill')"></i>
@@ -52,4 +52,5 @@
   <i class="bi bi-tools" (click)="selecionarIcone('bi-tools')"></i>
   <i class="bi bi-hammer" (click)="selecionarIcone('bi-hammer')"></i>
   <i class="bi bi-scissors" (click)="selecionarIcone('bi-scissors')"></i>
+  <i class="bi bi-question-circle" (click)="selecionarIcone('bi-question-circle')"></i>
 </div>

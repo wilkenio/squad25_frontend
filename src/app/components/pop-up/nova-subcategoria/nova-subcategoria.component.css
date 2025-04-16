@@ -10,20 +10,31 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
+  color: var(--cor-3);
 }
 
 .contain-popup input {
   border: none;
   border-radius: none;
-  border-bottom: 1.5px solid var(--cor-10) !important;
+
+}
+
+.contain-popup select {
+  padding: 3%;
+  width: 70%;
+  border:1px solid var(--cor-10);
+  cursor: pointer;
+  font-weight: 200;
+  background-color: var(--cor-2);
 }
 
 .contain-popup textarea {
   background-color: var(--cor-2);
+  border:1px solid var(--cor-10) !important;
 }
 
 .titulo {
-  background: linear-gradient(to right, var(--cor-4), var(--cor-9));
+  background: linear-gradient(to right, var(--cor-4), var(--cor-5));
   color: var(--cor-1);
   font-size: 1.3rem;
   padding: 5%;
@@ -36,6 +47,7 @@
   -moz-border-radius-topright: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  font-weight: 700;
 }
 
 .contain-popup.show {
@@ -63,12 +75,19 @@
 .popUp input {
   width: 70%;
   padding: 1%;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  font-size: 1rem;
+}
+.border-bottom{
+  border-bottom: 1px solid var(--cor-10);
+  padding-bottom: 3%;
+  margin-top: 2%;
 }
 
 .popUp input[type="text"]:focus {
   border: none !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.11) !important;
+  border-radius: 0;
 }
 
 .btns-operacoes {
@@ -108,6 +127,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 2%;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 
 .nome {
@@ -121,21 +143,22 @@
 .nome input {
   width: 80%;
   height: 2.5vh;
+  font-family: 'Nunito Sans', sans-serif;
+  border: none !important;
 }
 
 /* Ícone + Cor na mesma linha */
 .linha-icones-cores {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin: 2% 0;
 }
 
 .label-icones-cores {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  height: 60px;
   margin-right: 10px;
 }
 
@@ -148,7 +171,6 @@
 
 #inputColorSubCategoria {
   visibility: hidden;
-  border: 1px solid red;
 }
 
 .inputColor {
@@ -157,8 +179,8 @@
   background-color: black;
   cursor: pointer;
   border: 1px solid var(--cor-4);
-  width: 30px;
-  height: 30px;
+  width: 12.5px;
+  height: 12.5px;
 }
 
 /* Informações adicionais */
@@ -174,7 +196,11 @@
   resize: none;
   border: none;
   border-radius: 6px;
+  font-family: 'Nunito Sans', sans-serif;
+}
 
+.dados-informacoes-adicionais textarea:focus {
+  border: 1px solid var(--cor-5) !important;
 }
 
 .btns {
@@ -184,7 +210,7 @@
 }
 
 #salvar {
-  background-color: var(--cor-9);
+  background-color: var(--cor-5);
   color: var(--cor-1);
   border: none;
   padding: 3% 5% 3% 5%;
@@ -193,8 +219,8 @@
 }
 
 #cancelar {
-  color: var(--cor-9);
-  border: 1px solid var(--cor-9);
+  color: var(--cor-5);
+  border: 1px solid var(--cor-5);
   padding: 3% 5% 3% 5%;
   border-radius: 5px;
   cursor: pointer;

@@ -30,4 +30,19 @@ export class GlobalService {
   get userToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  get currentMonth(): number {
+    const now = new Date();
+    return now.getMonth() + 1; // getMonth() retorna de 0 (Janeiro) a 11 (Dezembro)
+  }
+  
+  get currentMonthName(): string {
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+    const now = new Date();
+    return meses[now.getMonth()];
+  }
+  
 }

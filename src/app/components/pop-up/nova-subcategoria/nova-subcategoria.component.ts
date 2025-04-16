@@ -80,7 +80,7 @@ export class NovaSubcategoriaComponent {
   resetarFormulario() {
     this.nome = '';
     this.cor = '#000000';
-    this.iconeSelecionado = '';
+    this.iconeSelecionado = 'bi-question-circle';
     this.infoAdicional = '';
     this.categoriaId = '';
     if (this.labelColor?.nativeElement) {
@@ -145,20 +145,19 @@ export class NovaSubcategoriaComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-
+  
     const url = `${this.globalService.apiUrl}/categories`;
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        console.log('Categorias carregadas:', data);
-        this.categorias = data;
-        this.categoriasCarregadas = true;  // Dados carregados
-        console.log('Categoria selecionada ao carregar:', this.categoriaId);
+        this.categorias = data.filter(cat => cat.type !== 'ACCOUNT');
+        this.categoriasCarregadas = true;
       },
       error: (err) => {
         console.error('Erro ao carregar categorias:', err);
       }
     });
   }
+  
 
 
 

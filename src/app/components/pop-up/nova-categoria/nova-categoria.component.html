@@ -4,35 +4,32 @@
 
     <div class="dados-nova-conta">
       <!-- Nome -->
-      <div class="nome">
+      <div class="nome border-bottom">
         <h5>Nome:</h5>
-        <input type="text" [(ngModel)]="nome" />
+        <input type="text" [(ngModel)]="nome" placeholder="Digite aqui" />
       </div>
 
-      <!-- Ícone + Cor agrupados -->
-      <div class="linha-icones-cores">
-        <!-- Labels à esquerda -->
-        <div class="label-icones-cores">
-          <h5>Ícone</h5>
+      <div class="label-icones-cores border-bottom">
+        <h5>Ícone</h5>
+        <app-opcoes-icones 
+        [iconeSelecionado]="iconeSelecionado" 
+        (iconeSelecionadoChange)="iconeSelecionado = $event">
+      </app-opcoes-icones>
+      </div>
+
+      <div class="linha-icones-cores border-bottom">  
           <h5>Cor</h5>
-        </div>
+            <input
+              (input)="mostrarCorSelecionada($event, labelColor)"
+              id="inputColorNovaCategoria"
+              type="color"
+              [(ngModel)]="cor"
+            />
+            <label class="inputColor" for="inputColorNovaCategoria"  disabled  #labelColor></label>
 
         <!-- Ações à direita -->
-        <div class="acoes-icones-cores">
-          <!-- Ícones -->
-          <!-- <app-opcoes-icones (iconeSelecionado)="iconeSelecionado = $event"></app-opcoes-icones> -->
-          <app-opcoes-icones 
-          [iconeSelecionado]="iconeSelecionado" 
-          (iconeSelecionadoChange)="iconeSelecionado = $event">
-        </app-opcoes-icones>
-          <!-- Seletor de cor -->
-          <label class="inputColor" for="inputColorNovaCategoria"  disabled  #labelColor></label>
-          <input
-            (input)="mostrarCorSelecionada($event, labelColor)"
-            id="inputColorNovaCategoria"
-            type="color"
-            [(ngModel)]="cor"
-          />
+        <div class="acoes-icones-cores">     
+        
         </div>
       </div>
 
