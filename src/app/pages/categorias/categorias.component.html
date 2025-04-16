@@ -31,11 +31,11 @@
       </div>
       <div class="linha linha-categoria" *ngFor="let categoria of categoriasSelecionadas"
       (click)="buscarSubcategoriasPorCategoria({ id: categoria.id, type: abaSelecionada })"
-        [class.categoriaSelecionada]="categoriaSelecionada === categoria.id">
-        <div>
+        [class.categoriaSelecionada]="categoriaSelecionada === categoria.id"  >
+        <div [title]="categoria.descricao">
           <i [class]="categoria.icone" [style.background]="categoria.cor"></i>
           <b> {{ categoria.nome }}</b>
-          {{ categoria.descricao }}
+          <!-- {{ categoria.descricao }} -->
         </div>
         <div class="valor-categoria">R$ {{ categoria.total.toFixed(2).replace('.', ',') }}</div>
         <div class="menu-acao-wrapper">
