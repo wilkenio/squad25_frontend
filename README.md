@@ -1,62 +1,227 @@
-# FrontEndBradesco
+##### 🖥️ FrontEnd
+# 💡 Lúmen – Gerenciador Financeiro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+O **Lúmen** é uma aplicação de gerenciamento financeiro desenvolvida para facilitar o controle de receitas, despesas e planejamento financeiro pessoal.
 
-## Development server
+Com o Lúmen, você pode:
+- Criar contas e organizá-las por **categorias personalizadas**;
+- Atribuir **ícones e cores** às categorias;
+- Adicionar **receitas e despesas** de forma rápida e intuitiva;
+- **Agendar lançamentos** futuros para manter suas finanças sempre em dia.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🚀 Deploy
+🔗 Acesse a aplicação: [squad25.fourdevs.com.br](https://squad25.fourdevs.com.br) 
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📡 Api
+🔗 Acesse o repositório: [Acessar](https://github.com/wilkenio/squad25_backend.git) 
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🧠 Equipe Lúmen
 
-```bash
-ng generate component component-name
-```
+| Função         | Nome               | GitHub                                   |
+|----------------|--------------------|-------------------------------------------|
+| 💻 Front-end   | Yuri           | [@Mistergx123](https://github.com/Mistergx123)    |
+| 💻 Front-end   | Wesley           | [@wsleyvarejao87](https://github.com/wsleyvarejao87)    |
+| ⚙️ Back-end    | Cleybson           | [@cleybson7](https://github.com/cleybson7)    |
+| ⚙️ Back-end    | Denis           | [@dsilvand](https://github.com/dsilvand)    |
+| 🧭 Gestão      | Anne         | [@Anne-Beatriz](https://github.com/Anne-Beatriz)|
+| 🧭 Gestão e 🎨 Design    |  Álvaro      | [@4lvarofagundes](https://github.com/4lvarofagundes)|
+| 👨‍💻 Tech Lead      | Wilkenio          | [@Wilkenio](https://github.com/wilkenio)    |
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🚀 Tecnologias
+🔗 Acesse o repositório: [Acessar](https://github.com/wilkenio/squad25_backend.git) 
 
-## Building
+---
 
-To build the project run:
+## 📝 Requisitos
 
-```bash
-ng build
-```
+Antes de executar o projeto, você precisa ter os seguintes itens instalados na sua máquina:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- **Node.js** (versão 14 ou superior) - [Node.js](https://nodejs.org)
+- **npm** (gerenciador de pacotes do Node.js) - geralmente é instalado junto com o Node.js
+- **Angular CLI** (Command Line Interface) - [Angular CLI](https://angular.io/cli)  
+  Para instalar o Angular CLI globalmente, execute o seguinte comando no terminal:
 
-## Running unit tests
+  ```bash
+  npm install -g @angular/cli
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## ❓ Como executar o Projeto?
 
-```bash
-ng test
-```
+- **Clonar Repositório** 
+    ```bash
+   git clone https://github.com/wilkenio/squad25_frontend.git
 
-## Running end-to-end tests
+- **Entrar na Paste do Projeto** 
+   ```bash
+   cd squad25_frontend
 
-For end-to-end (e2e) testing, run:
+- **Instalar Dependências** 
+   ```bash
+   npm install
+   
+- **Iniciar** (Provável Link Gerado: localhost:4200/)
+   ```bash
+   ng serve
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🗂️ Arquitetura do FrontEnd
+<details>
+<summary>🖥️ Principais Diretórios</summary>
 
-### Justificativa para a arquitetura
-Organizei o projeto separando interface e lógica de dados. Dentro de pages/ estão os arquivos visuais e interativos de cada página. Em services/, concentro todas as conexões com a API, facilitando manutenção e evitando código duplicado. Essa estrutura também facilita testes e futuras expansões!
+<pre>
+<code>
+📦public
+ ┣ 📜favicon.ico
+ ┣ 📜gif - lumen.gif
+ ┣ 📜icon - Lumen.ico
+ ┣ 📜logo - Lumen.png
+ ┗ 📜logo-branca-
+📦src
+ ┣ 📂app
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂dashboard
+ ┃ ┃ ┃ ┣ 📂despesas
+ ┃ ┃ ┃ ┃ ┣ 📜despesas.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜despesas.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜despesas.component.ts
+ ┃ ┃ ┃ ┣ 📂despesaspor-categoria
+ ┃ ┃ ┃ ┃ ┣ 📜despesaspor-categoria.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜despesaspor-categoria.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜despesaspor-categoria.component.ts
+ ┃ ┃ ┃ ┣ 📂evolucao-do-balanco
+ ┃ ┃ ┃ ┃ ┣ 📜evolucao-do-balanco.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜evolucao-do-balanco.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜evolucao-do-balanco.component.ts
+ ┃ ┃ ┃ ┣ 📂pricipais-despesas
+ ┃ ┃ ┃ ┃ ┣ 📜pricipais-despesas.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜pricipais-despesas.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜pricipais-despesas.component.ts
+ ┃ ┃ ┃ ┗ 📂receitas
+ ┃ ┃ ┃ ┃ ┣ 📜receitas.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜receitas.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜receitas.component.ts
+ ┃ ┃ ┣ 📂menu
+ ┃ ┃ ┃ ┣ 📜menu.component.css
+ ┃ ┃ ┃ ┣ 📜menu.component.html
+ ┃ ┃ ┃ ┗ 📜menu.component.ts
+ ┃ ┃ ┣ 📂opcoes-icones
+ ┃ ┃ ┃ ┣ 📜opcoes-icones.component.css
+ ┃ ┃ ┃ ┣ 📜opcoes-icones.component.html
+ ┃ ┃ ┃ ┗ 📜opcoes-icones.component.ts
+ ┃ ┃ ┣ 📂pop-up
+ ┃ ┃ ┃ ┣ 📂confirm-popup
+ ┃ ┃ ┃ ┃ ┣ 📜confirm-popup.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜confirm-popup.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜confirm-popup.component.ts
+ ┃ ┃ ┃ ┣ 📂nova-categoria
+ ┃ ┃ ┃ ┃ ┣ 📜nova-categoria.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜nova-categoria.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜nova-categoria.component.ts
+ ┃ ┃ ┃ ┣ 📂nova-conta
+ ┃ ┃ ┃ ┃ ┣ 📜nova-conta.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜nova-conta.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜nova-conta.component.ts
+ ┃ ┃ ┃ ┣ 📂nova-subcategoria
+ ┃ ┃ ┃ ┃ ┣ 📜nova-subcategoria.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜nova-subcategoria.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜nova-subcategoria.component.ts
+ ┃ ┃ ┃ ┗ 📂novo-cartao
+ ┃ ┃ ┃ ┃ ┣ 📜novo-cartao.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜novo-cartao.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜novo-cartao.component.ts
+ ┃ ┃ ┣ 📂preloader
+ ┃ ┃ ┃ ┣ 📜preloader.component.css
+ ┃ ┃ ┃ ┣ 📜preloader.component.html
+ ┃ ┃ ┃ ┗ 📜preloader.component.ts
+ ┃ ┃ ┣ 📂relatorios
+ ┃ ┃ ┃ ┗ 📂filtrode-extrato
+ ┃ ┃ ┃ ┃ ┣ 📜filtrode-extrato.component.css
+ ┃ ┃ ┃ ┃ ┣ 📜filtrode-extrato.component.html
+ ┃ ┃ ┃ ┃ ┗ 📜filtrode-extrato.component.ts
+ ┃ ┃ ┗ 📂sideBar
+ ┃ ┃ ┃ ┣ 📜sideBar.component.css
+ ┃ ┃ ┃ ┣ 📜sideBar.component.html
+ ┃ ┃ ┃ ┗ 📜sideBar.component.ts
+ ┃ ┣ 📂guards
+ ┃ ┃ ┗ 📜auth.guard.ts
+ ┃ ┣ 📂pages
+ ┃ ┃ ┣ 📂cadastro
+ ┃ ┃ ┃ ┣ 📜cadastro.component.css
+ ┃ ┃ ┃ ┣ 📜cadastro.component.html
+ ┃ ┃ ┃ ┗ 📜cadastro.component.ts
+ ┃ ┃ ┣ 📂cartoes
+ ┃ ┃ ┃ ┣ 📜cartoes.component.css
+ ┃ ┃ ┃ ┣ 📜cartoes.component.html
+ ┃ ┃ ┃ ┗ 📜cartoes.component.ts
+ ┃ ┃ ┣ 📂categorias
+ ┃ ┃ ┃ ┣ 📜categorias.component.css
+ ┃ ┃ ┃ ┣ 📜categorias.component.html
+ ┃ ┃ ┃ ┗ 📜categorias.component.ts
+ ┃ ┃ ┣ 📂contas
+ ┃ ┃ ┃ ┣ 📜contas.component.css
+ ┃ ┃ ┃ ┣ 📜contas.component.html
+ ┃ ┃ ┃ ┗ 📜contas.component.ts
+ ┃ ┃ ┣ 📂dashboard
+ ┃ ┃ ┃ ┣ 📜dashboard.component.css
+ ┃ ┃ ┃ ┣ 📜dashboard.component.html
+ ┃ ┃ ┃ ┗ 📜dashboard.component.ts
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┃ ┣ 📜login.component.css
+ ┃ ┃ ┃ ┣ 📜login.component.html
+ ┃ ┃ ┃ ┗ 📜login.component.ts
+ ┃ ┃ ┣ 📂objetivos
+ ┃ ┃ ┃ ┣ 📜objetivos.component.css
+ ┃ ┃ ┃ ┣ 📜objetivos.component.html
+ ┃ ┃ ┃ ┗ 📜objetivos.component.ts
+ ┃ ┃ ┣ 📂planejamento
+ ┃ ┃ ┃ ┣ 📜planejamento.component.css
+ ┃ ┃ ┃ ┣ 📜planejamento.component.html
+ ┃ ┃ ┃ ┗ 📜planejamento.component.ts
+ ┃ ┃ ┣ 📂relatorios
+ ┃ ┃ ┃ ┣ 📜relatorios.component.css
+ ┃ ┃ ┃ ┣ 📜relatorios.component.html
+ ┃ ┃ ┃ ┗ 📜relatorios.component.ts
+ ┃ ┃ ┣ 📂termos-de-uso
+ ┃ ┃ ┃ ┣ 📜termos-de-uso.component.css
+ ┃ ┃ ┃ ┣ 📜termos-de-uso.component.html
+ ┃ ┃ ┃ ┗ 📜termos-de-uso.component.ts
+ ┃ ┃ ┗ 📂transacoes
+ ┃ ┃ ┃ ┣ 📜transacoes.component.css
+ ┃ ┃ ┃ ┣ 📜transacoes.component.html
+ ┃ ┃ ┃ ┗ 📜transacoes.component.ts
+ ┃ ┣ 📂services
+ ┃ ┃ ┣ 📂ApiCadastro
+ ┃ ┃ ┃ ┗ 📜ApiCadastro.service.ts
+ ┃ ┃ ┣ 📂ApiLogin
+ ┃ ┃ ┃ ┗ 📜ApiLogin.service.ts
+ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┣ 📜auth.interceptor.ts
+ ┃ ┃ ┃ ┗ 📜auth.service.ts
+ ┃ ┃ ┣ 📂preloaderService
+ ┃ ┃ ┃ ┗ 📜preloader.service.ts
+ ┃ ┃ ┗ 📜global.service.ts
+ ┃ ┣ 📜app.component.css
+ ┃ ┣ 📜app.component.html
+ ┃ ┣ 📜app.component.spec.ts
+ ┃ ┣ 📜app.component.ts
+ ┃ ┣ 📜app.config.ts
+ ┃ ┗ 📜app.routes.ts
+ ┣ 📂assets
+ ┃ ┗ 📂imagens
+ ┃ ┃ ┗ 📜logo - Lumen.png
+ ┣ 📜index.html
+ ┣ 📜main.ts
+ ┗ 📜styles.css
+
+</code>
+</pre>
+
+</details>
