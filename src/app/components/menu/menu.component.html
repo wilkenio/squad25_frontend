@@ -34,7 +34,7 @@
     <div>Nova despesa</div>
     <div>Nova despesa de cartão</div>
     <div>Nova transfêrencia</div>
-    <div (click)="toggleNovaContaPopup()">Nova conta</div>
+    <div (click)="toggleNovaContaPopup();fecharTodosOsMenus();">Nova conta</div>
   </div>
   
 <div class="options" [class.optionsShow]="optionsCartoes">

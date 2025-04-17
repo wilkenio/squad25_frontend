@@ -77,7 +77,7 @@ export class MenuComponent implements OnInit {
   }
 
   toggleNovaContaPopup() {
-    this.novaContaComponent.togglePopup();
+    this.novaContaComponent.togglePopup("add",'');
   }
 
   toggleNovoCartaoPopup() {
@@ -91,7 +91,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  private fecharTodosOsMenus() {
+  public fecharTodosOsMenus() {
     this.optionsDashboard = false;
     this.optionsContas = false;
     this.optionsCartoes = false;

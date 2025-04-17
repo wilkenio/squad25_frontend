@@ -1,174 +1,287 @@
-.contain-popup{
-    background-color: rgba(0, 0, 0, 0.466);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden; /* Inicialmente invisível */
+.contain-popup {
+  background-color: rgba(0, 0, 0, 0.466);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  color: var(--cor-3);
 }
+
+.contain-popup input {
+  border: none;
+  border-radius: none;
+
+}
+
+.contain-popup select {
+  padding: 3%;
+  width: 70%;
+  border:1px solid var(--cor-10);
+  cursor: pointer;
+  font-weight: 200;
+  background-color: var(--cor-2);
+}
+
+.contain-popup textarea {
+  background-color: var(--cor-2);
+  border:1px solid var(--cor-10) !important;
+}
+
+.titulo {
+  background: linear-gradient(to right, var(--cor-4), var(--cor-5));
+  color: var(--cor-1);
+  font-size: 1.3rem;
+  padding: 5%;
+  margin-top: -6.5%;
+  margin-left: -6.5%;
+  width: 103%;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: 700;
+}
+
 .contain-popup.show {
-    visibility: visible; /* Torna visível quando a classe 'show' é aplicada */
+  visibility: visible;
+}
+
+.contain-popup h5 {
+  margin: 0;
+  width: 60%;
+}
+
+.popUp {
+  background-color: white;
+  padding: 1.3%;
+  width: 20%;
+  position: relative;
+  border-radius: 15px;
+}
+
+.menu-pop-up {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popUp input {
+  width: 70%;
+  padding: 1%;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  font-size: 1rem;
+}
+.border-bottom{
+  border-bottom: 1px solid var(--cor-10);
+  padding-bottom: 3%;
+  margin-top: 2%;
+}
+
+.popUp input[type="text"]:focus {
+  border: none !important;
+  border-radius: 0;
+}
+
+.btns-operacoes {
+  padding: 1%;
+  width: 31%;
+  display: flex;
+  gap: 20%;
+}
+
+.icon-fechar-pop-up {
+  width: 30px;
+  height: 30px;
+  background-color: var(--cor-4);
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.icon-fechar-pop-up:hover {
+  transform: rotate(50deg);
+}
+
+.btn-salvar-pop-up {
+  border: none;
+  background-color: var(--cor-2);
+  border-radius: 10px;
+  cursor: pointer;
+  max-width: 60%;
+  font-weight: bold;
+  color: var(--cor-3);
+}
+
+.dados-nova-conta {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.nome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5%;
+}
+
+.nome input {
+  width: 80%;
+  height: 2.5vh;
+  font-family: 'Nunito Sans', sans-serif;
+  border: none !important;
+}
+
+/* Ícone + Cor na mesma linha */
+.linha-icones-cores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2% 0;
+}
+
+.label-icones-cores {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.acoes-icones-cores {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+#inputColorNovaCategoria {
+  visibility: hidden;
+}
+
+.inputColor {
+  padding: 3%;
+  border-radius: 500px;
+  background-color: black;
+  cursor: pointer;
+  border: 1px solid var(--cor-4);
+  width: 12.5px;
+  height: 12.5px;
+}
+
+/* Informações adicionais */
+.dados-informacoes-adicionais {
+  margin-top: 1% !important;
+}
+
+.dados-informacoes-adicionais textarea {
+  padding: 1%;
+  width: 98%;
+  height: 10vh;
+  margin-top: 1%;
+  resize: none;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.dados-informacoes-adicionais textarea:focus {
+  border: 1px solid var(--cor-5) !important;
+}
+
+.btns {
+  display: flex;
+  justify-content: end;
+  gap: 2%;
+  margin-top: 5%;
+}
+
+#salvar {
+  background-color: var(--cor-5);
+  color: var(--cor-1);
+  border: none;
+  padding: 3% 5% 3% 5%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#cancelar {
+  color: var(--cor-5);
+  border: 1px solid var(--cor-5);
+  padding: 3% 5% 3% 5%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.column{
+  text-align: start;
+  justify-content: start !important;
+  flex-direction: column;
+}
+
+#arquivoCsv{
+  visibility: hidden;
+}
+
+.icon-file{
+  color: var(--cor-5);
+  border: 1px solid var(--cor-5);
+  padding: 1% 2% 1% 2%;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 55%;
+}
+
+.icon-file:hover{
+  color: var(--cor-1);
+  background-color: var(--cor-5);
+}
+
+.column h5{
+  width: 100%;
+}
+
+.column textarea{
+  padding: 5%;
+  width: 90%;
+  height: 10vh;
+  margin-top: 1%;
+  resize: none;
+  border: none;
+  border-radius: 6px;
+  font-family: "Nunito Sans", sans-serif;
+}
+/* Responsivo */
+@media screen and (max-width: 800px) {
+  .popUp {
+    width: 90%;
   }
 
-.contain-popup h5{
+  .titulo {
+    margin-top: -1.5%; 
+   margin-left: -1.5%; 
+    width: 93%;
+  }
+  .dados-nova-conta{
+    padding: 4%;
+  }
+  .contain-popup h5 {
     margin: 0;
-}
-/* .popUp{
-    background-color: white;
-    padding: 1.3%;
-    width: 30%;
-} */
-.popUp {
-    background-color: white;
-    padding: 1.3%;
-    width: 30%;
-    position: relative; /* Isso permite posicionar elementos filhos absolutos baseados nele */
-}
-
-.menu-pop-up{
-    display: flex;
-}
-.popUp input{
-    width: 70%;
-    padding: 1%;
-    font-size: 1.5rem;
-    border-bottom: 1px solid transparent;
-}
-
-.popUp input:focus{
-    border: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.11) !important;
-}
-
-.btns-operacoes{
-    padding: 1%;
-    width: 30%;
-    display: flex;
-    justify-content: space-between;
-}
-.icon-fechar-pop-up{
-    width: 30px;
-    height: 30px;
-    background-color: var(--cor-4);
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transition: 0.2s ease-in-out;
-}
-
-.icon-fechar-pop-up:hover{
-    transform: rotate(50deg);
-}
-
-.btn-salvar-pop-up{
-    border: none;
-    background-color: var(--cor-6);
-    border-radius: 10px;
-    padding: 0 10% 0 10%;
-    cursor: pointer;
-}
-
-.dados-nova-conta{
-    display: flex;
-    flex-direction: column;
-    margin-top: 7%;
-}
-.dados-nova-conta div{
-    margin: 0.7% 0 0.7% 0;
-}
-.dados-descricao, .dados-saldo-inicial, .dados-cheque-especial{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.dados-informacoes-adicionais{
-    margin-top: 7% !important;
-}
-
-.dados-descricao input{
-    width: 60%;
-    height: 10%;
-    padding: 2% !important;
-    background-color: var(--cor-6);
-    font-size: 0.8rem;
-}
-
-.dados-saldo-inicial h5, .dados-cheque-especial h5{
-    width: 30%;
-    margin-right: 37%;
-    flex-wrap: wrap;
-}
-.dados-informacoes-adicionais textarea{
-    padding: 1%;
-    background-color: var(--cor-6);
-    width: 98%;
-    height: 10vh;
-    margin-top: 2%;
-}
-.dados-saldo-inicial input, .dados-cheque-especial input{
-    width: 20%;
-    height: 10%;
-    padding: 2% !important;
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.iconEscolherIcons{
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--cor-4);
-    border-radius: 100px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.6%;
-    color: var(--cor-3);
-}
-
-/* .opcoesDeIcones {
-    position: absolute;
-    background-color: var(--cor-2);
-    border: 1px solid var(--cor-4);
-    padding: 0.5%;
-    right: 20%;
-    flex-wrap: wrap;
-    gap: 5%;
-    font-size: 1.3rem;
-    z-index: 1000;
-} */
-
-.opcoesDeIcones {
-    position: absolute;
-    background-color: var(--cor-2);
-    border: 1px solid var(--cor-4);
-    padding: 5px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5%;
-    font-size: 1.3rem;
-    z-index: 1000;
-    right: 10%; /* Ajuste fino para colar no lado direito da popUp */
-    width: 23%;
-    top: 10.5vh; /* Ajuste fino para alinhar verticalmente */
-}
+    width: 100%;
+  }
 
 
-.opcoesDeIcones i{
-    cursor: pointer;
-}
-
-@media screen and (max-width: 800px) {
-    .popUp{
-        width:90%;
-    }
 }
