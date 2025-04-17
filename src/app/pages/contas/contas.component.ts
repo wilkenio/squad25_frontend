@@ -12,9 +12,36 @@ import { MenuComponent } from '../../components/menu/menu.component';
 })
 export class ContasComponent {
   contas = [
-    { descricao: 'Meus investimentos', saldoInicial: 0, receitas: 200, despesas: 100, saldo: 100, previsto: 300 },
-    { descricao: 'Minha conta corrente', saldoInicial: 0, receitas: 200, despesas: 100, saldo: 100, previsto: 300 },
-    { descricao: 'Principal', saldoInicial: 0, receitas: 200, despesas: 100, saldo: 100, previsto: 300 }
+    {
+      descricao: 'Conta salário',
+      saldoInicial: 1000,
+      receitas: 200,
+      receitasPrevistas: 300,
+      despesas: 100,
+      despesasPrevistas: 150,
+      saldo: 100,
+      previsto: 250
+    },
+    {
+      descricao: 'Minha conta corrente',
+      saldoInicial: 0,
+      receitas: 200,
+      receitasPrevistas: 300,
+      despesas: 100,
+      despesasPrevistas: 150,
+      saldo: 100,
+      previsto: 250
+    },
+    {
+      descricao: 'Principal',
+      saldoInicial: 0,
+      receitas: 200,
+      receitasPrevistas: 300,
+      despesas: 100,
+      despesasPrevistas: 150,
+      saldo: 100,
+      previsto: 250
+    }
   ];
 
   showMenuIndex: number | null = null;
@@ -36,6 +63,6 @@ export class ContasComponent {
   }
 
   getTotal(tipo: 'receitas' | 'despesas' | 'saldo' | 'previsto'): number {
-    return this.contas.reduce((acc, conta) => acc + conta[tipo], 0);
+    return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
   }
 }
