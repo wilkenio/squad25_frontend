@@ -2,17 +2,19 @@ import { Component, ViewChild, OnInit, ElementRef, HostListener } from '@angular
 import { Router } from '@angular/router';
 import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
 import { NovoCartaoComponent } from '../pop-up/novo-cartao/novo-cartao.component';
+import { NovaTransacaoComponent } from '../pop-up/nova-transacao/nova-transacao.component';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
   standalone: true,
-  imports: [NovaContaComponent],
+  imports: [NovaContaComponent,NovaTransacaoComponent],
 })
 export class MenuComponent implements OnInit {
   @ViewChild(NovaContaComponent) novaContaComponent!: NovaContaComponent;
   @ViewChild(NovoCartaoComponent) novoCartaoComponent!: NovoCartaoComponent;
+  @ViewChild(NovaTransacaoComponent) novaTransacaoComponent!: NovaTransacaoComponent;
 
   nomeDaRota: string = '';
 
@@ -82,6 +84,10 @@ export class MenuComponent implements OnInit {
 
   toggleNovoCartaoPopup() {
     this.novoCartaoComponent.togglePopup();
+  }
+
+  toggleNovaTransacaoPopup(typeTransation: 'Receita' | 'Despesa') {
+    this.novaTransacaoComponent.togglePopup(typeTransation,'add','');
   }
 
   @HostListener('document:click', ['$event'])

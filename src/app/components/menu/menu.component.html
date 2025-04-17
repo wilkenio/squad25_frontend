@@ -30,9 +30,9 @@
 </div>
 
 <div class="options" [class.optionsShow]="optionsContas">
-    <div>Nova receita</div>
-    <div>Nova despesa</div>
-    <div>Nova despesa de cartão</div>
+    <div  (click)="toggleNovaTransacaoPopup('Receita');fecharTodosOsMenus();">Nova receita</div>
+    <div (click)="toggleNovaTransacaoPopup('Despesa');fecharTodosOsMenus();">Nova despesa</div>
+    <div>Nova despesa de cartão (Mvp2)</div>
     <div>Nova transfêrencia</div>
     <div (click)="toggleNovaContaPopup();fecharTodosOsMenus();">Nova conta</div>
   </div>
@@ -86,5 +86,6 @@
 </div>
 
 
+<app-nova-transacao></app-nova-transacao>
 <app-nova-conta></app-nova-conta>
 
