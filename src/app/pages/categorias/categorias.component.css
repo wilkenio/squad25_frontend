@@ -249,6 +249,13 @@
 @media (max-width: 900px) {
 .abas{
   gap: 1% !important;
+  margin: 0;
+  position: sticky;
+  top: 9.4vh;
+  padding: 2%;
+  background-color: var(--cor-1);
+  width: 96%;
+  border-top: 1px solid var(--cor-2);
 }
   .abas button{
     width:32% !important ;
