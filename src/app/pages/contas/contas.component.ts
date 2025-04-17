@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
@@ -20,7 +20,9 @@ export class ContasComponent {
       despesas: 100,
       despesasPrevistas: 150,
       saldo: 100,
-      previsto: 250
+      previsto: 250,
+      color: "#4CAF50",
+      iconClass: "bi bi-cart-fill"
     },
     {
       descricao: 'Minha conta corrente',
@@ -30,7 +32,9 @@ export class ContasComponent {
       despesas: 100,
       despesasPrevistas: 150,
       saldo: 100,
-      previsto: 250
+      previsto: 250,
+      color: "#4CAF50",
+      iconClass: "bi bi-cart-fill"
     },
     {
       descricao: 'Principal',
@@ -40,7 +44,9 @@ export class ContasComponent {
       despesas: 100,
       despesasPrevistas: 150,
       saldo: 100,
-      previsto: 250
+      previsto: 250,
+      color: "#4CAF50",
+      iconClass: "bi bi-cart-fill"
     }
   ];
 
@@ -64,5 +70,17 @@ export class ContasComponent {
 
   getTotal(tipo: 'receitas' | 'despesas' | 'saldo' | 'previsto'): number {
     return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    const clickedInsideButton = target.closest('.menu-btn');
+    const clickedInsideMenu = target.closest('.dropdown-menu');
+
+    if (!clickedInsideButton && !clickedInsideMenu) {
+      this.showMenuIndex = null;
+    }
   }
 }
