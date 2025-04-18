@@ -5,6 +5,7 @@ import { OpcoesIconesComponent } from '../../opcoes-icones/opcoes-icones.compone
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalService } from '../../../services/global.service';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-nova-subcategoria',
   standalone: true,
@@ -29,7 +30,7 @@ export class NovaSubcategoriaComponent {
   infoAdicional: string = '';
   categoriaId: string = '';
   typeCategoryEdit: string = '';
-
+  mensagemErro: string = '';  // Mensagem de erro
   typePopUp: 'add' | 'edit' = 'add';
   typeCategory: 'REVENUE' | 'EXPENSE' | 'ACCOUNT' = 'REVENUE';
   categorias: any[] = [];
@@ -61,9 +62,9 @@ export class NovaSubcategoriaComponent {
           this.iconeSelecionado = data.iconClass;
           this.infoAdicional = data.additionalInfo;
           this.typeCategoryEdit = data.type;
-          this.idSubcategoria = data.id; // Supondo que o ID da subcategoria venha como "id"
+          this.idSubcategoria = data.id;
 
-          this.categoriaId = data.categoryId;  // Este valor será automaticamente refletido no select.
+          this.categoriaId = data.categoryId;
 
           if (this.labelColor?.nativeElement) {
             this.labelColor.nativeElement.style.backgroundColor = this.cor;
@@ -98,8 +99,35 @@ export class NovaSubcategoriaComponent {
     label.style.backgroundColor = corSelecionada;
     this.cor = corSelecionada;
   }
-  
+
+  // Método atualizado para salvar a subcategoria com validação
   salvarCategoria() {
+      // Validações
+      if (!this.categoriaId || this.categoriaId.trim() === '') {
+        this.mensagemErro = 'Escolha uma categoria.';
+        return;
+      }
+    
+      if (!this.nome || this.nome.trim() === '') {
+        this.mensagemErro = 'O nome da subcategoria é obrigatório.';
+        return;
+      }
+    
+        // Verifica se o ícone foi selecionado
+      if (this.iconeSelecionado === 'bi-question-circle') {
+      this.mensagemErro = 'O ícone é obrigatório.';
+      return;
+      }
+    
+      if (!this.cor || this.cor.trim() === '#000000') {
+        this.mensagemErro = 'A cor é obrigatória.';
+        return;
+      }
+    
+
+    // Limpa a mensagem de erro caso o nome seja válido
+    this.mensagemErro = '';
+
     const payload = {
       name: this.nome,
       type: this.typePopUp === 'edit' ? this.typeCategoryEdit : this.typeCategory,
@@ -157,8 +185,4 @@ export class NovaSubcategoriaComponent {
       }
     });
   }
-  
-
-
-
 }

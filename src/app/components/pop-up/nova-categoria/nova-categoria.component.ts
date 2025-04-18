@@ -18,7 +18,6 @@ export class NovaCategoriaComponent {
   @ViewChild('labelColor') labelColor!: ElementRef<HTMLLabelElement>;
   @Output() categoriaSalva = new EventEmitter<void>();
 
-  
   mostrarNovaCategoria: boolean = false;
   mostrarOpcoes: boolean = false;
   private globalService = inject(GlobalService);
@@ -31,6 +30,7 @@ export class NovaCategoriaComponent {
   infoAdicional: string = '';
   categoriaId: string = '';
   typeCategoryEdit: string = '';
+  mensagemErro: string = '';
 
   typePopUp: 'add' | 'edit' = 'add';
   typeCategory: 'REVENUE' | 'EXPENSE' | 'ACCOUNT' = 'REVENUE';
@@ -58,7 +58,7 @@ export class NovaCategoriaComponent {
           this.cor = data.color;
           this.iconeSelecionado = data.iconClass;
           this.infoAdicional = data.additionalInfo;
-          this.typeCategoryEdit = data.type
+          this.typeCategoryEdit = data.type;
 
           if (this.labelColor?.nativeElement) {
             this.labelColor.nativeElement.style.backgroundColor = this.cor;
@@ -77,6 +77,7 @@ export class NovaCategoriaComponent {
     this.iconeSelecionado = 'bi-question-circle';
     this.infoAdicional = '';
     this.categoriaId = '';
+    this.mensagemErro = '';
     if (this.labelColor?.nativeElement) {
       this.labelColor.nativeElement.style.backgroundColor = this.cor;
     }
@@ -84,6 +85,7 @@ export class NovaCategoriaComponent {
 
   fecharNovaCategoria() {
     this.mostrarNovaCategoria = false;
+    this.mensagemErro = '';
   }
 
   mostrarCorSelecionada(event: Event, label: HTMLLabelElement) {
@@ -94,6 +96,24 @@ export class NovaCategoriaComponent {
   }
 
   salvarCategoria() {
+    if (!this.nome || this.nome.trim() === '') {
+      this.mensagemErro = 'Digite um nome para a categoria.';
+      return;
+    }
+
+      // Verifica se o ícone foi selecionado
+    if (this.iconeSelecionado === 'bi-question-circle') {
+    this.mensagemErro = 'O ícone é obrigatório.';
+    return;
+    }
+      // Verifica se a cor foi selecionada
+    if (this.cor === '#000000') {
+    this.mensagemErro = 'A cor é obrigatória.';
+    return;
+    }
+
+    this.mensagemErro = ''; // limpa a mensagem se estiver tudo certo
+
     const payload = {
       name: this.nome,
       type: this.typePopUp === 'edit' ? this.typeCategoryEdit : this.typeCategory,
@@ -131,8 +151,3 @@ export class NovaCategoriaComponent {
     });
   }
 }
-
-
-
-
-
