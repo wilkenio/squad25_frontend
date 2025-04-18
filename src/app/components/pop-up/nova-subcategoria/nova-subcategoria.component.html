@@ -52,6 +52,12 @@
       </div>
     </div>
 
+
+    <div *ngIf="mensagemErro" class="mensagem-erro">
+      {{ mensagemErro }}
+    </div>
+
+
     <div class="btns">
       <button id="cancelar" (click)="fecharNovaCategoria()">Cancelar</button>
       <button id="salvar" (click)="salvarCategoria()">Salvar</button>

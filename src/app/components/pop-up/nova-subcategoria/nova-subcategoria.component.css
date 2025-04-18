@@ -72,6 +72,13 @@
   align-items: center;
 }
 
+.mensagem-erro {
+  color: red;
+  text-align:center ;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
 .popUp input {
   width: 70%;
   padding: 1%;
