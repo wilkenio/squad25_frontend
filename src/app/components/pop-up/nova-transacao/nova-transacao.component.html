@@ -82,15 +82,15 @@
         <div class="despesa-container">
           <label class="radio-option">
             <input type="radio" name="tipoDespesa" />
-            Despesa não recorrente
+            {{typeTransation}} não recorrente
           </label>
           <label class="radio-option">
             <input type="radio" name="tipoDespesa" />
-            Despesa fixa mensal
+            {{typeTransation}} fixa mensal
           </label>
           <label class="radio-option selected">
             <input type="radio" name="tipoDespesa" checked />
-            Repetir despesa
+            Repetir {{typeTransation}}
             <span class="parcelas">
               Parcelas
               <input type="number">
@@ -107,7 +107,7 @@
           </div>
 
           <div class="toggle-container">
-            <label>Despesa recorrente em dias úteis:</label>
+            <label>{{typeTransation}} recorrente em dias úteis:</label>
             <span class="toggle-label">Não</span>
             <label class="switch">
               <input type="checkbox" />
