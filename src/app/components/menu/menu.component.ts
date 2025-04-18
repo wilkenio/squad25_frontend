@@ -1,18 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
-import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
+import { Component, ViewChild, OnInit, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { NovoCartaoComponent} from '../pop-up/novo-cartao/novo-cartao.component';
+import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
+import { NovoCartaoComponent } from '../pop-up/novo-cartao/novo-cartao.component';
+import { NovaTransacaoComponent } from '../pop-up/nova-transacao/nova-transacao.component';
+import { NovaTransferenciaComponent } from '../pop-up/nova-transferencia/nova-transferencia.component';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
   standalone: true,
-  imports: [NovaContaComponent],
+  imports: [NovaContaComponent,NovaTransacaoComponent,NovaTransferenciaComponent],
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   @ViewChild(NovaContaComponent) novaContaComponent!: NovaContaComponent;
   @ViewChild(NovoCartaoComponent) novoCartaoComponent!: NovoCartaoComponent;
+  @ViewChild(NovaTransacaoComponent) novaTransacaoComponent!: NovaTransacaoComponent;
+  @ViewChild(NovaTransferenciaComponent) novaTransferenciaComponent!: NovaTransferenciaComponent;
+
+  nomeDaRota: string = '';
 
   optionsDashboard = false;
   optionsContas = false;
@@ -23,10 +29,14 @@ export class MenuComponent {
   optionsPlanejamento = false;
   optionsObjetivos = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private eRef: ElementRef) {}
+
+  ngOnInit() {
+    const path = this.router.url;
+    this.nomeDaRota = path.replace("/", "").replace(/^./, (c) => c.toUpperCase());
+  }
 
   toggleOptions() {
-    // Alterna os menus com base na rota atual
     switch (this.router.url) {
       case '/dashboard':
         this.optionsDashboard = !this.optionsDashboard;
@@ -35,7 +45,7 @@ export class MenuComponent {
       case '/contas':
         this.optionsContas = !this.optionsContas;
         this.optionsDashboard = false;
-        break; 
+        break;
       case '/cartoes':
         this.optionsCartoes = !this.optionsCartoes;
         this.optionsContas = false;
@@ -49,53 +59,58 @@ export class MenuComponent {
         this.optionsTransacoes = false;
         break;
       case '/categorias':
-        this.optionsCategorias =!this.optionsCategorias;
+        this.optionsCategorias = !this.optionsCategorias;
         this.optionsRelatorios = false;
         break;
       case '/planejamento':
-        this.optionsPlanejamento =!this.optionsPlanejamento;
+        this.optionsPlanejamento = !this.optionsPlanejamento;
         this.optionsCategorias = false;
         break;
       case '/objetivos':
-        this.optionsObjetivos =!this.optionsObjetivos;
+        this.optionsObjetivos = !this.optionsObjetivos;
         this.optionsPlanejamento = false;
         break;
-
-
       default:
-        // Se nenhuma rota conhecida, fecha todos
-        this.optionsDashboard = false;
-        this.optionsCartoes = false;
-        this.optionsContas = false;
-        this.optionsTransacoes = false;
-        this.optionsRelatorios = false;
-        this.optionsCategorias = false;
-        this.optionsPlanejamento = false;
-        this.optionsObjetivos = false;
+        this.fecharTodosOsMenus();
     }
   }
 
   selecionarOpcao(acao?: Function) {
+    this.fecharTodosOsMenus();
+    if (acao) acao();
+  }
+
+  toggleNovaContaPopup() {
+    this.novaContaComponent.togglePopup("add",'');
+  }
+
+  toggleNovoCartaoPopup() {
+    this.novoCartaoComponent.togglePopup();
+  }
+
+  toggleNovaTransacaoPopup(typeTransation: 'Receita' | 'Despesa') {
+    this.novaTransacaoComponent.togglePopup(typeTransation,'add','');
+  }
+
+  toggleNovaTransferenciaPopup() {
+    this.novaTransferenciaComponent.togglePopup();
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.fecharTodosOsMenus();
+    }
+  }
+
+  public fecharTodosOsMenus() {
     this.optionsDashboard = false;
-    this.optionsCartoes = false;
     this.optionsContas = false;
+    this.optionsCartoes = false;
     this.optionsTransacoes = false;
     this.optionsRelatorios = false;
     this.optionsCategorias = false;
     this.optionsPlanejamento = false;
-    this.optionsObjetivos =false;
-    if (acao) {
-      acao(); // Executa a ação, se existir
-    }
-  }
-
-  toggleNovaContaPopup() {
-    this.novaContaComponent.togglePopup();
-  }
-
-  
-  
-  toggleNovoCartaoPopup() {
-    this.novoCartaoComponent.togglePopup();
+    this.optionsObjetivos = false;
   }
 }

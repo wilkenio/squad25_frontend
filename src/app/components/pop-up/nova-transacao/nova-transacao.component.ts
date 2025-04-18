@@ -6,16 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { GlobalService } from '../../../services/global.service';
 
 @Component({
-  selector: 'app-nova-conta',
+  selector: 'app-nova-transacao',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './nova-conta.component.html',
-  styleUrls: ['./nova-conta.component.css']
+  templateUrl: './nova-transacao.component.html',
+  styleUrls: ['./nova-transacao.component.css']
 })
-export class NovaContaComponent {
+export class NovaTransacaoComponent {
   @Output() contaSalva = new EventEmitter<void>();
 
-  mostrarNovaConta: boolean = false;
+  mostrarNovaTransacao: boolean = false;
 
   nome: string = '';
   saldoInicial: number = 0;
@@ -25,6 +25,8 @@ export class NovaContaComponent {
   csvFile: File | null = null;
   contaId: string = '';
   typePopUp: 'add' | 'edit' = 'add';
+  typeTransation: 'Receita' | 'Despesa' |''= '';
+
 
   categorias: any[] = [];
 
@@ -32,9 +34,10 @@ export class NovaContaComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  togglePopup(typePopUp: 'add' | 'edit', contaId?: string) {
+  togglePopup(typeTransationn:'Receita' | 'Despesa',typePopUp: 'add' | 'edit',contaId?: string) {
+    this.typeTransation = typeTransationn
     this.resetarFormulario();
-    this.mostrarNovaConta = true;
+    this.mostrarNovaTransacao = true;
     this.typePopUp = typePopUp;
     this.contaId = contaId ?? '';
 
@@ -77,15 +80,10 @@ export class NovaContaComponent {
   }
   
 
-  onCsvFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.csvFile = input.files[0];
-    }
-  }
+
 
   fecharNovaConta() {
-    this.mostrarNovaConta = false;
+    this.mostrarNovaTransacao = false;
   }
 
   resetarFormulario() {

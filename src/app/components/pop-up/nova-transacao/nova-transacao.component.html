@@ -1,0 +1,134 @@
+<div class="contain-popup" [style.visibility]="mostrarNovaTransacao ? 'visible' : 'hidden'">
+
+
+
+  <div class="popUp">
+    <div class="titulo">{{typePopUp === "edit" ? 'Editar' : 'Nova '}}{{typeTransation}}</div>
+
+    <div class="flex">
+      <div class="dados-nova-conta">
+        <!-- Descrição -->
+        <div class="nome border-bottom">
+          <h5>Descrição</h5>
+          <input type="text" [(ngModel)]="nome" placeholder="Digite aqui" />
+        </div>
+
+        <!-- Cheque Especial -->
+        <div class="nome border-bottom">
+          <h5>Valor</h5>
+          <input type="number" [(ngModel)]="chequeEspecial" placeholder="Digite aqui" />
+        </div>
+
+        <!-- Saldo Inicial -->
+        <div class="nome border-bottom">
+          <h5>Data de lançamento</h5>
+          <input type="datetime-local" [(ngModel)]="saldoInicial" placeholder="Digite aqui" />
+        </div>
+
+        <!-- Status da Transação -->
+        <!-- <div class="nome border-bottom">
+        
+          <label>
+            <input type="radio" name="status" value="efetivada" />
+            <p>Efetivada</p>
+          </label><br>
+        
+          <label>
+            <input type="radio" name="status" value="previsto" />
+            <p>Previsto</p>
+          </label>
+        </div> -->
+
+        <!-- Informações Adicionais -->
+        <div class="nome border-bottom column remover-border-bottom">
+          <h5>Informações Adicionais</h5>
+          <textarea [(ngModel)]="infoAdicional" placeholder="Digite aqui..."></textarea>
+        </div>
+       
+      </div>
+
+      <div class="popup-2">
+        <!-- Conta -->
+        <div class="nome border-bottom">
+          <h5>Conta</h5>
+          <select [(ngModel)]="categoriaId">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Categoria -->
+        <div class="nome border-bottom">
+          <h5>Categoria</h5>
+          <select [(ngModel)]="categoriaId">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Subategoria -->
+        <div class="nome border-bottom remover-border-bottom">
+          <h5>Subategoria</h5>
+          <select [(ngModel)]="categoriaId">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.name }}
+            </option>
+          </select>
+        </div>
+
+
+        <div class="despesa-container">
+          <label class="radio-option">
+            <input type="radio" name="tipoDespesa" />
+            {{typeTransation}} não recorrente
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipoDespesa" />
+            {{typeTransation}} fixa mensal
+          </label>
+          <label class="radio-option selected">
+            <input type="radio" name="tipoDespesa" checked />
+            Repetir {{typeTransation}}
+            <span class="parcelas">
+              Parcelas
+              <input type="number">
+            </span>
+          </label>
+
+          <div class="periodicidade">
+            <label>Periodicidade</label>
+            <select>
+              <option>Semanal</option>
+              <option>Quinzenal</option>
+              <option>Mensal</option>
+            </select>
+          </div>
+
+          <div class="toggle-container">
+            <label>{{typeTransation}} recorrente em dias úteis:</label>
+            <span class="toggle-label">Não</span>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Sim</span>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="btns">
+          <button id="cancelar" (click)="fecharNovaConta()">Cancelar</button>
+          <button id="salvar" (click)="salvarConta()">Salvar</button>
+        </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>

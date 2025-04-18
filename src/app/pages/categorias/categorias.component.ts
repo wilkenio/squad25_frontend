@@ -4,14 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { NovaCategoriaComponent } from '../../components/pop-up/nova-categoria/nova-categoria.component';
 import { NovaSubcategoriaComponent } from '../../components/pop-up/nova-subcategoria/nova-subcategoria.component';
-import { MenuCategoriasComponent } from '../../components/menu-paginas/menu-categorias/menu-categorias.component';
+import { MenuComponent } from '../../components/menu/menu.component';
 import { GlobalService } from '../../services/global.service';
 import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, NovaCategoriaComponent, NovaSubcategoriaComponent, MenuCategoriasComponent, ConfirmPopupComponent],
+  imports: [CommonModule, SidebarComponent, NovaCategoriaComponent, NovaSubcategoriaComponent, MenuComponent, ConfirmPopupComponent],
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.css']
 })

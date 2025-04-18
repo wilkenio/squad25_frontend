@@ -6,16 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { GlobalService } from '../../../services/global.service';
 
 @Component({
-  selector: 'app-nova-conta',
+  selector: 'app-nova-transferencia',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './nova-conta.component.html',
-  styleUrls: ['./nova-conta.component.css']
+  templateUrl: './nova-transferencia.component.html',
+  styleUrls: ['./nova-transferencia.component.css']
 })
-export class NovaContaComponent {
+export class NovaTransferenciaComponent {
   @Output() contaSalva = new EventEmitter<void>();
 
-  mostrarNovaConta: boolean = false;
+  mostrarNovaTransferencia: boolean = false;
 
   nome: string = '';
   saldoInicial: number = 0;
@@ -25,6 +25,8 @@ export class NovaContaComponent {
   csvFile: File | null = null;
   contaId: string = '';
   typePopUp: 'add' | 'edit' = 'add';
+  typeTransation: 'Receita' | 'Despesa' |''= '';
+
 
   categorias: any[] = [];
 
@@ -32,31 +34,10 @@ export class NovaContaComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  togglePopup(typePopUp: 'add' | 'edit', contaId?: string) {
-    this.resetarFormulario();
-    this.mostrarNovaConta = true;
-    this.typePopUp = typePopUp;
-    this.contaId = contaId ?? '';
-
-    this.buscarCategoriasACCOUNT();
-
-    if (typePopUp === 'edit' && contaId) {
-      const url = `${this.globalService.apiUrl}/accounts/${contaId}`;
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.globalService.userToken}`
-      });
-
-      this.http.get<any>(url, { headers }).subscribe({
-        next: (data) => {
-          this.nome = data.nome;
-          this.saldoInicial = data.saldoInicial;
-          this.chequeEspecial = data.chequeEspecial;
-          this.infoAdicional = data.infoAdicional;
-          this.categoriaId = data.categoriaId;
-        },
-        error: (err) => console.error('Erro ao carregar conta para edição:', err)
-      });
-    }
+  togglePopup() {
+  
+    this.mostrarNovaTransferencia = true;
+  
   }
 
   buscarCategoriasACCOUNT() {
@@ -77,15 +58,10 @@ export class NovaContaComponent {
   }
   
 
-  onCsvFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.csvFile = input.files[0];
-    }
-  }
+
 
   fecharNovaConta() {
-    this.mostrarNovaConta = false;
+    this.mostrarNovaTransferencia = false;
   }
 
   resetarFormulario() {

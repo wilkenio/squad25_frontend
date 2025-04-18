@@ -2,50 +2,51 @@
 <app-menu></app-menu>
 
 <div class="container">
+  <div>
   <!-- Cabeçalho da Tabela -->
-  <div class="row header">
-    <div class="cell">Descrição</div>
-    <div class="cell">Saldo Inicial</div>
-    <div class="cell">Receitas</div>
-    <div class="cell">Rec. previstas</div>
-    <div class="cell">Despesas</div>
-    <div class="cell">Desp. previstas</div>
-    <div class="cell">Saldo atual</div>
-    <div class="cell">Saldo previsto</div>
-    <div class="cell">Ações</div>
+  <div class="row header ">
+    <div class="cell corRoxo">Descrição</div>
+    <div class="cell corRoxo">Saldo Inicial</div>
+    <div class="cell corRoxo">Receitas</div>
+    <div class="cell corRoxo">Rec. previstas</div>
+    <div class="cell corRoxo">Despesas</div>
+    <div class="cell corRoxo">Desp. previstas</div>
+    <div class="cell corRoxo">Saldo atual</div>
+    <div class="cell corRoxo">Saldo previsto</div>
+    <div class="cell corRoxo">Ações</div>
   </div>
 
   <!-- Linhas com os dados -->
   <div class="row" *ngFor="let conta of contas; let i = index">
-    <div class="cell">{{ conta.descricao }}</div>
-    <div class="cell">{{ conta.saldoInicial | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.receitas | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.receitasPrevistas | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.despesas | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.despesasPrevistas | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.saldo | currency:'BRL' }}</div>
-    <div class="cell">{{ conta.previsto | currency:'BRL' }}</div>
-    <div class="cell" style="position: relative;">
-      <button class="menu-btn" (click)="toggleMenu(i)">⋯</button>
-      <div class="dropdown-menu" *ngIf="showMenuIndex === i">
+    <div class="cell cinzaClaro linha-icone">  <i [style.background]="conta.color" class="{{ conta.iconClass }}"></i>{{ conta.descricao }}</div>
+    <div class="cell cinzaClaro">{{ conta.saldoInicial | currency:'BRL' }}</div>
+    <div class="cell receitas">{{ conta.receitas | currency:'BRL' }}</div>
+    <div class="cell receitasPrevistas">{{ conta.receitasPrevistas | currency:'BRL' }}</div>
+    <div class="cell despesas">{{ conta.despesas | currency:'BRL' }}</div>
+    <div class="cell despesasPrevistas">{{ conta.despesasPrevistas | currency:'BRL' }}</div>
+    <div class="cell cinzaClaro">{{ conta.saldo | currency:'BRL' }}</div>
+    <div class="cell cinzaClaro">{{ conta.previsto | currency:'BRL' }}</div>
+    <div class="cell cinzaClaro" style="position: relative;">
+      <button class="menu-btn cinzaClaro" (click)="toggleMenu(i)" >⋯</button>
+      <div class="dropdown-menu " *ngIf="showMenuIndex === i">
         <button class="dropdown-item top" (click)="editarConta(conta)">Editar</button>
-        <button class="dropdown-item" (click)="verExtrato(conta)">Extrato</button>
+        <button class="dropdown-item" (click)="verExtrato(conta)">Extrato (Mvp2)</button>
         <div class="placeholder-box"></div>
         <button class="dropdown-item bottom" (click)="excluirConta(conta)">Excluir</button>
       </div>
     </div>
   </div>
-
+</div>
   <!-- Totais -->
-  <!-- Totais -->
+  <!--</div> Totais -->
 <div class="row totals">
   <div class="cell"></div>
   <div class="cell"></div>
-  <div class="cell"><strong>Receitas totais:</strong> {{ getTotal('receitas') | currency:'BRL' }}</div>
-  <div class="cell"><strong>Despesas totais:</strong> {{ getTotal('despesas') | currency:'BRL' }}</div>
-  <div class="cell"><strong>Saldo total:</strong> {{ getTotal('saldo') | currency:'BRL' }}</div>
-  <div class="cell"><strong>Saldo previsto:</strong> {{ getTotal('previsto') | currency:'BRL' }}</div>
-  <div class="cell"></div>
+  <div class="cell text-rodape">Receitas totais: <strong> {{ getTotal('receitas') | currency:'BRL' }}</strong></div>
+  <div class="cell text-rodape">Despesas totais: <strong> {{ getTotal('despesas') | currency:'BRL' }}</strong></div>
+  <div class="cell text-rodape">Saldo total: <strong> {{ getTotal('saldo') | currency:'BRL' }}</strong></div>
+  <div class="cell text-rodape">Saldo previsto: <strong> {{ getTotal('previsto') | currency:'BRL' }}</strong></div>
+  <div class="cell text-rodape"></div>
 </div>
 
 </div>
