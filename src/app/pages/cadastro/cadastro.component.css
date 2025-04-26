@@ -101,7 +101,7 @@ button {
   width: 100%;
   padding: 10px;
   background: linear-gradient(to right, #5A89F0, #3C217A);
-  color: white;
+  color: var(--cor-1);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -125,7 +125,7 @@ button:hover {
 }
 
 .mensagem-retorno {
-  color: red;
+  color: var(--cor-7);
   font-size: 14px;
   margin-top: 10px;
 }
@@ -200,3 +200,28 @@ button:hover {
     margin-left: 12%;
   }
 }
+
+
+
+.senha-requisito {
+  color: var(--cor-7);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  color: var(--cor-5);
+}
+.input-group-text{
+  position: absolute;
+  margin-right: 5%;
+  right: 0;
+}
+
+
