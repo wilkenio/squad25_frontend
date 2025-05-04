@@ -1,13 +1,38 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { FiltrodeExtratoComponent } from '../../components/relatorios/filtrode-extrato/filtrode-extrato.component';
+
 @Component({
   selector: 'app-relatorios',
-  imports: [SidebarComponent, MenuComponent,FiltrodeExtratoComponent],
+  standalone: true,
+  imports: [CommonModule, SidebarComponent, MenuComponent],
   templateUrl: './relatorios.component.html',
-  styleUrl: './relatorios.component.css'
+  styleUrls: ['./relatorios.component.css']
 })
-export class RelatoriosComponent {
+export class RelatoriosComponent { 
+  referenciaSelecionada: string = 'lancamento';
+  
+
+  selecionarReferencia(tipo: string) {
+    this.referenciaSelecionada = tipo;
+  }
+  contaSelecionada = 'todas';
+
+  selecionarConta(opcao: string) {
+    this.contaSelecionada = opcao;
+  }
+
+  categoriaSelecionada: string = 'todas';
+
+  selecionarCategoria(categoria: string) {
+  this.categoriaSelecionada = categoria;
+ }
+
+ categoriaSelecionadaDespesas: string = 'todas';
+
+selecionarCategoriaDespesas(valor: string) {
+  this.categoriaSelecionadaDespesas = valor;
+}
 
 }

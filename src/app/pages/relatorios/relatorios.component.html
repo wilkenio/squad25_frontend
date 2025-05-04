@@ -1,3 +1,246 @@
 <app-sidebar></app-sidebar>
 <app-menu></app-menu>
-<app-filtrode-extrato></app-filtrode-extrato>
+
+<div class="relatorios-container">
+  
+  <div class="filtros-wrapper">
+    
+    <div class="filtro-geral">
+      <h3>Filtro geral</h3>
+      <div class="linha-inicial"></div>
+
+      <div class="bloco-geral">
+        <span class="periodo">Período:</span>
+        <span class="espaco-de">De</span>
+        <input type="date" />
+        <span class="espaco-ate">Até</span>
+        <input type="date" />
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <div class="bloco-geral">
+        <span class="referencia-data">Data de referência:</span>
+        <button class="botao-referencia"
+                [class.ativo]="referenciaSelecionada === 'lancamento'"
+                (click)="selecionarReferencia('lancamento')">
+          Lançamento
+        </button>
+        <button class="botao-referencia"
+                [class.ativo]="referenciaSelecionada === 'efetivacao'"
+                (click)="selecionarReferencia('efetivacao')">
+          Efetivação
+        </button>
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <div class="bloco-geral">
+        <span class="contas">Contas:</span>
+        <button class="botao-contas"
+                [class.ativo]="contaSelecionada === 'todas'"
+                (click)="selecionarConta('todas')">
+          Todas
+        </button>
+        <button class="botao-contas"
+                [class.ativo]="contaSelecionada === 'selecionar'"
+                (click)="selecionarConta('selecionar')">
+          Selecionar
+        </button>
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <div class="check-geral">
+        <div class="checkbox-geral">
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Receitas
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Efetivadas
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Previstas
+          </label>
+        </div>
+
+        <div class="checkbox-geral">
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Despesas
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Efetivadas
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Previstas
+          </label>
+        </div>
+
+        <div class="checkbox-geral">
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Transferências
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Efetivadas
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" /> <span class="checkmark"></span> Previstas
+          </label>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="filtro-bloco">
+      <h3>Filtros adicionais</h3>
+      <div class="linha-inicial"></div>
+
+      <div class="bloco-adicionais">
+        <span class="receitas-categorias">Categorias receitas:</span>
+        <button class="botao-receitas"
+                [class.ativo]="categoriaSelecionada === 'todas'"
+                (click)="selecionarCategoria('todas')">
+          Todas
+        </button>
+        <button class="botao-receitas"
+                [class.ativo]="categoriaSelecionada === 'selecionar'"
+                (click)="selecionarCategoria('selecionar')">
+          Selecionar
+        </button>
+      </div>
+
+      <div class="categorias">
+        <div class="cat cat-bonus">
+          <i class="bi bi-cash-coin"></i>
+        </div>
+        <span class="cat-nome">Bonificações</span>
+
+        <div class="cat cat-salario">
+          <i class="bi bi-wallet2"></i>
+        </div>
+        <span class="cat-nome">Salário</span>
+
+        <div class="cat cat-ir">
+          <i class="bi bi-piggy-bank"></i>
+        </div>
+        <span class="cat-nome">Restituição IR</span>
+      </div>
+
+      <div class="linha-adicionais"></div>
+
+      <div class="bloco-adicionais">
+        <span class="despesas-categorias">Categorias despesas:</span>
+        <button class="botao-despesas"
+                [class.ativo]="categoriaSelecionadaDespesas === 'todas'"
+                (click)="selecionarCategoriaDespesas('todas')">
+          Todas
+        </button>
+        <button class="botao-despesas"
+                [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'"
+                (click)="selecionarCategoriaDespesas('selecionar')">
+          Selecionar
+        </button>
+      </div>
+
+      <div class="linha-horizontal"></div>
+
+      <div class="bloco-adicionais">
+        <div class="check-geral">
+          <span>Recorrência:</span>
+          <div class="checkbox-geral">
+            <label class="checkbox-container">
+              <input type="checkbox" /> <span class="checkmark"></span> Sem recorrência
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" /> <span class="checkmark"></span> Recorrência fixa mensal
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" /> <span class="checkmark"></span> Recorrência personalizada
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="filtro-bloco">
+      <h3>Apresentação dos dados</h3>
+      <div class="linha-inicial"></div>
+
+      <div class="bloco-dados">
+        <div class="ordenar-por">
+          <span>Ordenar por:</span>
+          <div class="opcoes">
+            <label><input type="radio" name="ordem" /> Data</label>
+            <label><input type="radio" name="ordem" /> Valor Decrescente</label>
+            <label><input type="radio" name="ordem" /> Categoria</label>
+            <label><input type="radio" name="ordem" /> Valor Crescente</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="linha-horizontal"></div>
+
+      <div class="bloco-dados">
+        <div class="opcoes">
+          <span>Mostrar:</span>
+
+          <label class="opcao">
+            <input type="radio" name="mostrar"  />
+            Todos os resultados
+          </label>
+
+          <label class="opcao">
+            <input type="radio" name="mostrar" />
+            Apenas os
+            <input type="number" value="0" min="0" max="10" class="input-pequeno" />
+            primeiros resultados
+          </label>
+
+          <label class="opcao">
+            <input type="radio" name="mostrar" />
+            Apenas os
+            <input type="number" value="0" min="0" max="10" class="input-pequeno" />
+            últimos resultados
+          </label>
+
+          <label class="opcao">
+            <input type="radio" name="mostrar" />
+            Apenas a soma total dos resultados
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="linha-meio"></div>
+
+  <div class="relatorios-salvos">
+    <h3>Relatórios salvos</h3>
+
+    <div class="relatorio-item">
+      <span>Valores depositados em investimentos</span>
+      <span class="data">28/04/2025, 14h34min</span>
+      <div class="acoes">
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+
+    <div class="relatorio-item">
+      <span>Dez maiores gastos do mês</span>
+      <span class="data">11/02/2025, 21h12min</span>
+      <div class="acoes">
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+
+    <div class="relatorio-item">
+      <span>Sem-título-01</span>
+      <span class="data">18/01/2025, 08h33min</span>
+      <div class="acoes">
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
