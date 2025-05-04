@@ -23,7 +23,7 @@ Com o Lúmen, você pode:
 
 | Função         | Nome               | GitHub                                   |
 |----------------|--------------------|-------------------------------------------|
-| 💻 Front-end   | Yuri           | [@Mistergx123](https://github.com/Mistergx123)    |
+| 💻 Front-end   | Yuri           | [@YuriJS123](https://github.com/YuriJS123)    |
 | 💻 Front-end   | Wesley           | [@wsleyvarejao87](https://github.com/wsleyvarejao87)    |
 | ⚙️ Back-end    | Cleybson           | [@cleybson7](https://github.com/cleybson7)    |
 | ⚙️ Back-end    | Denis           | [@dsilvand](https://github.com/dsilvand)    |
