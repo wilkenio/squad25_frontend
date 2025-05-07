@@ -1,7 +1,7 @@
 
 
 .menu {
-    background: linear-gradient(to right, #647DEE, #7F53AC);
+    background: linear-gradient(to right, var(--cor-4), var(--cor-5));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,14 +14,22 @@
     flex-wrap: wrap;
     gap: 10px;
 }
-
+.titulo{
+    color: var(--cor-1);
+    font-family: 'Nunito Sans', sans-serif;
+}
+.menu-categorias-direita {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 /* Lado esquerdo (logo ou nome) */
 .contain-menu-1 {
     display: flex;
     align-items: center;
     font-size: 1.8rem;
     font-weight: 900;
-    color: white;
+    color: var(--cor-1);
 }
 
 /* Lado direito (ícones, select, etc) */
@@ -36,7 +44,7 @@
 /* Ícones */
 .contain-menu-2 i {
     font-size: 1.6rem;
-    color: white;
+    color: var(--cor-1);
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -52,7 +60,7 @@
     border: none;
     font-size: 14px;
     font-family: 'Nunito', sans-serif;
-    background-color: white;
+    background-color: var(--cor-1);
     color: #3C217A;
     outline: none;
 }
@@ -63,7 +71,7 @@
     right: 2%;
     top: 60px;
     width: 200px;
-    background-color: white;
+    background-color: var(--cor-1);
     padding: 10px 0;
     border-radius: 6px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -88,7 +96,7 @@
     font-size: 14px;
     color: #3C217A;
     transition: background-color 0.2s ease;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--cor-1);
 }
 
 .options div:hover {
@@ -98,12 +106,18 @@
 /* RESPONSIVO */
 @media screen and (max-width: 800px) {
     .menu {
-        width: 90%;
+        width:96%;
         margin-top: 5%;
         flex-direction: column;
         align-items: flex-start;
-        padding: 10px 5%;
+        padding: 2%;
+        gap: 0;
         height: auto;
+        margin-top: 20%;
+        margin-bottom: 5%;
+    }
+    .titulo{
+        margin:0;
     }
 
     .contain-menu-1 {

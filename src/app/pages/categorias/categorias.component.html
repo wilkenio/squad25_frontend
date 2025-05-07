@@ -1,7 +1,7 @@
 <!-- Conteúdo das Categorias -->
 <div class="conteudo">
   <app-sidebar></app-sidebar>
-  <app-menu-categorias></app-menu-categorias>
+  <app-menu></app-menu>
   <div class="abas">
     <button [class.ativo]="abaSelecionada === 'REVENUE'" (click)="selecionarAba('REVENUE')"
       id="btn-receitas">Receitas</button>
@@ -16,9 +16,13 @@
     <div class="tabela">
       <div class="cabecalho-titulo">
         <b>Categorias</b>
-        <div>
-          <i class="bi bi-plus-circle" (click)="toggleNovaCategoriaPopup()"></i>
-        </div>
+       
+        <button class="btn-adicionar-categoria" (click)="toggleNovaCategoriaPopup()">
+          <i class="bi bi-plus-circle"></i> Categoria
+        </button>
+        
+        
+        
       </div>
 
       <div class="cabecalho">
@@ -37,7 +41,10 @@
           <b> {{ categoria.nome }}</b>
           <!-- {{ categoria.descricao }} -->
         </div>
-        <div class="valor-categoria">R$ {{ categoria.total.toFixed(2).replace('.', ',') }}</div>
+        <div class="valor-categoria" [title]="categoria.descricao">
+          R$ {{ categoria.total.toFixed(2).replace('.', ',') }}
+        </div>
+        
         <div class="menu-acao-wrapper">
           <i class="bi bi-three-dots icone-acao" (click)="toggleMenu(categoria); $event.stopPropagation()"></i>
           <div class="menu-popup" *ngIf="categoria.menuAberto">
@@ -63,9 +70,9 @@
     <div class="tabela" [class.ocultaSubCategoria]="abaSelecionada === 'ACCOUNT'">
       <div class="cabecalho-titulo">
         <div><b>Subcategorias</b></div>
-        <div>
-          <i class="bi bi-plus-circle" (click)="toggleNovaSubcategoriaPopup()"></i>
-        </div>
+        <button class="btn-adicionar-Subcategoria" (click)="toggleNovaSubcategoriaPopup()">
+          <i class="bi bi-plus-circle"></i> Subcategoria
+        </button>
       </div>
 
       <div class="subcabecalho">
@@ -74,7 +81,7 @@
         <div>Ações</div>
       </div>
       <div class="msg-naoEncontrado" *ngIf="subcategoriasSelecionadas.length === 0">
-        Nenhuma subcategoria Encontrada 😔.
+        <p>Nenhuma subcategoria Encontrada 😔.</p>
       </div>
       <div class="linha" *ngFor="let sub of subcategoriasSelecionadas">
         <div>

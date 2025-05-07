@@ -1,6 +1,6 @@
 <div class="contain-popup" [style.visibility]="mostrarNovaCategoria ? 'visible' : 'hidden'">
   <div class="popUp">
-    <div class="titulo">{{typePopUp === "edit" ?'Editar Categoria' : 'Nova Categoria'}}</div>
+    <div class="titulo">{{typePopUp === "edit" ? 'Editar Categoria' : 'Nova Categoria'}}</div>
 
     <div class="dados-nova-conta">
       <!-- Nome -->
@@ -12,25 +12,21 @@
       <div class="label-icones-cores border-bottom">
         <h5>Ícone</h5>
         <app-opcoes-icones 
-        [iconeSelecionado]="iconeSelecionado" 
-        (iconeSelecionadoChange)="iconeSelecionado = $event">
-      </app-opcoes-icones>
+          [iconeSelecionado]="iconeSelecionado" 
+          (iconeSelecionadoChange)="iconeSelecionado = $event">
+        </app-opcoes-icones>
       </div>
 
       <div class="linha-icones-cores border-bottom">  
-          <h5>Cor</h5>
-            <input
-              (input)="mostrarCorSelecionada($event, labelColor)"
-              id="inputColorNovaCategoria"
-              type="color"
-              [(ngModel)]="cor"
-            />
-            <label class="inputColor" for="inputColorNovaCategoria"  disabled  #labelColor></label>
-
-        <!-- Ações à direita -->
-        <div class="acoes-icones-cores">     
-        
-        </div>
+        <h5>Cor</h5>
+        <input
+          (input)="mostrarCorSelecionada($event, labelColor)"
+          id="inputColorNovaCategoria"
+          type="color"
+          [(ngModel)]="cor"
+        />
+        <label class="inputColor" for="inputColorNovaCategoria" disabled #labelColor></label>
+        <div class="acoes-icones-cores"></div>
       </div>
 
       <!-- Informações adicionais -->
@@ -39,6 +35,11 @@
         <textarea maxlength="150" type="text" [(ngModel)]="infoAdicional"></textarea>
         <i class="bi bi-plus-slash-minus" style="visibility: hidden; padding: 2.8%;"></i>
       </div>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div *ngIf="mensagemErro" class="mensagem-erro">
+      {{ mensagemErro }}
     </div>
 
     <div class="btns">
