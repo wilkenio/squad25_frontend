@@ -220,6 +220,9 @@
       <span>Valores depositados em investimentos</span>
       <span class="data">28/04/2025, 14h34min</span>
       <div class="acoes">
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
         <button><i class="fa fa-th"></i></button>
         <button><i class="fa fa-trash"></i></button>
       </div>
@@ -229,6 +232,10 @@
       <span>Dez maiores gastos do mês</span>
       <span class="data">11/02/2025, 21h12min</span>
       <div class="acoes">
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
+        
         <button><i class="fa fa-th"></i></button>
         <button><i class="fa fa-trash"></i></button>
       </div>
@@ -238,9 +245,18 @@
       <span>Sem-título-01</span>
       <span class="data">18/01/2025, 08h33min</span>
       <div class="acoes">
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
         <button><i class="fa fa-th"></i></button>
         <button><i class="fa fa-trash"></i></button>
       </div>
     </div>
   </div>
 </div>
+
+<app-incluir-no-dashboard  *ngIf="mostrarModalIncluir"
+(fecharModal)="fecharModalIncluir()"
+(incluir)="handleIncluir($event)">>
+  
+</app-incluir-no-dashboard>

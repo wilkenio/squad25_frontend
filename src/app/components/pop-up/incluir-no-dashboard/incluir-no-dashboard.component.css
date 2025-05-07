@@ -1,0 +1,65 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-incluir {
+    background: white;
+    border-radius: 10px;
+    padding: 24px;
+    width: 360px;
+    text-align: center;
+  }
+  
+  .modal-incluir h3 {
+    color: #3c0080;
+    margin-bottom: 16px;
+  }
+  
+  .modal-incluir .opcoes {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+  }
+  
+  .modal-incluir hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-bottom: 16px;
+  }
+  
+  .modal-incluir p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  
+  .modal-incluir .botoes {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .modal-incluir .cancelar {
+    border: 1px solid #3c0080;
+    background: transparent;
+    color: #3c0080;
+    border-radius: 6px;
+    padding: 6px 16px;
+  }
+  
+  .modal-incluir .incluir {
+    background: #3c0080;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+  }
+  
