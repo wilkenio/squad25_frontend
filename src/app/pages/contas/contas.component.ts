@@ -2,11 +2,17 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
+import { EditarContaComponent } from '../../components/pop-up/editar-conta/editar-conta.component';
 
 @Component({
   selector: 'app-contas',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, MenuComponent],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    MenuComponent,
+    EditarContaComponent
+  ],
   templateUrl: './contas.component.html',
   styleUrls: ['./contas.component.css']
 })
@@ -51,13 +57,18 @@ export class ContasComponent {
   ];
 
   showMenuIndex: number | null = null;
+  contaSelecionada: any = null;
 
   toggleMenu(index: number) {
     this.showMenuIndex = this.showMenuIndex === index ? null : index;
   }
 
   editarConta(conta: any) {
-    console.log('Editar', conta);
+    this.contaSelecionada = conta;
+  }
+
+  fecharPopup() {
+    this.contaSelecionada = null;
   }
 
   verExtrato(conta: any) {
@@ -75,7 +86,6 @@ export class ContasComponent {
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
-
     const clickedInsideButton = target.closest('.menu-btn');
     const clickedInsideMenu = target.closest('.dropdown-menu');
 

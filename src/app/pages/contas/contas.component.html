@@ -49,4 +49,11 @@
   <div class="cell text-rodape"></div>
 </div>
 
+
+<app-editar-conta
+  *ngIf="contaSelecionada"
+  [conta]="contaSelecionada"
+  (fechar)="fecharPopup()">
+</app-editar-conta>
+
 </div>
