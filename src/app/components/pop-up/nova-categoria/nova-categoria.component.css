@@ -15,14 +15,12 @@
 
 
 .mensagem-erro {
-  color: red;
-  text-align:center ;
+  color: var(--cor-7);
+  text-align:end ;
   margin-top: -1rem;
   margin-bottom: 1rem;
+  font-size: 0.85rem;
 }
-
-
-
 
 .contain-popup input {
   border: none;
