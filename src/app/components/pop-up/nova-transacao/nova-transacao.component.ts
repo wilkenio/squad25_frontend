@@ -26,8 +26,8 @@ export class NovaTransacaoComponent {
   contaId: string = '';
   typePopUp: 'add' | 'edit' = 'add';
   typeTransation: 'Receita' | 'Despesa' |''= '';
-
-
+  
+  subcategorias: any[] = [];
   categorias: any[] = [];
 
   private globalService = inject(GlobalService);
@@ -41,10 +41,10 @@ export class NovaTransacaoComponent {
     this.typePopUp = typePopUp;
     this.contaId = contaId ?? '';
 
-    this.buscarCategoriasACCOUNT();
+    this.buscarCategoriasReceitasDespesas();
 
     if (typePopUp === 'edit' && contaId) {
-      const url = `${this.globalService.apiUrl}/accounts/${contaId}`;
+      const url = `${this.globalService.apiUrl}/transaction/${contaId}`;
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${this.globalService.userToken}`
       });
@@ -62,7 +62,7 @@ export class NovaTransacaoComponent {
     }
   }
 
-  buscarCategoriasACCOUNT() {
+  buscarCategoriasReceitasDespesas() {
     const url = `${this.globalService.apiUrl}/categories`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
@@ -71,7 +71,24 @@ export class NovaTransacaoComponent {
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
         // Filtrando as categorias com type "ACCOUNT"
-        this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
+        this.categorias = data.filter(categoria => categoria.type === 'REVENUE' || categoria.type === "EXPENSE");
+      },
+      error: (err) => {
+        console.error('Erro ao carregar categorias:', err);
+      }
+    });
+  }
+
+   buscarSubcategorias() {
+    const url = `${this.globalService.apiUrl}/subcategory`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+  
+    this.http.get<any[]>(url, { headers }).subscribe({
+      next: (data) => {
+        // Filtrando as categorias com type "ACCOUNT"
+        this.subcategorias = data
       },
       error: (err) => {
         console.error('Erro ao carregar categorias:', err);

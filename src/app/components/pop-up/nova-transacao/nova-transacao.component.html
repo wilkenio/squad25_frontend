@@ -72,8 +72,8 @@
         <div class="nome border-bottom remover-border-bottom">
           <h5>Subategoria</h5>
           <select [(ngModel)]="categoriaId">
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">
-              {{ categoria.name }}
+            <option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">
+              {{ subcategoria.name }}
             </option>
           </select>
         </div>
