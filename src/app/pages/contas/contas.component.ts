@@ -2,7 +2,6 @@ import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { EditarContaComponent } from '../../components/pop-up/editar-conta/editar-conta.component';
 import { GlobalService } from '../../services/global.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NovaContaComponent } from '../../components/pop-up/nova-conta/nova-conta.component';
@@ -14,7 +13,6 @@ import { NovaContaComponent } from '../../components/pop-up/nova-conta/nova-cont
     CommonModule,
     SidebarComponent,
     MenuComponent,
-    EditarContaComponent,
     NovaContaComponent
   ],
   templateUrl: './contas.component.html',
@@ -66,10 +64,6 @@ export class ContasComponent implements OnInit {
     this.showMenuIndex = this.showMenuIndex === index ? null : index;
   }
 
-  editarConta(conta: any) {
-    this.contaSelecionada = conta;
-  }
-
   fecharPopup() {
     this.contaSelecionada = null;
   }
@@ -78,16 +72,16 @@ export class ContasComponent implements OnInit {
     console.log('Extrato', conta);
   }
 
-  excluirConta(conta: any) {
-    console.log('Excluir', conta);
-  }
-
   getTotal(tipo: 'receitas' | 'despesas' | 'saldo' | 'previsto'): number {
     return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
   }
 
   abrirNovaConta() {
     this.novaContaRef.togglePopup('add');
+  }
+
+    editarConta(id:string) {
+    this.novaContaRef.togglePopup('edit',id);
   }
 
   @HostListener('document:click', ['$event'])

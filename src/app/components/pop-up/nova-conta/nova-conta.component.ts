@@ -38,44 +38,48 @@ export class NovaContaComponent {
     this.typePopUp = typePopUp;
     this.contaId = contaId ?? '';
 
-    this.buscarCategoriasACCOUNT();
-
-    if (typePopUp === 'edit' && contaId) {
-      const url = `${this.globalService.apiUrl}/account/${contaId}`;
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.globalService.userToken}`
-      });
-
-      this.http.get<any>(url, { headers }).subscribe({
-        next: (data) => {
-          this.nome = data.nome;
-          this.saldoInicial = data.saldoInicial;
-          this.chequeEspecial = data.chequeEspecial;
-          this.infoAdicional = data.infoAdicional;
-          this.categoriaId = data.categoriaId;
-        },
-        error: (err) => console.error('Erro ao carregar conta para edição:', err)
-      });
-    }
-  }
-
-  buscarCategoriasACCOUNT() {
-    const url = `${this.globalService.apiUrl}/categories`;
+  this.buscarCategoriasACCOUNT().then(() => {
+  if (typePopUp === 'edit' && contaId) {
+    const url = `${this.globalService.apiUrl}/account/${contaId}`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
-  
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        this.nome = data.accountName;
+        this.saldoInicial = data.saldoInicial;
+        this.chequeEspecial = data.chequeEspecial;
+        this.infoAdicional = data.accountDescription;
+        this.categoriaId = data.categoriaId; // Agora as categorias já estão carregadas
+      },
+      error: (err) => console.error('Erro ao carregar conta para edição:', err)
+    });
+  }
+});
+
+  }
+
+ buscarCategoriasACCOUNT(): Promise<void> {
+  const url = `${this.globalService.apiUrl}/categories`;
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.globalService.userToken}`
+  });
+
+  return new Promise((resolve, reject) => {
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        console.log( data)
-        // Filtrando as categorias com type "ACCOUNT"
         this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
+        resolve();
       },
       error: (err) => {
         console.error('Erro ao carregar categorias:', err);
+        reject(err);
       }
     });
-  }
+  });
+}
+
 
   onCsvFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -111,7 +115,8 @@ export class NovaContaComponent {
       additionalInformation: this.infoAdicional,
       openingBalance: this.saldoInicial,
       specialCheck: this.chequeEspecial,
-      categoryId: this.categoriaId
+      categoryId: this.categoriaId,
+      status: "SIM"
     };
   
     const url = this.typePopUp === 'edit'

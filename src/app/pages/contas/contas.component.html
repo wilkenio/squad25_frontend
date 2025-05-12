@@ -29,10 +29,10 @@
     <div class="cell cinzaClaro" style="position: relative;">
       <button class="menu-btn cinzaClaro" (click)="toggleMenu(i)" >⋯</button>
       <div class="dropdown-menu " *ngIf="showMenuIndex === i">
-        <button class="dropdown-item top" (click)="editarConta(conta)">Editar</button>
+        <button class="dropdown-item top" (click)="editarConta(conta.id)">Editar</button>
         <button class="dropdown-item" (click)="verExtrato(conta)">Extrato (Mvp2)</button>
         <div class="placeholder-box"></div>
-        <button class="dropdown-item bottom" (click)="excluirConta(conta)">Excluir</button>
+        <button class="dropdown-item bottom excluir-text" >Excluir</button>
       </div>
     </div>
   </div>
@@ -48,13 +48,6 @@
   <div class="cell text-rodape">Saldo previsto: <strong> {{ getTotal('previsto') | currency:'BRL' }}</strong></div>
   <div class="cell text-rodape"></div>
 </div>
-
-
-<app-editar-conta
-  *ngIf="contaSelecionada"
-  [conta]="contaSelecionada"
-  (fechar)="fecharPopup()">
-</app-editar-conta>
 
 </div>
 <app-nova-conta
