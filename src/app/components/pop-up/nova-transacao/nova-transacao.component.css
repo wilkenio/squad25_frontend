@@ -16,21 +16,32 @@
 .contain-popup input {
   border: none;
   border-radius: none;
-
 }
 
 .contain-popup select {
-  padding: 3%;
+  padding: 2%;
   width: 70%;
-  border:1px solid var(--cor-10);
+  border: 1px solid var(--cor-17);
   cursor: pointer;
   font-weight: 200;
-  background-color: var(--cor-2);
+  background-color: var(--cor-14);
+}
+
+.periodo {
+  width: 40% !important;
+  margin-left: 5%;
+  color: var(--cor-16);
+}
+
+.traco {
+  height: 12px;
+  background-color: #f50000;
+  margin: 8px 0;
 }
 
 .contain-popup textarea {
   background-color: var(--cor-2);
-  border:1px solid var(--cor-10) !important;
+  border: 1px solid var(--cor-10) !important;
 }
 
 .titulo {
@@ -39,10 +50,6 @@
   font-size: 1.3rem;
   padding: 2.5%;
   width: 95.1%;
-  -webkit-border-top-left-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   font-weight: 700;
@@ -62,12 +69,18 @@
   width: 50%;
   position: relative;
   border-radius: 15px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
-.popup-2{
+
+.popup-2 {
   width: 50%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
-.flex{
-  width:96%;
+
+.flex {
+  width: 96%;
   display: flex;
   padding: 2%;
   gap: 5%;
@@ -86,7 +99,8 @@
   border-radius: 0;
   font-size: 1rem;
 }
-.border-bottom{
+
+.border-bottom {
   border-bottom: 1px solid var(--cor-10);
   padding-bottom: 3%;
   margin-top: 2%;
@@ -145,7 +159,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 5%;
   margin-top: 2%;
+  color: var(--cor-3);
+}
+
+.nome-prefixo {
+  color: #888;
+  font-size: 16px;
+  margin-right: 20%;
+}
+
+.Escolher {
+  font-weight: 800;
 }
 
 .nome input {
@@ -155,7 +181,6 @@
   border: none !important;
 }
 
-/* Ícone + Cor na mesma linha */
 .linha-icones-cores {
   display: flex;
   justify-content: space-between;
@@ -181,7 +206,6 @@
   visibility: hidden;
 }
 
-/* Informações adicionais */
 .dados-informacoes-adicionais {
   margin-top: 1% !important;
 }
@@ -212,7 +236,7 @@
   background-color: var(--cor-5);
   color: var(--cor-1);
   border: none;
-  padding: 3% 5% 3% 5%;
+  padding: 3% 5%;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -220,39 +244,40 @@
 #cancelar {
   color: var(--cor-5);
   border: 1px solid var(--cor-5);
-  padding: 3% 5% 3% 5%;
+  padding: 3% 5%;
   border-radius: 5px;
   cursor: pointer;
 }
-.column{
+
+.column {
   text-align: start;
   justify-content: start !important;
   flex-direction: column;
 }
 
-#arquivoCsv{
+#arquivoCsv {
   visibility: hidden;
 }
 
-.icon-file{
+.icon-file {
   color: var(--cor-5);
   border: 1px solid var(--cor-5);
-  padding: 1% 2% 1% 2%;
+  padding: 1% 2%;
   border-radius: 6px;
   cursor: pointer;
   margin-left: 55%;
 }
 
-.icon-file:hover{
+.icon-file:hover {
   color: var(--cor-1);
   background-color: var(--cor-5);
 }
 
-.column h5{
+.column h5 {
   width: 100%;
 }
 
-.column textarea{
+.column textarea {
   padding: 5%;
   width: 90%;
   height: 10vh;
@@ -271,7 +296,7 @@
   margin-top: 5%;
 }
 
-.despesa-container label{
+.despesa-container label {
   cursor: pointer;
 }
 
@@ -281,10 +306,7 @@
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 14px;
-}
-
-.radio-option.selected {
-  font-weight: bold;
+  color: var(--cor-3);
 }
 
 .parcelas {
@@ -301,7 +323,7 @@
   border-radius: 6px;
 }
 
-.remover-border-bottom{
+.remover-border-bottom {
   border-bottom: 0;
 }
 
@@ -352,7 +374,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  transition: .4s;
+  transition: background-color 0.4s;
 }
 
 .slider:before {
@@ -364,7 +386,7 @@
   bottom: 2px;
   background-color: var(--cor-1);
   border-radius: 50%;
-  transition: .4s;
+  transition: transform 0.4s;
 }
 
 .switch input:checked + .slider {
@@ -379,37 +401,158 @@
   font-size: 13px;
 }
 
-/* Responsivo */
+.popup-periodicidade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 250px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.popup-box h3 {
+  background: linear-gradient(to right, var(--cor-4), var(--cor-5));
+  color: white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+  margin: -24px -24px 16px -24px;
+  text-align: left;
+}
+
+.popup-box .linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5% 0;
+}
+
+.separador {
+  height: 1px;
+  background-color: #ccc;
+  width: 100%;
+  margin: 16px 0;
+}
+
+.popup-periodicidade input {
+  width: 20%;
+  text-align: center;
+}
+
+.botoes {
+  justify-content: center;
+  display: flex;
+  gap: 10%;
+  margin-top: 2%;
+}
+
+#Ok {
+  background-color: var(--cor-5);
+  color: var(--cor-1);
+  border: none;
+  padding: 3% 5%;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 25%;
+}
+
+#cancela {
+  color: var(--cor-5);
+  border: 1px solid var(--cor-5);
+  padding: 3% 5%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.valor-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+}
+
+.valor-input {
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 16px;
+  width: 70px;
+  text-align: left;
+}
+
+.valor-input:focus {
+  outline: none;
+}
+
+
 @media screen and (max-width: 800px) {
-  .popUp {
-    width: 90%;
-    top: 5%;
-    position: absolute;
+  .contain-popup {
+    align-items: flex-start;
+    padding-top: 5vh;
   }
 
-  .dados-nova-conta{
-    padding: 4%;
+  .popUp,
+  .popup-2 {
+    width: 95%;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto;
   }
+
+  .flex {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .dados-nova-conta {
+    width: 100%;
+    padding: 4%;
+    box-sizing: border-box;
+  }
+
   .contain-popup h5 {
-    margin: 0;
     width: 100%;
   }
 
-  .flex{
+  .btns {
+    justify-content: center;
+    margin-top: 10%;
+  }
+
+  .icon-file {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .valor-container {
     flex-direction: column;
-    width: 96%;
-    height: 85vh;
-    overflow: scroll;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
-  .dados-nova-conta{
-    width: 92.5%;
+  .botoes {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .popup-2{
-    width: 95%;
-    margin: 2.3%;
+  #Ok,
+  #cancela {
+    width: 80%;
   }
-
-
 }
