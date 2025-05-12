@@ -32,7 +32,7 @@
         <button class="dropdown-item top" (click)="editarConta(conta.id)">Editar</button>
         <button class="dropdown-item" (click)="verExtrato(conta)">Extrato (Mvp2)</button>
         <div class="placeholder-box"></div>
-        <button class="dropdown-item bottom excluir-text" >Excluir</button>
+        <button class="dropdown-item bottom excluir-text" (click)="toogleDeletar(conta.id)" >Excluir</button>
       </div>
     </div>
   </div>
@@ -54,3 +54,7 @@
   #novaContaRef
   (contaSalva)="getContas()">
 </app-nova-conta>
+
+<app-confirm-popup [message]="'Tem certeza que deseja excluir esta Conta?'" [visible]="confirmPopupVisibleConta"
+  (confirm)="deletarConta(idContaParaExcluir)" (cancel)="confirmPopupVisibleConta = false">
+</app-confirm-popup>
