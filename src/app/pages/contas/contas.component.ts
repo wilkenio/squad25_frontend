@@ -1,63 +1,77 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
+import { EditarContaComponent } from '../../components/pop-up/editar-conta/editar-conta.component';
+import { GlobalService } from '../../services/global.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NovaContaComponent } from '../../components/pop-up/nova-conta/nova-conta.component';
 
 @Component({
   selector: 'app-contas',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, MenuComponent],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    MenuComponent,
+    EditarContaComponent,
+    NovaContaComponent
+  ],
   templateUrl: './contas.component.html',
   styleUrls: ['./contas.component.css']
 })
-export class ContasComponent {
-  contas = [
-    {
-      descricao: 'Conta salário',
-      saldoInicial: 1000,
-      receitas: 200,
-      receitasPrevistas: 300,
-      despesas: 100,
-      despesasPrevistas: 150,
-      saldo: 100,
-      previsto: 250,
-      color: "#4CAF50",
-      iconClass: "bi bi-cart-fill"
-    },
-    {
-      descricao: 'Minha conta corrente',
-      saldoInicial: 0,
-      receitas: 200,
-      receitasPrevistas: 300,
-      despesas: 100,
-      despesasPrevistas: 150,
-      saldo: 100,
-      previsto: 250,
-      color: "#4CAF50",
-      iconClass: "bi bi-cart-fill"
-    },
-    {
-      descricao: 'Principal',
-      saldoInicial: 0,
-      receitas: 200,
-      receitasPrevistas: 300,
-      despesas: 100,
-      despesasPrevistas: 150,
-      saldo: 100,
-      previsto: 250,
-      color: "#4CAF50",
-      iconClass: "bi bi-cart-fill"
-    }
-  ];
-
+export class ContasComponent implements OnInit {
+  contas: any[] = [];
   showMenuIndex: number | null = null;
+  contaSelecionada: any = null;
+
+  @ViewChild('novaContaRef') novaContaRef!: NovaContaComponent;
+
+  private globalService = inject(GlobalService);
+  private http = inject(HttpClient);
+
+  ngOnInit(): void {
+    this.getContas();
+  }
+
+  getContas() {
+    const url = `${this.globalService.apiUrl}/account`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+
+    this.http.get<any[]>(url, { headers }).subscribe({
+      next: (data) => {
+        this.contas = data.map(conta => ({
+          descricao: conta.accountName,
+          saldoInicial: conta.openingBalance,
+          receitas: conta.receitas || 0,
+          receitasPrevistas: conta.receitasPrevistas || 0,
+          despesas: conta.despesas || 0,
+          despesasPrevistas: conta.despesasPrevistas || 0,
+          saldo: conta.saldo || 0,
+          previsto: conta.saldoPrevisto || 0,
+          color: conta.color || '#ccc',
+          iconClass: `bi ${conta.iconClass || 'bi-bank'}`,
+          ...conta
+        }));
+      },
+      error: (err) => {
+        console.error('Erro ao buscar contas:', err);
+      }
+    });
+  }
 
   toggleMenu(index: number) {
     this.showMenuIndex = this.showMenuIndex === index ? null : index;
   }
 
   editarConta(conta: any) {
-    console.log('Editar', conta);
+    this.contaSelecionada = conta;
+  }
+
+  fecharPopup() {
+    this.contaSelecionada = null;
   }
 
   verExtrato(conta: any) {
@@ -72,10 +86,13 @@ export class ContasComponent {
     return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
   }
 
+  abrirNovaConta() {
+    this.novaContaRef.togglePopup('add');
+  }
+
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
-
     const clickedInsideButton = target.closest('.menu-btn');
     const clickedInsideMenu = target.closest('.dropdown-menu');
 

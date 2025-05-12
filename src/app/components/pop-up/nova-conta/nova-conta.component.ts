@@ -41,7 +41,7 @@ export class NovaContaComponent {
     this.buscarCategoriasACCOUNT();
 
     if (typePopUp === 'edit' && contaId) {
-      const url = `${this.globalService.apiUrl}/accounts/${contaId}`;
+      const url = `${this.globalService.apiUrl}/account/${contaId}`;
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${this.globalService.userToken}`
       });
@@ -67,6 +67,7 @@ export class NovaContaComponent {
   
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
+        console.log( data)
         // Filtrando as categorias com type "ACCOUNT"
         this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
       },
@@ -75,7 +76,6 @@ export class NovaContaComponent {
       }
     });
   }
-  
 
   onCsvFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -101,36 +101,38 @@ export class NovaContaComponent {
   salvarConta() {
     const token = this.globalService.userToken;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
-
-    const formData = new FormData();
-    formData.append('nome', this.nome);
-    formData.append('saldoInicial', this.saldoInicial.toString());
-    formData.append('chequeEspecial', this.chequeEspecial.toString());
-    formData.append('infoAdicional', this.infoAdicional);
-    formData.append('categoriaId', this.categoriaId);
-
-    if (this.csvFile) {
-      formData.append('csvFile', this.csvFile);
-    }
-
+  
+    const conta = {
+      accountName: this.nome,
+      accountDescription: this.categoriaId, // ou outro campo correto para descrição
+      additionalInformation: this.infoAdicional,
+      openingBalance: this.saldoInicial,
+      specialCheck: this.chequeEspecial,
+      categoryId: this.categoriaId
+    };
+  
     const url = this.typePopUp === 'edit'
-      ? `${this.globalService.apiUrl}/accounts/${this.contaId}`
-      : `${this.globalService.apiUrl}/accounts`;
-
+      ? `${this.globalService.apiUrl}/account/${this.contaId}`
+      : `${this.globalService.apiUrl}/account`;
+  
     const request = this.typePopUp === 'edit'
-      ? this.http.put(url, formData, { headers })
-      : this.http.post(url, formData, { headers });
-
+      ? this.http.put(url, conta, { headers })
+      : this.http.post(url, conta, { headers });
+  
     request.subscribe({
       next: () => {
         this.contaSalva.emit();
+        this.contaSalva.emit();
         this.fecharNovaConta();
+     
       },
       error: (err) => {
         console.error('Erro ao salvar conta:', err);
       }
     });
   }
+  
 }
