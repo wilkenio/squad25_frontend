@@ -37,6 +37,7 @@ export class NovaContaComponent {
     this.mostrarNovaConta = true;
     this.typePopUp = typePopUp;
     this.contaId = contaId ?? '';
+    
 
   this.buscarCategoriasACCOUNT().then(() => {
   if (typePopUp === 'edit' && contaId) {
@@ -51,7 +52,7 @@ export class NovaContaComponent {
         this.saldoInicial = data.saldoInicial;
         this.chequeEspecial = data.chequeEspecial;
         this.infoAdicional = data.accountDescription;
-        this.categoriaId = data.categoriaId; // Agora as categorias já estão carregadas
+        this.categoriaId = data.categoryId; // Agora as categorias já estão carregadas
       },
       error: (err) => console.error('Erro ao carregar conta para edição:', err)
     });
@@ -111,14 +112,21 @@ export class NovaContaComponent {
   
     const conta = {
       accountName: this.nome,
-      accountDescription: this.categoriaId, // ou outro campo correto para descrição
+      accountDescription: this.infoAdicional, // ou outro campo correto para descrição
       additionalInformation: this.infoAdicional,
       openingBalance: this.saldoInicial,
       specialCheck: this.chequeEspecial,
       categoryId: this.categoriaId,
-      status: "SIM"
+      status: "SIM",
+      currentBalance: 0,
+      expectedBalance: 0,
+      income: 0,
+      expense: 0,
+      expectedIncomeMonth: 0,
+      expectedExpenseMonth: 0
     };
-  
+
+
     const url = this.typePopUp === 'edit'
       ? `${this.globalService.apiUrl}/account/${this.contaId}`
       : `${this.globalService.apiUrl}/account`;
@@ -129,7 +137,6 @@ export class NovaContaComponent {
   
     request.subscribe({
       next: () => {
-        this.contaSalva.emit();
         this.contaSalva.emit();
         this.fecharNovaConta();
      

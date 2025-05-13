@@ -80,10 +80,6 @@ export class ContasComponent implements OnInit {
     return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
   }
 
-  abrirNovaConta() {
-    this.novaContaRef.togglePopup('add');
-  }
-
   editarConta(idConta: string) {
     this.novaContaRef.togglePopup('edit', idConta);
   }
