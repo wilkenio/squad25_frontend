@@ -12,54 +12,138 @@
   }
   
   .modal-incluir {
-    background: white;
+    background: var(--cor-1);
     border-radius: 10px;
     padding: 24px;
-    width: 360px;
+    width: 360px; 
     text-align: center;
+    
   }
   
   .modal-incluir h3 {
-    color: #3c0080;
-    margin-bottom: 16px;
+    color: var(--cor-5);
+    margin-bottom: 13%;
   }
   
   .modal-incluir .opcoes {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 16px;
+    margin-bottom: 5%;
+  
   }
   
   .modal-incluir hr {
     border: none;
-    border-top: 1px solid #ccc;
-    margin-bottom: 16px;
+    border-top: 1px solid var(--cor-15);
+    margin-bottom: 6%;
   }
   
   .modal-incluir p {
     font-size: 14px;
-    color: #555;
+    color: var(--cor-16);
     margin-bottom: 16px;
+    font-size: large;
   }
   
   .modal-incluir .botoes {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 10%;
+    padding: 3%;
+    
   }
   
   .modal-incluir .cancelar {
-    border: 1px solid #3c0080;
+    border: 1px solid var(--cor-5);
     background: transparent;
-    color: #3c0080;
+    color: var(--cor-5);
     border-radius: 6px;
-    padding: 6px 16px;
+    padding: 6px 10%;
+    font-size: 1rem;
+    cursor: pointer;
   }
   
   .modal-incluir .incluir {
-    background: #3c0080;
-    color: white;
+    background: var(--cor-5);
+    color:var(--cor-1);
     border: none;
     border-radius: 6px;
-    padding: 6px 16px;
+    padding: 6px 14%;
+    font-size: 1rem;
+    cursor: pointer;
   }
+  
+input{
+  accent-color: var(--cor-1);
+  
+}
+.opcoes label {
+  color: var(--cor-3); 
+  font-size: 1.1rem; 
+}
+
+.opcoes input {
+  width: 16px; 
+  height: 16px;
+  margin-bottom: 5%;
+}
+.erro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.erro-popup {
+  background: var(--cor-1);
+  padding: 32px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  max-width: 400px;
+  color: var(--cor-5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.erro-popup button {
+  margin-top: 20px;
+  padding: 10px 30px;
+  background: var(--cor-5);
+  color: var(--cor-1);
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.campo-descricao {
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+    margin: 16px 0;
+    margin-bottom: 5%;
+  }
+  
+  .campo-descricao label {
+    font-size: 16px;
+    color: var(--cor-3);
+    white-space: nowrap;
+  }
+  
+  .campo-descricao input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--cor-14);
+    background-color: var(--cor-14);
+    color: var(--cor-16);
+  }
+  
   

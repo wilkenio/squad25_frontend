@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,9 @@ import { GlobalService } from '../../../services/global.service';
 export class NovaTransacaoComponent {
   @Output() contaSalva = new EventEmitter<void>();
 
+  
   mostrarNovaTransacao: boolean = false;
+  mostrarPopupPeriodicidade: boolean = false;
 
   nome: string = '';
   saldoInicial: number = 0;
@@ -25,7 +27,9 @@ export class NovaTransacaoComponent {
   csvFile: File | null = null;
   contaId: string = '';
   typePopUp: 'add' | 'edit' = 'add';
-  typeTransation: 'Receita' | 'Despesa' |''= '';
+  typeTransation: 'Receita' | 'Despesa' | '' = '';
+  periodoDias: number = 0;
+  periodicidadeSelecionada: string = 'diario';
 
 
   categorias: any[] = [];
@@ -34,8 +38,8 @@ export class NovaTransacaoComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  togglePopup(typeTransationn:'Receita' | 'Despesa',typePopUp: 'add' | 'edit',contaId?: string) {
-    this.typeTransation = typeTransationn
+  togglePopup(typeTransationn: 'Receita' | 'Despesa', typePopUp: 'add' | 'edit', contaId?: string) {
+    this.typeTransation = typeTransationn;
     this.resetarFormulario();
     this.mostrarNovaTransacao = true;
     this.typePopUp = typePopUp;
@@ -67,10 +71,9 @@ export class NovaTransacaoComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
-  
+
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        // Filtrando as categorias com type "ACCOUNT"
         this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
       },
       error: (err) => {
@@ -78,9 +81,26 @@ export class NovaTransacaoComponent {
       }
     });
   }
-  
 
+  verificarPeriodicidade(event: Event) {
+    const valor = (event.target as HTMLSelectElement).value;
+    this.periodicidadeSelecionada = valor;
 
+    if (valor === 'custom') {
+      this.mostrarPopupPeriodicidade = true;
+    }
+  }
+
+  confirmarPeriodicidade() {
+    // Aqui você pode salvar ou usar o valor em `periodoDias`
+    this.mostrarPopupPeriodicidade = false;
+    this.periodicidadeSelecionada = `Cada ${this.periodoDias} dias`;
+  }
+
+  cancelarPeriodicidade() {
+    this.mostrarPopupPeriodicidade = false;
+    this.periodicidadeSelecionada = '';
+  }
 
   fecharNovaConta() {
     this.mostrarNovaTransacao = false;
@@ -94,6 +114,8 @@ export class NovaTransacaoComponent {
     this.categoriaId = '';
     this.csvFile = null;
     this.contaId = '';
+    this.periodicidadeSelecionada = '';
+    this.periodoDias = 0;
   }
 
   salvarConta() {
@@ -131,4 +153,20 @@ export class NovaTransacaoComponent {
       }
     });
   }
+
+  onValorChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const valor = input?.value || '';
+    const valorNumerico = Number(valor.replace(/[^\d]/g, '')) / 100;
+    this.chequeEspecial = isNaN(valorNumerico) ? 0 : valorNumerico;
+  }
+  
+  formatarValor(valor: number): string {
+    return valor.toFixed(2).replace('.', ',');
+  }
+  
+  
+  
+  
+  
 }

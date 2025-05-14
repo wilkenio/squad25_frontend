@@ -13,16 +13,27 @@
           <input type="text" [(ngModel)]="nome" placeholder="Digite aqui" />
         </div>
 
-        <!-- Cheque Especial -->
         <div class="nome border-bottom">
           <h5>Valor</h5>
-          <input type="number" [(ngModel)]="chequeEspecial" placeholder="Digite aqui" />
-        </div>
+          
+            <span class="nome-prefixo">R$
+            <input
+              type="text"
+              class="valor-input"
+              [value]="formatarValor(chequeEspecial)"
+              (input)="onValorChange($event)"
+            /></span>
+          </div>
+       
+        
+        
+        
+        
 
         <!-- Saldo Inicial -->
         <div class="nome border-bottom">
           <h5>Data de lançamento</h5>
-          <input type="datetime-local" [(ngModel)]="saldoInicial" placeholder="Digite aqui" />
+          <input type="date" [(ngModel)]="saldoInicial" placeholder="Digite aqui" />
         </div>
 
         <!-- Status da Transação -->
@@ -93,23 +104,42 @@
             Repetir {{typeTransation}}
             <span class="parcelas">
               Parcelas
-              <input type="number">
+              <input type="number"  min="0"> 
             </span>
           </label>
+          
+          <label class="nome-periodo">Periodicidade</label>
+          <select class="periodo" [(ngModel)]="periodicidadeSelecionada" (change)="verificarPeriodicidade($event)">
+            <option value="diario">Diário</option>
+            <div class="separador"></div>
+            <option value="semanal">Semanal</option>
+            <option value="quinzenal">Quinzenal</option>
+            <option value="mensal">Mensal</option>
+            <option value="semestral">Semestral</option>
+            <option value="anual">Anual</option>
+            <option class="Escolher" value="custom">Escolher...</option>
+          </select>
 
-          <div class="periodicidade">
-            <label>Periodicidade</label>
-            <select>
-              <option>Diário</option>
-              <option>Semanal</option>
-              <option>Quinzenal</option>
-              <option>Mensal</option>
-              <option>Semestral</option>
-              <option>Anual</option>
-              <option class="opcao-escolher">Escolher...</option>
-              
-            </select>
+          
+          
+          
+          <div class="popup-periodicidade" *ngIf="mostrarPopupPeriodicidade">
+            <div class="popup-box">
+              <h3>Definir periodicidade</h3>
+              <div class="linha">
+                <span>Periodicidade de</span>
+                <input type="number" value="0" min="0" [(ngModel)]="periodoDias" />
+                <span>dias</span>
+              </div>
+              <div class="separador"></div>
+
+              <div class="botoes">
+                <button id="cancela" (click)="cancelarPeriodicidade()">Cancelar</button>
+                <button id="Ok" (click)="confirmarPeriodicidade()">Ok</button>
+              </div>
+            </div>
           </div>
+          
 
           
           
