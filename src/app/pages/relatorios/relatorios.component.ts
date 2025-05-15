@@ -12,7 +12,6 @@ import {
   ApexPlotOptions,
   ApexDataLabels,
   ApexYAxis,
-  ApexAnnotations,       
   ApexGrid
 } from 'ng-apexcharts';
 
@@ -25,9 +24,7 @@ export type ChartOptions = {
   colors?: string[];
   yaxis: ApexYAxis;
   grid: ApexGrid;
-  annotations: ApexAnnotations;  
 };
-
 
 @Component({
   selector: 'app-relatorios',
@@ -37,7 +34,6 @@ export type ChartOptions = {
     SidebarComponent,
     MenuComponent,
     IncluirNoDashboardComponent,
-    
     ConfirmarExclusaoComponent,
     NgApexchartsModule
   ],
@@ -53,7 +49,6 @@ export class RelatoriosComponent implements OnInit {
   mostrarModalIncluir: boolean = false;
   mostrarConfirmacao: boolean = false;
   relatorioParaExcluir: string | null = null;
-  annotations?: ApexAnnotations;
 
   public chartOptions!: ChartOptions;
 
@@ -65,15 +60,16 @@ export class RelatoriosComponent implements OnInit {
 
   exemploGastos = [
     { descricao: 'R$ 13.503,00', data: '25/01/2025', valor: 1350, percentual: 100 },
-    { descricao: 'R$ 980,00', data: '30/01/2025', valor: 980, percentual: 72 },
-    { descricao: 'R$ 800,00', data: '02/01/2025', valor: 800, percentual: 59 },
-    { descricao: 'R$ 786,00', data: '10/01/2025', valor: 786, percentual: 58 },
-    { descricao: 'R$ 710,00', data: '06/01/2025', valor: 710, percentual: 52 },
-    { descricao: 'R$ 350,00', data: '12/01/2025', valor: 350, percentual: 26 },
-    { descricao: 'R$ 308,00', data: '08/01/2025', valor: 308, percentual: 23 },
-    { descricao: 'R$ 277,00', data: '22/01/2025', valor: 277, percentual: 20 },
-    { descricao: 'R$ 270,00', data: '24/01/2025', valor: 270, percentual: 20 },
-    { descricao: 'R$ 198,00', data: '23/01/2025', valor: 198, percentual: 15 }
+    { descricao: 'R$ 980,00', data: '30/01/2025', valor: 980, percentual: 72, nome:"Parcela prestacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 800,00', data: '02/01/2025', valor: 800, percentual: 59, nome:"Parcela sds", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 786,00', data: '10/01/2025', valor: 786, percentual: 58, nome:"Pafffrcela presfgffftacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 710,00', data: '06/01/2025', valor: 710, percentual: 52, nome:"Parcela prestfacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 350,00', data: '12/01/2025', valor: 350, percentual: 26 ,nome:"Parcsela prestfacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 308,00', data: '08/01/2025', valor: 308, percentual: 23 ,nome:"Parcesla presstacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 277,00', data: '22/01/2025', valor: 277, percentual: 20, nome:"Parcaela prestacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 270,00', data: '24/01/2025', valor: 270, percentual: 20 ,nome:"Parcsela yuri", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+    { descricao: 'R$ 198,00', data: '23/01/2025', valor: 198, percentual: 15 ,nome:"Parcela teste", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
+
   ];
 
   ngOnInit(): void {
@@ -83,17 +79,17 @@ export class RelatoriosComponent implements OnInit {
   gerarGrafico(): void {
     const valores = this.exemploGastos.map(g => g.valor);
     const descricoes = this.exemploGastos.map(g => g.descricao);
-  
+
     const cores = [
       '#F8AF7A', '#F8AF7A', '#F47922', '#F47922', '#F47922',
       '#F47922', '#F47922', '#F47922', '#F47922', '#F47922'
     ];
-  
+
     this.chartOptions = {
       series: [{
         name: 'Gastos',
         data: this.exemploGastos.map((g, i) => ({
-          x: g.descricao,
+          x: `${g.descricao}11/03`,
           y: g.valor,
           fillColor: cores[i % cores.length]
         }))
@@ -127,52 +123,10 @@ export class RelatoriosComponent implements OnInit {
       grid: {
         yaxis: { lines: { show: false } },
         xaxis: { lines: { show: false } }
-      },
-      annotations: {
-        points: this.exemploGastos.map(g => ({
-          x: g.descricao,
-          y: g.valor / 2,
-          marker: {
-            size: 0
-          },
-          label: {
-            text: '<i class="bi bi-apple" style="color:#906444; font-size:20px;"></i>',
-            style: {
-              color: '#906444',
-              fontSize: '20px',
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              margin: 0
-            }
-          }
-        })),
-        texts: [
-          {
-            x: 0,
-            y: 700,
-            text: 'Parcela automóvel\nlol',
-            style: {
-              fontSize: '18px',
-              fontWeight: 'bold',
-              color: '#333',
-              lineHeight: '1.2'
-            },
-            textAnchor: 'start',
-            backgroundColor: 'transparent'
-          }
-        ]
       }
     } as any;
   }
-  
-  
-  
 
-
-  
-
-  // Filtros
   selecionarReferencia(tipo: string) {
     this.referenciaSelecionada = tipo;
   }
@@ -189,7 +143,6 @@ export class RelatoriosComponent implements OnInit {
     this.categoriaSelecionadaDespesas = valor;
   }
 
-  // Modal Incluir
   abrirModalIncluir() {
     this.mostrarModalIncluir = true;
   }
@@ -203,7 +156,6 @@ export class RelatoriosComponent implements OnInit {
     this.fecharModalIncluir();
   }
 
-  // Modal Exclusão
   abrirConfirmacaoExclusao(titulo: string) {
     this.relatorioParaExcluir = titulo;
     this.mostrarConfirmacao = true;
@@ -221,7 +173,6 @@ export class RelatoriosComponent implements OnInit {
     this.relatorioParaExcluir = null;
   }
 
-  // Dropdown
   toggleDropdown(index: number) {
     this.dropdownAberto = this.dropdownAberto === index ? null : index;
   }

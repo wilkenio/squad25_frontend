@@ -623,3 +623,38 @@ canvas.grafico-chartjs {
   max-height: 300px;
   margin-top: 10px;
 }
+
+.categoria{
+  display: flex;
+  justify-content: end;
+  width: 50%;
+}
+
+.icon-categoria{
+  color: var(--cor-1);
+  border: 4px solid var(--cor-1); 
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoria-descricao{
+  font-size: 0.6rem;
+}
+
+
+.contain-categorias{
+  width: 34%;
+  height: 100%;
+  position: absolute;
+  margin-top: 3%;
+  z-index: 99999;
+}
+
+.dezcategorias{
+  margin-bottom:3.75vh;
+}
