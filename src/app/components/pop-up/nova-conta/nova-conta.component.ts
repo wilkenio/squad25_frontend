@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,8 +18,8 @@ export class NovaContaComponent {
   mostrarNovaConta: boolean = false;
 
   nome: string = '';
-  saldoInicial: number = 0;
-  chequeEspecial: number = 0;
+  saldoInicial: number | null = null;
+  chequeEspecial: number | null = null;
   infoAdicional: string = '';
   categoriaId: string = '';
   csvFile: File | null = null;
@@ -27,6 +27,8 @@ export class NovaContaComponent {
   typePopUp: 'add' | 'edit' = 'add';
 
   categorias: any[] = [];
+
+  mensagemErro: string = '';
 
   private globalService = inject(GlobalService);
 
@@ -38,42 +40,44 @@ export class NovaContaComponent {
     this.typePopUp = typePopUp;
     this.contaId = contaId ?? '';
 
-    this.buscarCategoriasACCOUNT();
+    this.buscarCategoriasACCOUNT().then(() => {
+      if (typePopUp === 'edit' && contaId) {
+        const url = `${this.globalService.apiUrl}/account/${contaId}`;
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${this.globalService.userToken}`
+        });
 
-    if (typePopUp === 'edit' && contaId) {
-      const url = `${this.globalService.apiUrl}/account/${contaId}`;
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.globalService.userToken}`
-      });
-
-      this.http.get<any>(url, { headers }).subscribe({
-        next: (data) => {
-          this.nome = data.nome;
-          this.saldoInicial = data.saldoInicial;
-          this.chequeEspecial = data.chequeEspecial;
-          this.infoAdicional = data.infoAdicional;
-          this.categoriaId = data.categoriaId;
-        },
-        error: (err) => console.error('Erro ao carregar conta para edição:', err)
-      });
-    }
+        this.http.get<any>(url, { headers }).subscribe({
+          next: (data) => {
+            this.nome = data.accountName;
+            this.saldoInicial = data.saldoInicial;
+            this.chequeEspecial = data.chequeEspecial;
+            this.infoAdicional = data.accountDescription;
+            this.categoriaId = data.categoryId;
+          },
+          error: (err) => console.error('Erro ao carregar conta para edição:', err)
+        });
+      }
+    });
   }
 
-  buscarCategoriasACCOUNT() {
+  buscarCategoriasACCOUNT(): Promise<void> {
     const url = `${this.globalService.apiUrl}/categories`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
-  
-    this.http.get<any[]>(url, { headers }).subscribe({
-      next: (data) => {
-        console.log( data)
-        // Filtrando as categorias com type "ACCOUNT"
-        this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
-      },
-      error: (err) => {
-        console.error('Erro ao carregar categorias:', err);
-      }
+
+    return new Promise((resolve, reject) => {
+      this.http.get<any[]>(url, { headers }).subscribe({
+        next: (data) => {
+          this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
+          resolve();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar categorias:', err);
+          reject(err);
+        }
+      });
     });
   }
 
@@ -86,53 +90,75 @@ export class NovaContaComponent {
 
   fecharNovaConta() {
     this.mostrarNovaConta = false;
+    this.mensagemErro = '';
   }
 
   resetarFormulario() {
     this.nome = '';
-    this.saldoInicial = 0;
-    this.chequeEspecial = 0;
+    this.saldoInicial = null;
+    this.chequeEspecial = null;
     this.infoAdicional = '';
     this.categoriaId = '';
     this.csvFile = null;
     this.contaId = '';
+    this.mensagemErro = '';
   }
 
   salvarConta() {
-    const token = this.globalService.userToken;
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  
-    const conta = {
+    if (!this.nome || this.nome.trim() === '') {
+      this.mensagemErro = 'O nome é obrigatório.';
+      return;
+    }
+
+    if (this.saldoInicial === null || isNaN(this.saldoInicial)) {
+      this.mensagemErro = 'O saldo inicial é obrigatório.';
+      return;
+    }
+
+    if (this.chequeEspecial === null || isNaN(this.chequeEspecial)) {
+      this.mensagemErro = 'O cheque especial é obrigatório.';
+      return;
+    }
+
+    if (!this.categoriaId) {
+      this.mensagemErro = 'A categoria é obrigatória.';
+      return;
+    }
+
+    this.mensagemErro = ''; // limpa mensagem de erro
+
+    const payload = {
       accountName: this.nome,
-      accountDescription: this.categoriaId, // ou outro campo correto para descrição
-      additionalInformation: this.infoAdicional,
-      openingBalance: this.saldoInicial,
-      specialCheck: this.chequeEspecial,
-      categoryId: this.categoriaId
+      saldoInicial: this.saldoInicial,
+      chequeEspecial: this.chequeEspecial,
+      accountDescription: this.infoAdicional,
+      categoryId: this.categoriaId,
     };
-  
+
+    const urlBase = `${this.globalService.apiUrl}/account`;
     const url = this.typePopUp === 'edit'
-      ? `${this.globalService.apiUrl}/account/${this.contaId}`
-      : `${this.globalService.apiUrl}/account`;
-  
-    const request = this.typePopUp === 'edit'
-      ? this.http.put(url, conta, { headers })
-      : this.http.post(url, conta, { headers });
-  
-    request.subscribe({
+      ? `${urlBase}/${this.contaId}`
+      : urlBase;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+
+    const httpCall = this.typePopUp === 'edit'
+      ? this.http.put(url, payload, { headers })
+      : this.http.post(url, payload, { headers });
+
+    httpCall.subscribe({
       next: () => {
-        this.contaSalva.emit();
-        this.contaSalva.emit();
+        if (this.router.url.includes('/contas')) {
+          this.contaSalva.emit();
+        }
         this.fecharNovaConta();
-     
       },
       error: (err) => {
         console.error('Erro ao salvar conta:', err);
+        this.mensagemErro = 'Erro ao salvar a conta.';
       }
     });
   }
-  
 }

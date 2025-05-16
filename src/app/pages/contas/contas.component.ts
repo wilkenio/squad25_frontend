@@ -2,10 +2,10 @@ import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { EditarContaComponent } from '../../components/pop-up/editar-conta/editar-conta.component';
 import { GlobalService } from '../../services/global.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NovaContaComponent } from '../../components/pop-up/nova-conta/nova-conta.component';
+import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-contas',
@@ -14,8 +14,8 @@ import { NovaContaComponent } from '../../components/pop-up/nova-conta/nova-cont
     CommonModule,
     SidebarComponent,
     MenuComponent,
-    EditarContaComponent,
-    NovaContaComponent
+    NovaContaComponent,
+    ConfirmPopupComponent
   ],
   templateUrl: './contas.component.html',
   styleUrls: ['./contas.component.css']
@@ -24,6 +24,8 @@ export class ContasComponent implements OnInit {
   contas: any[] = [];
   showMenuIndex: number | null = null;
   contaSelecionada: any = null;
+  confirmPopupVisibleConta: boolean = false;
+  idContaParaExcluir: string = '';
 
   @ViewChild('novaContaRef') novaContaRef!: NovaContaComponent;
 
@@ -66,10 +68,6 @@ export class ContasComponent implements OnInit {
     this.showMenuIndex = this.showMenuIndex === index ? null : index;
   }
 
-  editarConta(conta: any) {
-    this.contaSelecionada = conta;
-  }
-
   fecharPopup() {
     this.contaSelecionada = null;
   }
@@ -78,16 +76,41 @@ export class ContasComponent implements OnInit {
     console.log('Extrato', conta);
   }
 
-  excluirConta(conta: any) {
-    console.log('Excluir', conta);
-  }
-
   getTotal(tipo: 'receitas' | 'despesas' | 'saldo' | 'previsto'): number {
     return this.contas.reduce((acc, conta) => acc + (conta[tipo] || 0), 0);
   }
 
-  abrirNovaConta() {
-    this.novaContaRef.togglePopup('add');
+  editarConta(idConta: string) {
+    this.novaContaRef.togglePopup('edit', idConta);
+  }
+
+  deletarConta(idConta:string) {
+     const token = this.globalService.userToken;
+    if (!token) return;
+
+    fetch(`${this.globalService.apiUrl}/account/${idConta}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir a categoria');
+        }
+        this.confirmPopupVisibleConta = false;
+
+        this.getContas();
+      })
+      .catch(error => {
+        console.error('Erro ao deletar categoria:', error);
+      });
+  }
+
+  toogleDeletar(id: string) {
+    this.idContaParaExcluir = id;
+    this.confirmPopupVisibleConta = true;
   }
 
   @HostListener('document:click', ['$event'])

@@ -216,31 +216,47 @@
   <div class="relatorios-salvos">
     <h3>Relatórios salvos</h3>
 
-    <div class="relatorio-item" *ngFor="let relatorio of relatoriosSalvos">
-      <span>{{ relatorio.titulo }}</span>
-      <span class="data">{{ relatorio.data }}</span>
+    <div class="relatorio-item">
+      <span>Valores depositados em investimentos</span>
+      <span class="data">28/04/2025, 14h34min</span>
       <div class="acoes">
-        <button><i class="bi bi-box-arrow-in-up"></i></button>
-        <button (click)="abrirModalIncluir()"><i class="bi bi-grid-fill"></i></button>
-        <button (click)="abrirConfirmacaoExclusao(relatorio.titulo)"><i class="bi bi-trash-fill"></i></button>
-          
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+
+    <div class="relatorio-item">
+      <span>Dez maiores gastos do mês</span>
+      <span class="data">11/02/2025, 21h12min</span>
+      <div class="acoes">
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
         
-        
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+
+    <div class="relatorio-item">
+      <span>Sem-título-01</span>
+      <span class="data">18/01/2025, 08h33min</span>
+      <div class="acoes">
+        <button (click)="abrirModalIncluir()">
+          <i class="bi bi-box-arrow-in-up"></i>
+        </button>
+        <button><i class="fa fa-th"></i></button>
+        <button><i class="fa fa-trash"></i></button>
       </div>
     </div>
   </div>
 </div>
 
-<app-incluir-no-dashboard
-  *ngIf="mostrarModalIncluir"
-  (fecharModal)="fecharModalIncluir()"
-  (incluir)="handleIncluir($event)">
+<app-incluir-no-dashboard  *ngIf="mostrarModalIncluir"
+(fecharModal)="fecharModalIncluir()"
+(incluir)="handleIncluir($event)">>
+  
 </app-incluir-no-dashboard>
-
-<app-confirmar-exclusao
-  *ngIf="mostrarConfirmacao"
-  [nomeRelatorio]="relatorioParaExcluir"
-  (confirmar)="excluirRelatorioConfirmado()"
-  (cancelar)="fecharConfirmacao()">
-</app-confirmar-exclusao>
-

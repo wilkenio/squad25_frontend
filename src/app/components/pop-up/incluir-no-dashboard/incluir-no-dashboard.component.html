@@ -1,13 +1,8 @@
+<!-- Modal de Inclusão no Dashboard -->
 <div class="overlay">
     <div class="modal-incluir">
       <h3>Incluir card no Dashboard</h3>
-
-      <div class="campo-descricao">
-        <label for="descricao">Descrição</label>
-        <input id="descricao" type="text" value="Sem-título-01" />
-      </div>
       
-    <hr/> 
       <div class="opcoes">
         <label>
           <input type="checkbox" [(ngModel)]="incluirGraficos" />
@@ -20,7 +15,8 @@
       </div>
   
       <hr />
-      <p>No Dashboard o card filtrará os <br> dados considerando o mês corrente.</p>
+  
+      <p>No Dashboard o card filtrará os dados considerando o mês corrente.</p>
   
       <div class="botoes">
         <button class="cancelar" (click)="fechar()">Cancelar</button>
@@ -29,11 +25,3 @@
     </div>
   </div>
   
-  <!-- Popup de erro -->
-  <div class="erro-overlay" *ngIf="mostrarErro">
-    <div class="erro-popup">
-      <p>Você deve escolher pelo menos <br>uma das duas opções de visualizaçãos.</p>
-      <button (click)="fecharErro()">Ok</button>
-    </div>
-  </div>
-
