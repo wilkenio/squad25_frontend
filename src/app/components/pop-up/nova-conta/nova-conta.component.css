@@ -264,6 +264,14 @@
   border-radius: 6px;
   font-family: "Nunito Sans", sans-serif;
 }
+
+.erro {
+  color: red;
+  font-size: 14px;
+  margin: 10px 0;
+  text-align: end;
+}
+
 /* Responsivo */
 @media screen and (max-width: 800px) {
   .popUp {

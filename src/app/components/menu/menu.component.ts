@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, HostListener,Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
 import { NovoCartaoComponent } from '../pop-up/novo-cartao/novo-cartao.component';
@@ -17,6 +17,8 @@ export class MenuComponent implements OnInit {
   @ViewChild(NovoCartaoComponent) novoCartaoComponent!: NovoCartaoComponent;
   @ViewChild(NovaTransacaoComponent) novaTransacaoComponent!: NovaTransacaoComponent;
   @ViewChild(NovaTransferenciaComponent) novaTransferenciaComponent!: NovaTransferenciaComponent;
+
+  @Output() abrirNovaConta = new EventEmitter<void>();
 
   nomeDaRota: string = '';
 
@@ -81,7 +83,7 @@ export class MenuComponent implements OnInit {
   }
 
   toggleNovaContaPopup() {
-    this.novaContaComponent.togglePopup("add",'');
+    this.abrirNovaConta.emit(); 
   }
 
   toggleNovoCartaoPopup() {

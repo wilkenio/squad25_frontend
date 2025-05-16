@@ -32,6 +32,7 @@
       <div class="nome border-bottom">
         <h5>Categoria</h5>
         <select [(ngModel)]="categoriaId">
+          <option value="">Selecione</option>
           <option *ngFor="let categoria of categorias" [value]="categoria.id">
             {{ categoria.name }}
           </option>
@@ -43,6 +44,11 @@
         <h5>Informações Adicionais</h5>
         <textarea [(ngModel)]="infoAdicional" placeholder="Digite aqui..."></textarea>
       </div>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div *ngIf="mensagemErro" class="erro">
+      {{ mensagemErro }}
     </div>
 
     <div class="btns">
