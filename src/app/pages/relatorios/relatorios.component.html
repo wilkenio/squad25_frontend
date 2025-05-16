@@ -2,9 +2,9 @@
 <app-menu></app-menu>
 
 <div class="relatorios-container">
-  
+
   <div class="filtros-wrapper">
-    
+
     <div class="filtro-geral">
       <h3>Filtro geral</h3>
       <div class="linha-inicial"></div>
@@ -20,14 +20,12 @@
 
       <div class="bloco-geral">
         <span class="referencia-data">Data de referência:</span>
-        <button class="botao-referencia"
-                [class.ativo]="referenciaSelecionada === 'lancamento'"
-                (click)="selecionarReferencia('lancamento')">
+        <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'lancamento'"
+          (click)="selecionarReferencia('lancamento')">
           Lançamento
         </button>
-        <button class="botao-referencia"
-                [class.ativo]="referenciaSelecionada === 'efetivacao'"
-                (click)="selecionarReferencia('efetivacao')">
+        <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'efetivacao'"
+          (click)="selecionarReferencia('efetivacao')">
           Efetivação
         </button>
       </div>
@@ -35,14 +33,11 @@
 
       <div class="bloco-geral">
         <span class="contas">Contas:</span>
-        <button class="botao-contas"
-                [class.ativo]="contaSelecionada === 'todas'"
-                (click)="selecionarConta('todas')">
+        <button class="botao-contas" [class.ativo]="contaSelecionada === 'todas'" (click)="selecionarConta('todas')">
           Todas
         </button>
-        <button class="botao-contas"
-                [class.ativo]="contaSelecionada === 'selecionar'"
-                (click)="selecionarConta('selecionar')">
+        <button class="botao-contas" [class.ativo]="contaSelecionada === 'selecionar'"
+          (click)="selecionarConta('selecionar')">
           Selecionar
         </button>
       </div>
@@ -87,21 +82,19 @@
       </div>
     </div>
 
-    
+
     <div class="filtro-bloco">
       <h3>Filtros adicionais</h3>
       <div class="linha-inicial"></div>
 
       <div class="bloco-adicionais">
         <span class="receitas-categorias">Categorias receitas:</span>
-        <button class="botao-receitas"
-                [class.ativo]="categoriaSelecionada === 'todas'"
-                (click)="selecionarCategoria('todas')">
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'todas'"
+          (click)="selecionarCategoria('todas')">
           Todas
         </button>
-        <button class="botao-receitas"
-                [class.ativo]="categoriaSelecionada === 'selecionar'"
-                (click)="selecionarCategoria('selecionar')">
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'selecionar'"
+          (click)="selecionarCategoria('selecionar')">
           Selecionar
         </button>
       </div>
@@ -127,14 +120,12 @@
 
       <div class="bloco-adicionais">
         <span class="despesas-categorias">Categorias despesas:</span>
-        <button class="botao-despesas"
-                [class.ativo]="categoriaSelecionadaDespesas === 'todas'"
-                (click)="selecionarCategoriaDespesas('todas')">
+        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'todas'"
+          (click)="selecionarCategoriaDespesas('todas')">
           Todas
         </button>
-        <button class="botao-despesas"
-                [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'"
-                (click)="selecionarCategoriaDespesas('selecionar')">
+        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'"
+          (click)="selecionarCategoriaDespesas('selecionar')">
           Selecionar
         </button>
       </div>
@@ -159,7 +150,7 @@
       </div>
     </div>
 
-    
+
     <div class="filtro-bloco">
       <h3>Apresentação dos dados</h3>
       <div class="linha-inicial"></div>
@@ -183,7 +174,7 @@
           <span>Mostrar:</span>
 
           <label class="opcao">
-            <input type="radio" name="mostrar"  />
+            <input type="radio" name="mostrar" />
             Todos os resultados
           </label>
 
@@ -210,53 +201,111 @@
     </div>
   </div>
 
-  
+
   <div class="linha-meio"></div>
 
   <div class="relatorios-salvos">
     <h3>Relatórios salvos</h3>
 
-    <div class="relatorio-item">
-      <span>Valores depositados em investimentos</span>
-      <span class="data">28/04/2025, 14h34min</span>
-      <div class="acoes">
-        <button (click)="abrirModalIncluir()">
-          <i class="bi bi-box-arrow-in-up"></i>
-        </button>
-        <button><i class="fa fa-th"></i></button>
-        <button><i class="fa fa-trash"></i></button>
+    <div class="relatorio-bloco" *ngFor="let relatorio of relatoriosSalvos; let i = index">
+      <div class="relatorio-linha" [class.ativo]="dropdownAberto === i" (click)="toggleDropdown(i)">
+
+        <div class="titulo">
+          {{ relatorio.titulo }}
+        </div>
+        <div class="info">
+          <span class="data">{{ relatorio.data }}</span>
+          <div class="icones">
+            <button (click)="compartilhar(relatorio); $event.stopPropagation()">
+              <i class="bi bi-box-arrow-in-up"></i>
+            </button>
+            <button (click)="abrirModalIncluir(); $event.stopPropagation()">
+              <i class="bi bi-grid-fill"></i>
+            </button>
+            <button (click)="abrirConfirmacaoExclusao(relatorio.titulo); $event.stopPropagation()">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </div>
+        </div>
       </div>
+
+      <!-- Dentro do *ngFor que renderiza os relatórios -->
+      <!-- Dentro do *ngFor que renderiza os relatórios -->
+      <div *ngIf="dropdownAberto === i" class="relatorio-dropdown">
+        <div class="relatorio-dividido">
+
+          <!-- Coluna esquerda: barras ou resumo -->
+          <!-- Coluna esquerda: gráfico de barras -->
+          <div class="coluna-esquerda">
+
+            <p><strong>Período:</strong> 01/01/2025 até 31/01/2025</p>
+
+            <!-- willl -->
+            <div class="grafico-barras">
+              <div class="contain-categorias">
+
+                <div class="dezcategorias" *ngFor="let gasto of exemploGastos"
+                  [ngStyle]="{'margin-right':- gasto.percentual + '%'}">
+                  <div class="categoria">
+                    <div class="dados-categoria">
+                      <div class="nome-categoria">{{ gasto.nome || 'Sem nome' }}</div>
+                      <div class="categoria-descricao">{{ gasto.descricaoTransacao || 'Sem descrição' }}</div>
+                    </div>
+                    <div class="icon-categoria">
+                      <i [class]="gasto.iconClass || 'fa-solid fa-question'"></i>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+
+              </div>
+              <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                [plotOptions]="chartOptions.plotOptions" [dataLabels]="chartOptions.dataLabels"
+                [colors]="chartOptions.colors || []">
+              </apx-chart>
+
+            </div>
+
+
+            <!-- ddddddddd -->
+
+
+
+          </div>
+
+
+          <!-- Coluna direita: tabela detalhada -->
+          <div class="coluna-direita">
+            <p><strong>Período:</strong> 01/01/2025 até 31/01/2025</p>
+            <div class="tabela">
+              <div class="linha cabecalho">
+                <span>Descrição</span>
+                <span>Data</span>
+                <span>Valor</span>
+              </div>
+              <div class="linha" *ngFor="let item of exemploGastos">
+                <span>{{ item.descricao }}</span>
+                <span>{{ item.data }}</span>
+                <span>R$ {{ item.valor }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
-    <div class="relatorio-item">
-      <span>Dez maiores gastos do mês</span>
-      <span class="data">11/02/2025, 21h12min</span>
-      <div class="acoes">
-        <button (click)="abrirModalIncluir()">
-          <i class="bi bi-box-arrow-in-up"></i>
-        </button>
-        
-        <button><i class="fa fa-th"></i></button>
-        <button><i class="fa fa-trash"></i></button>
-      </div>
-    </div>
 
-    <div class="relatorio-item">
-      <span>Sem-título-01</span>
-      <span class="data">18/01/2025, 08h33min</span>
-      <div class="acoes">
-        <button (click)="abrirModalIncluir()">
-          <i class="bi bi-box-arrow-in-up"></i>
-        </button>
-        <button><i class="fa fa-th"></i></button>
-        <button><i class="fa fa-trash"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
+    <app-incluir-no-dashboard *ngIf="mostrarModalIncluir" (fecharModal)="fecharModalIncluir()"
+      (incluir)="handleIncluir($event)">
+    </app-incluir-no-dashboard>
 
-<app-incluir-no-dashboard  *ngIf="mostrarModalIncluir"
-(fecharModal)="fecharModalIncluir()"
-(incluir)="handleIncluir($event)">>
-  
-</app-incluir-no-dashboard>
+    <app-confirmar-exclusao *ngIf="mostrarConfirmacao" [nomeRelatorio]="relatorioParaExcluir"
+      (confirmar)="excluirRelatorioConfirmado()" (cancelar)="fecharConfirmacao()">
+    </app-confirmar-exclusao>
