@@ -480,7 +480,7 @@ input[type="checkbox"]:checked + label {
   
 }
 
-.relatorio-linha.ativo .titulo,
+.relatorio-linha.ativo .relatorio-titulo,
 .relatorio-linha.ativo .data
  {
   color: #fff;
@@ -500,7 +500,7 @@ input[type="checkbox"]:checked + label {
   justify-content: space-between;
   padding: 16px;
   cursor: pointer;
-  color: #f80505;
+  
 }
 .relatorio-linha.ativo {
   background: linear-gradient(to right, var(--cor-4), var(--cor-5));
@@ -508,9 +508,9 @@ input[type="checkbox"]:checked + label {
 }
 
 
-.titulo {
+.relatorio-titulo {
   font-weight: 500;
-  color: #333;
+  color: var(--cor-17);
 }
 
 .info {
@@ -537,7 +537,7 @@ input[type="checkbox"]:checked + label {
 
 .relatorio-dropdown {
   
-  background-color: #ffffff;
+  background-color: var(--cor-1);
   animation: expandir 0.3s ease-out;
   
   padding: 0.5%
@@ -571,16 +571,16 @@ input[type="checkbox"]:checked + label {
 }
 
 .coluna-esquerda {
-  background-color: #fafafa;
+  background-color: var(--cor-1);
   padding: 1rem;
-  border: 2px solid #AEAEAE;
+  border: 2px solid var(--cor-16);
   border-radius: 10px;
 }
 
 .coluna-direita {
-  background-color: #ffffff;
+  background-color: var(--cor-1);
   padding: 1rem;
-  border: 2px solid #AEAEAE;
+  border: 2px solid var(--cor-16);
   border-radius: 10px;
 }
 
@@ -615,14 +615,10 @@ input[type="checkbox"]:checked + label {
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid #ff0000;
+  border-bottom: 1px solid var(--cor-15);
 }
 
-canvas.grafico-chartjs {
-  width: 100%;
-  max-height: 300px;
-  margin-top: 10px;
-}
+
 
 .categoria{
   display: flex;
@@ -633,8 +629,8 @@ canvas.grafico-chartjs {
 .icon-categoria{
   color: var(--cor-1);
   border: 4px solid var(--cor-1); 
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: red;
   border-radius: 100px;
   display: flex;
@@ -648,13 +644,101 @@ canvas.grafico-chartjs {
 
 
 .contain-categorias{
-  width: 34%;
-  height: 100%;
+  width: 35.5%;
+  height: 80%;
   position: absolute;
-  margin-top: 3%;
+  margin-top: 2.3%;
+  background-color: #ffffff00;
   z-index: 99999;
 }
 
 .dezcategorias{
   margin-bottom:3.75vh;
 }
+
+
+
+
+.coluna-direita {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #555;
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  align-items: flex-start;
+}
+
+.descricao {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.titulo-descricao {
+  display: flex;
+  font-size: 1rem;
+  gap: 0.5%;
+}
+
+
+.titulo{
+  color: var(--cor-3);
+}
+
+
+.subtitulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.descricao-transacao {
+  
+  color: var(--cor-16);
+  font-size:  0.9rem;
+}
+
+.categorias {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.categorias i {
+  font-size: 1.1rem;
+}
+
+.categoria-icone-nome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.data,
+.valor {
+  min-width: 100px;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+/* Para que o ícone fique embaixo do título e descrição, você pode usar: */
+.icone-embaixo {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+
+
+
