@@ -36,6 +36,72 @@
   color: #3C217A;
 }
 
+/* Fundo escuro semi-transparente que cobre toda a tela */
+.modal-confirmacao {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* fundo preto com transparência */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* fica acima de tudo */
+}
+
+/* Caixa branca centralizada do modal */
+.modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Parágrafo do texto da confirmação */
+.modal-content p {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+
+/* Botões lado a lado com espaço */
+.modal-content button {
+  padding: 10px 22px;
+  margin: 0 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.25s ease;
+}
+
+/* Botão de confirmação*/
+.modal-content button:first-of-type {
+  background-color: rgb(60, 33, 122);
+  color: white;
+}
+
+.modal-content button:first-of-type:hover {
+  background-color:rgb(60, 33, 122) ;
+}
+
+/* Botão de cancelar:*/
+.modal-content button:last-of-type {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-content button:last-of-type:hover {
+  background-color: #aaa;
+}
+
+
 .seletor-mes select {
   padding: 10px 14px;
   border: 1px solid #D1D5DB;
@@ -231,4 +297,6 @@
   margin-top: 5px;
   z-index: 10;
 }
+
+
 

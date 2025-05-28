@@ -10,6 +10,7 @@ import { EvolucaoDoBalancoComponent } from '../../components/dashboard/evolucao-
 import { ReceitasComponent } from '../../components/dashboard/receitas/receitas.component';
 import { IncluirNoDashboardComponent } from '../../components/pop-up/incluir-no-dashboard/incluir-no-dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import {
   ApexAxisChartSeries,
@@ -52,12 +53,27 @@ export type ChartOptions = {
     EvolucaoDoBalancoComponent,
     ReceitasComponent,
     IncluirNoDashboardComponent,
-    NgApexchartsModule
+    NgApexchartsModule,
+    DragDropModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+nomeBloco(arg0: string) {
+throw new Error('Method not implemented.');
+}
+  cardsDireita = ['grafico', 'saldo'];
+  cardsEsquerda = ['despesas', 'parceladas', 'pagamentos'];
+
+  dropDireita(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.cardsDireita, event.previousIndex, event.currentIndex);
+  }
+
+  dropEsquerda(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.cardsEsquerda, event.previousIndex, event.currentIndex);
+  }
+
   confirmacaoAberta: string | null = null;
 
   saldoAtual: number = 1250.75;
@@ -110,17 +126,9 @@ export class DashboardComponent implements OnInit {
           ]
         }
       ],
-      chart: {
-        type: 'bar',
-        height: 350,
-        toolbar: { show: false }
-      },
+      chart: { type: 'bar', height: 350, toolbar: { show: false } },
       plotOptions: {
-        bar: {
-          horizontal: true,
-          distributed: true,
-          borderRadius: 10
-        }
+        bar: { horizontal: true, distributed: true, borderRadius: 10 }
       },
       colors: ['#F8AF7A', '#F8AF7A', '#F47922', '#F47922', '#F47922'],
       dataLabels: { enabled: false },
@@ -208,10 +216,12 @@ export class DashboardComponent implements OnInit {
   }
 
   confirmarExclusao(bloco: string) {
-    console.log('Excluído:', bloco);
-    if (bloco === 'pagamentos') {
-      this.mostrarPagamentosreceber = false;
-    }
+    if (bloco === 'pagamentos') this.mostrarPagamentosreceber = false;
+    else if (bloco === 'grafico') this.mostrarGraficoBalanco = false;
+    else if (bloco === 'saldo') this.mostrarSaldoAtual = false;
+    else if (bloco === 'despesas') this.mostrarDespesasPrincipais = false;
+    else if (bloco === 'parceladas') this.mostrarComprasParceladas = false;
+
     this.confirmacaoAberta = null;
   }
 
@@ -234,31 +244,6 @@ export class DashboardComponent implements OnInit {
   toggleComprasParceladas() {
     this.mostrarComprasParceladas = !this.mostrarComprasParceladas;
   }
-
-  startDragging(event: MouseEvent, element: HTMLElement) {
-    this.isDragging = true;
-    this.draggedElement = element;
-    const rect = element.getBoundingClientRect();
-    this.offsetX = event.clientX - rect.left;
-    this.offsetY = event.clientY - rect.top;
-    document.addEventListener('mousemove', this.onMouseMove);
-    document.addEventListener('mouseup', this.stopDragging);
-  }
-
-  onMouseMove = (event: MouseEvent) => {
-    if (this.isDragging && this.draggedElement) {
-      this.draggedElement.style.position = 'absolute';
-      this.draggedElement.style.left = `${event.clientX - this.offsetX}px`;
-      this.draggedElement.style.top = `${event.clientY - this.offsetY}px`;
-    }
-  };
-
-  stopDragging = () => {
-    this.isDragging = false;
-    this.draggedElement = null;
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.stopDragging);
-  };
 
   abrirModal() {
     this.modalAberto = true;

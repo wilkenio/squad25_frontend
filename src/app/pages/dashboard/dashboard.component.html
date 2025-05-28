@@ -8,7 +8,7 @@
         <p>Seja bem-vindo, <span class="usuario-nome">Varejão</span></p>
       </div>
       <div class="seletor-mes">
-        <select [(ngModel)]="mesSelecionado">
+        <select [(ngModel)]="mesSelecionado" name="mesSelecionado">
           <option *ngFor="let mes of meses" [value]="mes">{{ mes }}</option>
         </select>
       </div>
@@ -22,7 +22,12 @@
       <div class="card-dashboard">
         <div class="cabecalho-card despesas-card" (click)="toggleDespesasPrincipais()">
           <span>Minhas cinco principais despesas</span>
-          <i class="bi bi-trash-fill"></i>
+          <i 
+            class="bi bi-trash-fill" 
+            (click)="abrirConfirmacao('despesasPrincipais'); $event.stopPropagation()"
+            style="cursor: pointer;"
+            title="Remover despesas principais"
+          ></i>
         </div>
 
         <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
@@ -51,12 +56,16 @@
         </div>
       </div>
 
-    
       <!-- Pagamentos a receber -->
       <div class="card-dashboard simples">
         <div class="cabecalho-card" (click)="togglePagamentosreceber()">
           <span>Pagamentos a receber</span>
-          <i class="bi bi-trash-fill"></i>
+          <i 
+            class="bi bi-trash-fill" 
+            (click)="abrirConfirmacao('pagamentosReceber'); $event.stopPropagation()"
+            style="cursor: pointer;"
+            title="Remover pagamentos a receber"
+          ></i>
         </div>
         <div *ngIf="mostrarPagamentosreceber" class="conteudo-card">
           <!-- Conteúdo futuro -->
@@ -67,7 +76,12 @@
       <div class="card-dashboard simples">
         <div class="cabecalho-card" (click)="toggleComprasParceladas()">
           <span>Compras parceladas do cartão</span>
-          <i class="bi bi-trash-fill"></i>
+          <i 
+            class="bi bi-trash-fill" 
+            (click)="abrirConfirmacao('comprasParceladas'); $event.stopPropagation()"
+            style="cursor: pointer;"
+            title="Remover compras parceladas"
+          ></i>
         </div>
         <div *ngIf="mostrarComprasParceladas" class="conteudo-card">
           <!-- Conteúdo futuro -->
@@ -81,7 +95,12 @@
       <div class="card-dashboard saldo">
         <div class="cabecalho-card" (click)="toggleSaldoAtual()">
           <span>Meu saldo atual</span>
-          <i class="bi bi-trash-fill"></i>
+          <i 
+            class="bi bi-trash-fill" 
+            (click)="abrirConfirmacao('saldoAtual'); $event.stopPropagation()"
+            style="cursor: pointer;"
+            title="Remover saldo atual"
+          ></i>
         </div>
         <div *ngIf="mostrarSaldoAtual" class="saldo-container">
           <div class="saldo-info">
@@ -98,7 +117,12 @@
       <div class="card-dashboard">
         <div class="cabecalho-card" (click)="toggleGraficoBalanco()">
           <span>Gráfico do balanço do mês</span>
-          <i class="bi bi-trash-fill"></i>
+          <i 
+            class="bi bi-trash-fill" 
+            (click)="abrirConfirmacao('graficoBalanco'); $event.stopPropagation()"
+            style="cursor: pointer;"
+            title="Remover gráfico do balanço"
+          ></i>
         </div>
 
         <div *ngIf="mostrarGraficoBalanco && graficoBalancoMesOptions">
@@ -118,7 +142,14 @@
         </div>
       </div>
     </div>
+  </div>
 
-  
+  <!-- Modal de confirmação -->
+  <div *ngIf="confirmacaoAberta" class="modal-confirmacao">
+    <div class="modal-content">
+      <p>Tem certeza que deseja remover <strong>{{ nomeBloco(confirmacaoAberta) }}?</strong></p>
+      <button (click)="confirmarExclusao(confirmacaoAberta)">Sim</button>
+      <button (click)="cancelarExclusao()">Não</button>
+    </div>
   </div>
 </section>
