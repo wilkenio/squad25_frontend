@@ -165,56 +165,69 @@ throw new Error('Method not implemented.');
 
   // Gerar gráfico de evolução do balanço do mês (exemplo ApexCharts)
 
-  gerarGraficoBalancoDoMes(): void {
-    this.graficoBalancoMesOptions = {
-      series: [
-        { name: 'Saldo', data: [1552] },
-        { name: 'Previsto', data: [252] },
-        { name: 'Despesas', data: [480] },
-        { name: 'Previsto Despesas', data: [1300] }
-      ],
-      chart: {
-        type: 'bar',
-        height: 350,
-        toolbar: { show: false }
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          borderRadius: 6
-        }
-      },
-      colors: ['#5A89F0', '#9CB8F6', '#F47922', '#FBC598'],
-      dataLabels: { enabled: false },
-      xaxis: {
-        categories: [''],
-        labels: { show: false },
-        axisBorder: { show: false },
-        axisTicks: { show: false }
-      },
-      yaxis: {
-        labels: {
-          formatter: (value: number) => 'R$ ' + value.toFixed(2).replace('.', ',')
-        }
-      },
-      grid: {
-        yaxis: { lines: { show: false } },
-        xaxis: { lines: { show: false } }
-      },
-      fill: { opacity: 1 },
-      tooltip: {
-        y: {
-          formatter: (val: number) => 'R$ ' + val.toFixed(2).replace('.', ',')
-        }
-      },
-      legend: {
-        show: true,
-        position: 'top',
-        horizontalAlign: 'right'
+gerarGraficoBalancoDoMes(): void {
+  this.graficoBalancoMesOptions = {
+    series: [
+      { name: 'Saldo', data: [1552] },
+      { name: 'Previsto', data: [252] },
+      { name: 'Despesas', data: [480] },
+      { name: 'Previsto Despesas', data: [1300] }
+    ],
+    chart: {
+      type: 'bar',
+      height: 350,
+      toolbar: { show: false }
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+        borderRadius: 6
       }
-    };
-  }
+    },
+    colors: ['#5A89F0', '#9CB8F6', '#F47922', '#FBC598'],
+    dataLabels: { enabled: false },
+    xaxis: {
+      categories: [''],
+      labels: { show: false },
+      axisBorder: { show: false },
+      axisTicks: { show: false }
+    },
+    yaxis: {
+      labels: {
+        formatter: (value: number) => 'R$ ' + value.toFixed(2).replace('.', ',')
+      }
+    },
+    grid: {
+      show: true, // Exibe a grade (linhas de fundo)
+      position: 'back', // Garante que fiquem atrás do gráfico
+      borderColor: '#e0e0e0', // Cor das linhas de fundo
+      strokeDashArray: 2, // Estilo pontilhado (pode remover se quiser linha sólida)
+      yaxis: {
+        lines: {
+          show: true // Mostra linhas horizontais (como na imagem)
+        }
+      },
+      xaxis: {
+        lines: {
+          show: false
+        }
+      }
+    },
+    fill: { opacity: 1 },
+    tooltip: {
+      y: {
+        formatter: (val: number) => 'R$ ' + val.toFixed(2).replace('.', ',')
+      }
+    },
+    legend: {
+      show: true,
+      position: 'top',
+      horizontalAlign: 'right'
+    }
+  };
+}
+
 
   // Funções para toggle visibilidade dos cards
 
