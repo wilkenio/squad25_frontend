@@ -17,14 +17,18 @@
 
   <div class="container-dashboard">
     <!-- LADO ESQUERDO -->
-    <div class="lado-esquerdo">
+    <div class="lado-esquerdo" cdkDropList (cdkDropListDropped)="dropEsquerda($event)">
       <!-- Minhas cinco principais despesas -->
-      <div class="card-dashboard">
+      <div
+        class="card-dashboard"
+        id="despesasPrincipais"
+        cdkDrag
+      >
         <div class="cabecalho-card despesas-card" (click)="toggleDespesasPrincipais()">
           <span>Minhas cinco principais despesas</span>
-          <i 
-            class="bi bi-trash-fill" 
-            (click)="abrirConfirmacao('despesasPrincipais'); $event.stopPropagation()"
+          <i
+            class="bi bi-trash-fill"
+            (click)="abrirConfirmacao('despesas'); $event.stopPropagation()"
             style="cursor: pointer;"
             title="Remover despesas principais"
           ></i>
@@ -33,7 +37,7 @@
         <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
           <div class="grafico-despesas">
             <apx-chart 
-              [series]="chartOptions.series"
+              [series]="chartOptions.series"   
               [chart]="chartOptions.chart"
               [colors]="chartOptions.colors || []"
               [plotOptions]="chartOptions.plotOptions"
@@ -46,58 +50,73 @@
               [legend]="chartOptions.legend"
             ></apx-chart>
           </div>
+         
+
           <div class="icones-despesas">
-            <i class="fa fa-car"></i>
-            <i class="fa fa-home"></i>
-            <i class="bi bi-cash"></i>
-            <i class="fa fa-graduation-cap"></i>
-            <i class="fa fa-cutlery"></i>
+            <div class="icone-despesa aluguel">   
+              <i class="fa fa-car"></i><span></span></div>
+            <div class="icone-despesa transporte"><i class="fa fa-home"></i><span></span></div>
+            <div class="icone-despesa alimentacao"><i class="bi bi-cash"></i><span></span></div>
+            <div class="icone-despesa educacao"><i class="fa fa-graduation-cap"></i><span></span></div>
+            <div class="icone-despesa outros"><i class="fa fa-cutlery"></i><span></span></div>
           </div>
         </div>
       </div>
 
       <!-- Pagamentos a receber -->
-      <div class="card-dashboard simples">
+      <div
+        class="card-dashboard simples"
+        id="pagamentosReceber"
+        cdkDrag
+      >
         <div class="cabecalho-card" (click)="togglePagamentosreceber()">
           <span>Pagamentos a receber</span>
-          <i 
-            class="bi bi-trash-fill" 
-            (click)="abrirConfirmacao('pagamentosReceber'); $event.stopPropagation()"
+          <i
+            class="bi bi-trash-fill"
+            (click)="abrirConfirmacao('pagamentos'); $event.stopPropagation()"
             style="cursor: pointer;"
             title="Remover pagamentos a receber"
           ></i>
         </div>
         <div *ngIf="mostrarPagamentosreceber" class="conteudo-card">
-          <!-- Conteúdo futuro -->
+          <!-- Conteúdo dos pagamentos a receber -->
         </div>
       </div>
 
       <!-- Compras parceladas do cartão -->
-      <div class="card-dashboard simples">
+      <div
+        class="card-dashboard simples"
+        id="comprasParceladas"
+        cdkDrag
+      >
         <div class="cabecalho-card" (click)="toggleComprasParceladas()">
           <span>Compras parceladas do cartão</span>
-          <i 
-            class="bi bi-trash-fill" 
-            (click)="abrirConfirmacao('comprasParceladas'); $event.stopPropagation()"
+          <i
+            class="bi bi-trash-fill"
+            (click)="abrirConfirmacao('parceladas'); $event.stopPropagation()"
             style="cursor: pointer;"
             title="Remover compras parceladas"
           ></i>
         </div>
         <div *ngIf="mostrarComprasParceladas" class="conteudo-card">
-          <!-- Conteúdo futuro -->
+          <!-- Conteúdo das compras parceladas -->
         </div>
       </div>
     </div>
 
     <!-- LADO DIREITO -->
-    <div class="lado-direito">
+    <div class="lado-direito" cdkDropList (cdkDropListDropped)="dropDireita($event)">
       <!-- Meu saldo atual -->
-      <div class="card-dashboard saldo">
+      <div
+        class="card-dashboard saldo"
+        id="saldoAtual"
+        cdkDrag
+      >
         <div class="cabecalho-card" (click)="toggleSaldoAtual()">
           <span>Meu saldo atual</span>
-          <i 
-            class="bi bi-trash-fill" 
-            (click)="abrirConfirmacao('saldoAtual'); $event.stopPropagation()"
+          <i
+            class="bi bi-trash-fill"
+            (click)="abrirConfirmacao('saldo'); $event.stopPropagation()"
             style="cursor: pointer;"
             title="Remover saldo atual"
           ></i>
@@ -114,17 +133,20 @@
       </div>
 
       <!-- Gráfico do balanço do mês -->
-      <div class="card-dashboard">
+      <div
+        class="card-dashboard"
+        id="graficoBalanco"
+        cdkDrag
+      >
         <div class="cabecalho-card" (click)="toggleGraficoBalanco()">
           <span>Gráfico do balanço do mês</span>
-          <i 
-            class="bi bi-trash-fill" 
-            (click)="abrirConfirmacao('graficoBalanco'); $event.stopPropagation()"
+          <i
+            class="bi bi-trash-fill"
+            (click)="abrirConfirmacao('grafico'); $event.stopPropagation()"
             style="cursor: pointer;"
             title="Remover gráfico do balanço"
           ></i>
         </div>
-
         <div *ngIf="mostrarGraficoBalanco && graficoBalancoMesOptions">
           <apx-chart
             [series]="graficoBalancoMesOptions.series"
@@ -137,8 +159,8 @@
             [grid]="graficoBalancoMesOptions.grid"
             [fill]="graficoBalancoMesOptions.fill"
             [tooltip]="graficoBalancoMesOptions.tooltip"
-            [legend]="graficoBalancoMesOptions.legend">
-          </apx-chart>
+            [legend]="graficoBalancoMesOptions.legend"
+          ></apx-chart>
         </div>
       </div>
     </div>

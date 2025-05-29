@@ -63,19 +63,25 @@ export class DashboardComponent implements OnInit {
 nomeBloco(arg0: string) {
 throw new Error('Method not implemented.');
 }
-  cardsDireita = ['grafico', 'saldo'];
-  cardsEsquerda = ['despesas', 'parceladas', 'pagamentos'];
 
-  dropDireita(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.cardsDireita, event.previousIndex, event.currentIndex);
-  }
+  // Controle de visibilidade dos cards
+  mostrarDespesasPrincipais = true;
+  mostrarSaldoAtual = true;
+  mostrarGraficoBalanco = true;
+  mostrarComprasParceladas = true;
+  mostrarPagamentosreceber = true;
 
-  dropEsquerda(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.cardsEsquerda, event.previousIndex, event.currentIndex);
-  }
+  // Arrays com os cards que podem ser rearranjados
+  cardsDireita: string[] = ['grafico', 'saldo'];
+  cardsEsquerda: string[] = ['despesas', 'parceladas', 'pagamentos'];
 
+  // Controle modal de confirmação de exclusão
   confirmacaoAberta: string | null = null;
 
+  // Controle modal popup incluir no dashboard
+  modalAberto = false;
+
+  // Dados para saldo e meses
   saldoAtual: number = 1250.75;
   meses: string[] = [
     'Janeiro 2025', 'Fevereiro 2025', 'Março 2025', 'Abril 2025',
@@ -83,34 +89,35 @@ throw new Error('Method not implemented.');
     'Setembro 2025', 'Outubro 2025', 'Novembro 2025', 'Dezembro 2025'
   ];
   mesSelecionado: string = '';
-  chartOptions: ChartOptions | undefined;
-  graficoBalancoMesOptions: ChartOptions | undefined;
 
-  mostrarDespesasPrincipais = true;
-  mostrarSaldoAtual = true;
-  mostrarGraficoBalanco = true;
-  mostrarComprasParceladas = true;
-  mostrarPagamentosreceber = true;
-
-  isDragging = false;
-  offsetX = 0;
-  offsetY = 0;
-  draggedElement: HTMLElement | null = null;
-
-  modalAberto = false;
-  valoresDespesas: any = null;
+  // Configurações dos gráficos ApexCharts
+  chartOptions?: ChartOptions;
+  graficoBalancoMesOptions?: ChartOptions;
 
   constructor() {
-    console.log(localStorage.getItem('nomeUsuario'));
+    console.log('Usuário logado:', localStorage.getItem('nomeUsuario'));
   }
 
   ngOnInit(): void {
     const dataAtual = new Date();
     const mesIndex = dataAtual.getMonth();
     this.mesSelecionado = this.meses[mesIndex];
+
     this.gerarGrafico();
     this.gerarGraficoBalancoDoMes();
   }
+
+  // Funções para drag and drop dos cards (usando Angular CDK)
+
+  dropDireita(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.cardsDireita, event.previousIndex, event.currentIndex);
+  }
+
+  dropEsquerda(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.cardsEsquerda, event.previousIndex, event.currentIndex);
+  }
+
+  // Gerar gráfico básico de despesas principais (exemplo ApexCharts)
 
   gerarGrafico(): void {
     this.chartOptions = {
@@ -155,6 +162,8 @@ throw new Error('Method not implemented.');
       legend: { show: false }
     };
   }
+
+  // Gerar gráfico de evolução do balanço do mês (exemplo ApexCharts)
 
   gerarGraficoBalancoDoMes(): void {
     this.graficoBalancoMesOptions = {
@@ -207,57 +216,79 @@ throw new Error('Method not implemented.');
     };
   }
 
-  abrirConfirmacao(bloco: string) {
-    this.confirmacaoAberta = bloco;
-  }
+  // Funções para toggle visibilidade dos cards
 
-  cancelarExclusao() {
-    this.confirmacaoAberta = null;
-  }
-
-  confirmarExclusao(bloco: string) {
-    if (bloco === 'pagamentos') this.mostrarPagamentosreceber = false;
-    else if (bloco === 'grafico') this.mostrarGraficoBalanco = false;
-    else if (bloco === 'saldo') this.mostrarSaldoAtual = false;
-    else if (bloco === 'despesas') this.mostrarDespesasPrincipais = false;
-    else if (bloco === 'parceladas') this.mostrarComprasParceladas = false;
-
-    this.confirmacaoAberta = null;
-  }
-
-  toggleDespesasPrincipais() {
+  toggleDespesasPrincipais(): void {
     this.mostrarDespesasPrincipais = !this.mostrarDespesasPrincipais;
   }
 
-  toggleSaldoAtual() {
+  toggleSaldoAtual(): void {
     this.mostrarSaldoAtual = !this.mostrarSaldoAtual;
   }
 
-  toggleGraficoBalanco() {
+  toggleGraficoBalanco(): void {
     this.mostrarGraficoBalanco = !this.mostrarGraficoBalanco;
   }
 
-  togglePagamentosreceber() {
+  togglePagamentosreceber(): void {
     this.mostrarPagamentosreceber = !this.mostrarPagamentosreceber;
   }
 
-  toggleComprasParceladas() {
+  toggleComprasParceladas(): void {
     this.mostrarComprasParceladas = !this.mostrarComprasParceladas;
   }
 
-  abrirModal() {
+  // Funções para abrir modal de confirmação e exclusão
+
+  abrirConfirmacao(bloco: string): void {
+    this.confirmacaoAberta = bloco;
+  }
+
+  cancelarExclusao(): void {
+    this.confirmacaoAberta = null;
+  }
+
+  confirmarExclusao(bloco: string): void {
+    switch (bloco) {
+      case 'pagamentos':
+        this.mostrarPagamentosreceber = false;
+        break;
+      case 'grafico':
+        this.mostrarGraficoBalanco = false;
+        break;
+      case 'saldo':
+        this.mostrarSaldoAtual = false;
+        break;
+      case 'despesas':
+        this.mostrarDespesasPrincipais = false;
+        break;
+      case 'parceladas':
+        this.mostrarComprasParceladas = false;
+        break;
+    }
+    this.confirmacaoAberta = null;
+  }
+
+  // Funções para abrir e fechar modal de inclusão no dashboard
+
+  abrirModal(): void {
     this.modalAberto = true;
   }
 
-  fecharModal() {
+  fecharModal(): void {
     this.modalAberto = false;
   }
 
-  onIncluir(event: { graficos: boolean; lista: boolean }) {
+  // Evento para inclusão via modal (recebe objeto com opções selecionadas)
+
+  onIncluir(event: { graficos: boolean; lista: boolean }): void {
     console.log('Incluir opções selecionadas:', event);
+    // Aqui você pode implementar a lógica de inclusão conforme necessidade
   }
 
-  onLogin() {
-    console.log('Login com');
+  // Evento exemplo de login
+
+  onLogin(): void {
+    console.log('Login acionado');
   }
 }
