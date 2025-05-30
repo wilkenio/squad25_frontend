@@ -143,26 +143,33 @@
 .aluguel {
   background-color: red;
   color: white;
+  padding: 2px;
 }
 
 .transporte {
   background-color: #F91DB7;
   color: white;
+  padding: 2px;
 }
 
 .alimentacao {
   background-color: #F0B05B;
   color: white;
+  padding: 2px;
 }
 
 .educacao {
   background-color: #B61313;
   color: white;
+  padding: 2px;
 }
 
 .outros {
   background-color: #15953A;
-  color:white}
+  color:white ;
+  padding: 2px;
+  
+}
 
 
 
@@ -195,11 +202,20 @@
 }
 
 /* Card padrão */
+/* Card padrão */
 .card-dashboard {
   background: #fff;
   border-radius: var(--borda);
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+
+  /* Adicionei as bordas superiores arredondadas conforme solicitado */
+  -webkit-border-top-left-radius: 7px;
+  -webkit-border-top-right-radius: 7px;
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 7px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 /* Cabeçalho dos cards */
@@ -212,9 +228,20 @@
   align-items: center;
   font-weight: 600;
   font-size: 1rem;
+
+  /* Preservei o border-radius original para o cabeçalho */
   border-top-left-radius: var(--borda);
   border-top-right-radius: var(--borda);
+
+  /* Também adicionei as propriedades para garantir o efeito */
+  -webkit-border-top-left-radius: 7px;
+  -webkit-border-top-right-radius: 7px;
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 7px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
+
 
 .cabecalho-card i {
   background: rgba(255, 255, 255, 0.2);
@@ -230,7 +257,6 @@
   background-color: #fff;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 4px #5A89F0;
   font-family: 'Roboto', sans-serif;
   
   max-width: 400px; /* ou conforme seu layout */
@@ -316,12 +342,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  gap: 20px;
+  gap: 10px;
   margin-left: 1rem;
 }
 
 .icones-despesas i {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--roxo);
   transition: transform 0.2s ease;
 }
