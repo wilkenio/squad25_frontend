@@ -95,7 +95,7 @@ export class MenuComponent implements OnInit {
   }
 
   toggleNovaTransferenciaPopup() {
-    this.novaTransferenciaComponent.togglePopup();
+    this.novaTransferenciaComponent.togglePopup('add');
   }
 
   @HostListener('document:click', ['$event'])

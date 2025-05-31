@@ -3,7 +3,9 @@
 
 
   <div class="popUp">
-    <div class="titulo">Nova tranferência <p>Ao realizar a transferência, será criada uma transação de tipo receita em uma conta e uma de tipo despesa na outra conta selecionada.</p></div>
+    <div class="titulo">Nova tranferência <p>Ao realizar a transferência, será criada uma transação de tipo receita em
+        uma conta e uma de tipo despesa na outra conta selecionada.</p>
+    </div>
 
     <div class="flex">
       <div class="dados-nova-conta">
@@ -16,13 +18,13 @@
         <!-- Cheque Especial -->
         <div class="nome border-bottom">
           <h5>Valor</h5>
-          <input type="number" [(ngModel)]="chequeEspecial" placeholder="Digite aqui" />
+          <input type="number" [(ngModel)]="valor" placeholder="Digite aqui" />
         </div>
 
         <!-- Saldo Inicial -->
         <div class="nome border-bottom">
           <h5>Data de lançamento</h5>
-          <input type="datetime-local" [(ngModel)]="saldoInicial" placeholder="Digite aqui" />
+          <input type="datetime-local" [(ngModel)]="dataLancamento" placeholder="Digite aqui" />
         </div>
 
         <!-- Status da Transação -->
@@ -44,80 +46,86 @@
           <h5>Informações Adicionais</h5>
           <textarea [(ngModel)]="infoAdicional" placeholder="Digite aqui..."></textarea>
         </div>
-       
+
       </div>
 
       <div class="popup-2">
-        <!-- Conta -->
-        <div class="nome border-bottom">
-          <h5>Conta (Á retirar Valor)</h5>
-          <select [(ngModel)]="categoriaId">
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">
-              {{ categoria.name }}
-            </option>
-          </select>
-        </div>
+  <!-- Conta de saída -->
+  <div class="nome border-bottom">
+    <h5>Conta (Á retirar Valor)</h5>
+    <select [(ngModel)]="contaSaidaId">
+      <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaEntradaId">
+        {{ conta.accountName }}
+      </option>
+    </select>
+  </div>
 
-        <!-- Subategoria -->
-        <div class="nome border-bottom remover-border-bottom">
-          <h5>Conta 2 (Á receber Valor)</h5>
-          <select [(ngModel)]="categoriaId">
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">
-              {{ categoria.name }}
-            </option>
-          </select>
-        </div>
+  <!-- Conta de entrada -->
+  <div class="nome border-bottom remover-border-bottom">
+    <h5>Conta 2 (Á receber Valor)</h5>
+    <select [(ngModel)]="contaEntradaId">
+      <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaSaidaId">
+        {{ conta.accountName }}
+      </option>
+    </select>
+  </div>
 
+<div class="despesa-container">
+  <label class="radio-option">
+    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="NON_RECURRING" />
+    Transferência não recorrente
+  </label>
 
-        <div class="despesa-container">
-          <label class="radio-option">
-            <input type="radio" name="tipoDespesa" />
-            Transferência não recorrente
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="tipoDespesa" />
-            Transferência fixa mensal
-          </label>
-          <label class="radio-option selected">
-            <input type="radio" name="tipoDespesa" checked />
-            Repetir Transferência
-            <span class="parcelas">
-              Parcelas
-              <input type="number">
-            </span>
-          </label>
+  <label class="radio-option">
+    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="FIXED_MONTHLY" />
+    Transferência fixa mensal
+  </label>
 
-          <div class="periodicidade">
-            <label>Periodicidade</label>
-            <select>
-              <option>Semanal</option>
-              <option>Quinzenal</option>
-              <option>Mensal</option>
-            </select>
-          </div>
+  <label class="radio-option">
+    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="REPEAT" />
+    Repetir Transferência
 
-          <div class="toggle-container">
-            <label>Despesa recorrente em dias úteis:</label>
-            <span class="toggle-label">Não</span>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-            <span class="toggle-label">Sim</span>
-          </div>
+    <!-- Este campo só aparece se o valor for 'repetir' -->
+    <span class="parcelas" *ngIf="tipoFrequencia === 'REPEAT'">
+      Parcelas
+      <input type="number" [(ngModel)]="parcelas" min="2" max="7"/>
+    </span>
+  </label>
 
-        </div>
+  <!-- Aparece apenas se tipo for 'repetir' -->
+  <div class="periodicidade" *ngIf="tipoFrequencia === 'REPEAT'">
+    <label>Periodicidade</label>
+    <select [(ngModel)]="periodicidade">
+      <option value="DIARIO">DIARIO</option>
+      <option value="SEMANAL">SEMANAL</option>
+      <option value="QUINZENAL">QUINZENAL</option>
+      <option value="MENSAL">MENSAL</option>
+      <option value="TRIMESTRAL">TRIMESTRAL</option>
+      <option value="SEMESTRAL">SEMESTRAL</option>
+      <option value="ANUAL">ANUAL</option>
+    </select>
+  </div>
 
-
+  <!-- Toggle de dias úteis -->
+  <div class="toggle-container" *ngIf="tipoFrequencia === 'REPEAT'">
+    <label>Despesa recorrente em dias úteis:</label>
+    <span class="toggle-label">Não</span>
+    <label class="switch">
+      <input type="checkbox" [(ngModel)]="businessDayOnly" />
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label">Sim</span>
+  </div>
+</div>
 
 
         <div class="btns">
-          <button id="cancelar" (click)="fecharNovaConta()">Cancelar</button>
-          <button id="salvar" (click)="salvarConta()">Salvar</button>
+          <button id="cancelar" (click)="fecharNovaTransferencia()">Cancelar</button>
+          <button id="salvar" (click)="salvarTransferencia()">Salvar</button>
         </div>
 
       </div>
-      
+
     </div>
 
   </div>

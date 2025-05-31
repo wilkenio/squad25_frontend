@@ -85,6 +85,7 @@ export class NovaContaComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.csvFile = input.files[0];
+      console.log('Arquivo CSV selecionado:', this.csvFile);
     }
   }
 
@@ -99,12 +100,13 @@ export class NovaContaComponent {
     this.chequeEspecial = null;
     this.infoAdicional = '';
     this.categoriaId = '';
-    this.csvFile = null;
+    //this.csvFile = null;
     this.contaId = '';
     this.mensagemErro = '';
   }
 
   salvarConta() {
+    console.log('Arquivo CSV selecionado:', this.csvFile);
     if (!this.nome || this.nome.trim() === '') {
       this.mensagemErro = 'O nome é obrigatório.';
       return;
@@ -129,12 +131,18 @@ export class NovaContaComponent {
 
     const payload = {
       accountName: this.nome,
-      openingBalance: this.saldoInicial,
-      specialCheck: this.chequeEspecial,
       accountDescription: this.infoAdicional,
-      categoryId: this.categoriaId,
       additionalInformation: this.infoAdicional,
+      openingBalance: this.saldoInicial,
+      //currentBalance: 0,
+      //expectedBalance: 0,
+      specialCheck: this.chequeEspecial,
+      //income: 0,
+     //expense: 0,
+     //expectedIncomeMonth: 0,
+     //expectedExpenseMonth: 0,
       status: "SIM",
+      categoryId: this.categoriaId,
     };
 
     const urlBase = `${this.globalService.apiUrl}/account`;
@@ -150,17 +158,52 @@ export class NovaContaComponent {
       ? this.http.put(url, payload, { headers })
       : this.http.post(url, payload, { headers });
 
-    httpCall.subscribe({
-      next: () => {
-        if (this.router.url.includes('/contas')) {
-          this.contaSalva.emit();
+      httpCall.subscribe({
+        next: (response: any) => {
+          const id = this.typePopUp === 'edit' ? this.contaId : response.id; // id retornado pela API ao criar conta
+      
+          if (this.csvFile) {
+            this.enviarCsv(id);
+          }
+      
+          if (this.router.url.includes('/contas')) {
+            this.contaSalva.emit();
+          }
+      
+          this.fecharNovaConta();
+        },
+        error: (err) => {
+          console.error('Erro ao salvar conta:', err);
+          this.mensagemErro = 'Erro ao salvar a conta.';
         }
-        this.fecharNovaConta();
+      });
+      
+  }
+
+  enviarCsv(accountId: string) {
+     if (!this.csvFile) return;
+    
+     const formData = new FormData();
+     formData.append('file', this.csvFile);
+    
+     const url = `${this.globalService.apiUrl}/transaction/import/csv?accountId=${accountId}`;
+    
+     const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+      // **Não** defina o Content-Type manualmente, o Angular cuidará disso para FormData
+     });
+    
+     this.http.post(url, formData, { headers, responseType: 'text' }).subscribe({
+      next: (response) => {
+        console.log('CSV importado com sucesso:', response);
       },
       error: (err) => {
-        console.error('Erro ao salvar conta:', err);
-        this.mensagemErro = 'Erro ao salvar a conta.';
+        console.error('Erro ao importar CSV:', err);
       }
     });
-  }
+    
+    }
+
+    
+    
 }

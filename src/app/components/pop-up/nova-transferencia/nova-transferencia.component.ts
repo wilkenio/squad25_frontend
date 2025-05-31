@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,100 +13,143 @@ import { GlobalService } from '../../../services/global.service';
   styleUrls: ['./nova-transferencia.component.css']
 })
 export class NovaTransferenciaComponent {
-  @Output() contaSalva = new EventEmitter<void>();
+  @Output() transferenciaSalva = new EventEmitter<void>();
 
   mostrarNovaTransferencia: boolean = false;
 
   nome: string = '';
-  saldoInicial: number = 0;
-  chequeEspecial: number = 0;
+  valor: number = 0;
+  dataLancamento: string = '';
   infoAdicional: string = '';
-  categoriaId: string = '';
-  csvFile: File | null = null;
-  contaId: string = '';
+  contaSaidaId: string = '';
+  contaEntradaId: string = '';
+  contas: any[] = [];
+
+  tipoFrequencia: 'NON_RECURRING' | 'FIXED_MONTHLY' | 'REPEAT' = 'NON_RECURRING';
+  parcelas: number = 1;
+  periodicidade: string = 'DIARIO';
+  businessDayOnly: boolean = false;
+
   typePopUp: 'add' | 'edit' = 'add';
-  typeTransation: 'Receita' | 'Despesa' |''= '';
-
-
-  categorias: any[] = [];
 
   private globalService = inject(GlobalService);
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  togglePopup() {
-  
+  togglePopup(typePopUp: 'add' | 'edit') {
+    this.resetarFormulario();
     this.mostrarNovaTransferencia = true;
-  
+    this.typePopUp = typePopUp;
+    this.dataLancamento = this.getDataAtualFormatada();
+
+    this.buscarContas();
   }
 
-  buscarCategoriasACCOUNT() {
-    const url = `${this.globalService.apiUrl}/categories`;
+  buscarContas() {
+    const url = `${this.globalService.apiUrl}/account`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.globalService.userToken}`
+      Authorization: `Bearer ${this.globalService.userToken}`
     });
-  
+
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        // Filtrando as categorias com type "ACCOUNT"
-        this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
+        this.contas = data;
       },
       error: (err) => {
-        console.error('Erro ao carregar categorias:', err);
+        console.error('Erro ao carregar contas:', err);
       }
     });
-  }
-  
-
-
-
-  fecharNovaConta() {
-    this.mostrarNovaTransferencia = false;
   }
 
   resetarFormulario() {
     this.nome = '';
-    this.saldoInicial = 0;
-    this.chequeEspecial = 0;
+    this.valor = 0;
+    this.dataLancamento = '';
     this.infoAdicional = '';
-    this.categoriaId = '';
-    this.csvFile = null;
-    this.contaId = '';
+    this.contaSaidaId = '';
+    this.contaEntradaId = '';
+    this.tipoFrequencia = 'NON_RECURRING';
+    this.parcelas = 1;
+    this.periodicidade = 'DIARIO';
+    this.businessDayOnly = false;
+  }
+  formatarParaISOComTimezone(data: string): string {
+    const dataObj = new Date(data);
+    const offsetMs = dataObj.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(dataObj.getTime() - offsetMs).toISOString().slice(0, 19); // Remove o "Z"
+    return localISOTime;
+  }
+  onTipoRecorrenciaChange() {
+    if (this.tipoFrequencia === 'NON_RECURRING') {
+      this.parcelas = 0;
+      this.periodicidade = '';
+    } else if (this.tipoFrequencia === 'FIXED_MONTHLY') {
+      this.parcelas = 0;
+      this.periodicidade = 'MENSAL';
+    } else if (this.tipoFrequencia === 'REPEAT') {
+      if (!this.parcelas || this.parcelas <= 0) {
+        this.parcelas = 1;
+      }
+      if (!this.periodicidade) {
+        this.periodicidade = 'MENSAL';
+      }
+    }
   }
 
-  salvarConta() {
-    const token = this.globalService.userToken;
+  salvarTransferencia() {
+    const url = `${this.globalService.apiUrl}/transaction/transfer`;
+
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.globalService.userToken}`
     });
 
-    const formData = new FormData();
-    formData.append('nome', this.nome);
-    formData.append('saldoInicial', this.saldoInicial.toString());
-    formData.append('chequeEspecial', this.chequeEspecial.toString());
-    formData.append('infoAdicional', this.infoAdicional);
-    formData.append('categoriaId', this.categoriaId);
+    const dataObj = new Date(this.dataLancamento);
 
-    if (this.csvFile) {
-      formData.append('csvFile', this.csvFile);
-    }
+    const payload = {
+      originAccountId: this.contaSaidaId,
+      destinationAccountId: this.contaEntradaId,
+      name: this.nome,
+      value: this.valor,
+      releaseDate: this.formatarParaISOComTimezone(this.dataLancamento),
+      releaseTime: {
+        hour: dataObj.getHours(),       // horário local, para o releaseTime
+        minute: dataObj.getMinutes(),
+        second: dataObj.getSeconds(),
+        nano: 0
+      },
+      description: this.nome,
+      additionalInformation: this.infoAdicional,
+      state: (new Date(this.dataLancamento) <= new Date()) ? 'EFFECTIVE' : 'PENDING',
+      frequency: this.tipoFrequencia,
+      installments: this.tipoFrequencia === 'REPEAT' ? this.parcelas : 0,
+      periodicity: this.periodicidade,
+      businessDayOnly: this.businessDayOnly
+    };
 
-    const url = this.typePopUp === 'edit'
-      ? `${this.globalService.apiUrl}/accounts/${this.contaId}`
-      : `${this.globalService.apiUrl}/accounts`;
-
-    const request = this.typePopUp === 'edit'
-      ? this.http.put(url, formData, { headers })
-      : this.http.post(url, formData, { headers });
-
-    request.subscribe({
+    this.http.post(url, payload, { headers }).subscribe({
       next: () => {
-        this.contaSalva.emit();
-        this.fecharNovaConta();
+        this.transferenciaSalva.emit();
+        this.fecharNovaTransferencia();
       },
       error: (err) => {
-        console.error('Erro ao salvar conta:', err);
+        console.error('Erro ao salvar transferência:', err);
       }
     });
+  }
+
+  fecharNovaTransferencia() {
+    this.mostrarNovaTransferencia = false;
+  }
+
+  getDataAtualFormatada(): string {
+    const agora = new Date();
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const horas = String(agora.getHours()).padStart(2, '0');
+    const minutos = String(agora.getMinutes()).padStart(2, '0');
+    // O input datetime-local NÃO usa segundos, por isso vamos ignorar para não dar problema
+    return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
   }
 }
