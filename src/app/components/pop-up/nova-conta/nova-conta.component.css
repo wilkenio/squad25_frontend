@@ -233,7 +233,9 @@
 }
 
 #arquivoCsv{
-  visibility: hidden;
+  /* visibility: hidden;
+  /* display: none; */
+  /* opacity: 0;  */
 }
 
 .icon-file{
