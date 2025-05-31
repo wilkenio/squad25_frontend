@@ -67,41 +67,49 @@
 
         <!-- Tipo de transação -->
         <div class="despesa-container">
+          <!-- Radio Buttons -->
           <label class="radio-option">
-            <input type="radio" name="tipoDespesa" />
+            <input type="radio" name="tipoFrequencia" [(ngModel)]="tipoFrequencia" value="NON_RECURRING" />
             {{ typeTransation }} não recorrente
           </label>
+
           <label class="radio-option">
-            <input type="radio" name="tipoDespesa" />
+            <input type="radio" name="tipoFrequencia" [(ngModel)]="tipoFrequencia" value="FIXED_MONTHLY" />
             {{ typeTransation }} fixa mensal
           </label>
-          <label class="radio-option selected">
-            <input type="radio" name="tipoDespesa" checked />
+
+          <label class="radio-option">
+            <input type="radio" name="tipoFrequencia" [(ngModel)]="tipoFrequencia" value="REPEAT" />
             Repetir {{ typeTransation }}
-            <span class="parcelas">
-              Parcelas
-              <input type="number" />
-            </span>
+            <!-- Parcelas (somente se REPEAT estiver selecionado) -->
+          <span class="parcelas" *ngIf="tipoFrequencia === 'REPEAT'">
+            Parcelas
+            <input type="number" min="2" [(ngModel)]="parcelas" />
+          </span>
           </label>
 
-          <div class="periodicidade">
+          
+
+          <!-- Periodicidade (somente se REPEAT estiver selecionado) -->
+          <div class="periodicidade" *ngIf="tipoFrequencia === 'REPEAT'">
             <label>Periodicidade</label>
-            <select>
-              <option>Diário</option>
-              <option>Semanal</option>
-              <option>Quinzenal</option>
-              <option>Mensal</option>
-              <option>Semestral</option>
-              <option>Anual</option>
-              <option class="opcao-escolher">Escolher...</option>
+            <select [(ngModel)]="periodicidade">
+              <option>DIARIO</option>
+              <option>SEMANAL</option>
+              <option>QUINZENAL</option>
+              <option>MENSAL</option>
+              <option>TRIMESTRAL</option>
+              <option>SEMESTRAL</option>
+              <option>ANUAL</option>
             </select>
           </div>
 
-          <div class="toggle-container">
+
+          <div class="toggle-container"*ngIf="tipoFrequencia === 'REPEAT'">
             <label>{{ typeTransation }} recorrente em dias úteis:</label>
             <span class="toggle-label">Não</span>
             <label class="switch">
-              <input type="checkbox" />
+              <input type="checkbox" [(ngModel)]="businessDayOnly" />
               <span class="slider"></span>
             </label>
             <span class="toggle-label">Sim</span>

@@ -210,7 +210,7 @@
     <div class="relatorio-bloco" *ngFor="let relatorio of relatoriosSalvos; let i = index">
       <div class="relatorio-linha" [class.ativo]="dropdownAberto === i" (click)="toggleDropdown(i)">
 
-        <div class="titulo">
+        <div class="relatorio-titulo">
           {{ relatorio.titulo }}
         </div>
         <div class="info">
@@ -232,8 +232,10 @@
       <!-- Dentro do *ngFor que renderiza os relatórios -->
       <!-- Dentro do *ngFor que renderiza os relatórios -->
       <div *ngIf="dropdownAberto === i" class="relatorio-dropdown">
+
         <div class="relatorio-dividido">
 
+          
           <!-- Coluna esquerda: barras ou resumo -->
           <!-- Coluna esquerda: gráfico de barras -->
           <div class="coluna-esquerda">
@@ -244,12 +246,14 @@
             <div class="grafico-barras">
               <div class="contain-categorias">
 
-                <div class="dezcategorias" *ngFor="let gasto of exemploGastos"
+                <div class="dezcategorias" *ngFor="let gasto of gastosFiltrados"
+
                   [ngStyle]="{'margin-right':- gasto.percentual + '%'}">
                   <div class="categoria">
                     <div class="dados-categoria">
+                      
                       <div class="nome-categoria">{{ gasto.nome || 'Sem nome' }}</div>
-                      <div class="categoria-descricao">{{ gasto.descricaoTransacao || 'Sem descrição' }}</div>
+                      <div class="categoria-descricao"> {{ gasto.descricaoTransacao || 'Sem descrição' }}</div>
                     </div>
                     <div class="icon-categoria">
                       <i [class]="gasto.iconClass || 'fa-solid fa-question'"></i>
@@ -264,10 +268,16 @@
 
 
               </div>
-              <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-                [plotOptions]="chartOptions.plotOptions" [dataLabels]="chartOptions.dataLabels"
-                [colors]="chartOptions.colors || []">
-              </apx-chart>
+              <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [xaxis]="chartOptions.xaxis"
+              [plotOptions]="chartOptions.plotOptions"
+              [dataLabels]="chartOptions.dataLabels"
+              [colors]="chartOptions.colors ?? []"
+            ></apx-chart>
+            
+
 
             </div>
 
@@ -281,20 +291,42 @@
 
           <!-- Coluna direita: tabela detalhada -->
           <div class="coluna-direita">
-            <p><strong>Período:</strong> 01/01/2025 até 31/01/2025</p>
+            <p><strong>Período:</strong> De 01/01/2025 até 31/01/2025</p>
+          
             <div class="tabela">
+              <!-- Cabeçalho da tabela -->
               <div class="linha cabecalho">
-                <span>Descrição</span>
-                <span>Data</span>
-                <span>Valor</span>
+                <span class="descricao">Descrição</span>
+                <span class="data">Data Referência</span>
+                <span class="valor">Valor</span>
               </div>
-              <div class="linha" *ngFor="let item of exemploGastos">
-                <span>{{ item.descricao }}</span>
-                <span>{{ item.data }}</span>
-                <span>R$ {{ item.valor }}</span>
+          
+              <!-- Linhas dinâmicas -->
+              <div class="linha" *ngFor="let item of gastosFiltrados">
+
+                <div class="descricao">
+                  <div class="titulo-descricao">
+                    <span class="titulo">{{ item.nome }}</span>
+                    <span class="descricao-transacao" *ngIf="item.descricaoTransacao">
+                      | {{ item.descricaoTransacao }}
+                    </span>
+                  </div>
+              
+                  <div class="categoria-icone" *ngIf="item.iconClass">
+                    <i [ngClass]="item.iconClass" [style.color]="item.cor"></i>
+                    <span class="nome-categoria">{{ item.nomeCategoria }}</span>
+                  </div>
+                </div>
+              
+                <span class="data">{{ item.data }}</span>
+                <span class="valor">R$ {{ item.valor | number:'1.2-2' }}</span>
               </div>
+              
             </div>
           </div>
+          
+          
+          
 
         </div>
       </div>

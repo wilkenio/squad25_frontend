@@ -24,6 +24,13 @@ export class NovaTransacaoComponent {
   subcategoriaId: string = '';
   contaId: string = '';
   idTransacao: string = '';
+  parcelas: number = 2;
+  periodicidade: string = 'DIARIO';
+  businessDayOnly: boolean = true;
+  tipoFrequencia: 'NON_RECURRING' | 'FIXED_MONTHLY' | 'REPEAT' = 'NON_RECURRING';
+  installments: string ='';
+  periodicity: string = '';
+
 
   categorias: any[] = [];
   subcategorias: any[] = [];
@@ -34,7 +41,7 @@ export class NovaTransacaoComponent {
 
   private globalService = inject(GlobalService);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   togglePopup(
     typeTransation: 'Despesa' | 'Receita',
@@ -47,6 +54,9 @@ export class NovaTransacaoComponent {
     this.typeTransation = typeTransation;
     this.idTransacao = transacaoId ?? '';
 
+    this.dataLancamento = typePopUp ? this.getDataAtualFormatada() : 'add';
+ 
+
     this.carregarDadosIniciais().then(() => {
       if (typePopUp === 'edit' && transacaoId) {
         this.carregarTransacao(transacaoId);
@@ -58,7 +68,7 @@ export class NovaTransacaoComponent {
     return Promise.all([
       this.buscarCategorias(),
       this.buscarContas()
-    ]).then(() => {});
+    ]).then(() => { });
   }
 
   buscarCategorias(): Promise<void> {
@@ -156,8 +166,29 @@ export class NovaTransacaoComponent {
     this.subcategoriaId = '';
     this.contaId = '';
     this.idTransacao = '';
+    this.tipoFrequencia = 'NON_RECURRING';
+    this.installments = '';
+    this.periodicity = '';
   }
 
+  onTipoRecorrenciaChange() {
+    if (this.tipoFrequencia === 'NON_RECURRING') {
+      this.parcelas = 0;
+      this.periodicidade = '';
+    } else if (this.tipoFrequencia === 'FIXED_MONTHLY') {
+      this.parcelas = 0;
+      this.periodicidade = 'MENSAL';
+    } else if (this.tipoFrequencia === 'REPEAT') {
+      if (!this.parcelas || this.parcelas <= 0) {
+        this.parcelas = 1;
+      }
+      // Mantém periodicidade, ou defina padrão
+      if (!this.periodicidade) {
+        this.periodicidade = 'MENSAL';
+      }
+    }
+  }
+  
   salvarTransacao() {
     const isEdicao = this.typePopUp === 'edit';
     const url = isEdicao
@@ -178,10 +209,13 @@ export class NovaTransacaoComponent {
       status: 'SIM',
       value: this.valor,
       description: this.nome,
-      state: 'PENDING',
+      state: (new Date(this.dataLancamento).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0)) ? 'EFFECTIVE' : 'PENDING',
       additionalInformation: this.infoAdicional,
-      frequency: 'NON_RECURRING',
-      installments: 0
+      frequency: this.tipoFrequencia,
+      installments: this.tipoFrequencia === 'REPEAT' ? this.parcelas : 0,
+      releaseDate: new Date(this.dataLancamento).toISOString(),
+      periodicity: this.periodicidade,
+      businessDayOnly: this.businessDayOnly
     };
 
     const request = isEdicao
@@ -198,4 +232,17 @@ export class NovaTransacaoComponent {
       }
     });
   }
+
+  getDataAtualFormatada(): string {
+    const agora = new Date();
+  
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const horas = String(agora.getHours()).padStart(2, '0');
+    const minutos = String(agora.getMinutes()).padStart(2, '0');
+  
+    return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+  }
+  
 }
