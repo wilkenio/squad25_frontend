@@ -8,11 +8,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import {
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
   ApexPlotOptions,
   ApexDataLabels,
+  ApexXAxis,
   ApexYAxis,
-  ApexGrid
+  ApexGrid,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -26,6 +26,18 @@ export type ChartOptions = {
   grid: ApexGrid;
 };
 
+interface Gasto {
+  nome: string;
+  descricaoTransacao: string;
+  iconClass: string;
+  cor: string;
+  nomeCategoria: string;
+  data: string;
+  valor: number;
+  percentual: number;
+  previsto?: boolean;
+}
+
 @Component({
   selector: 'app-relatorios',
   standalone: true,
@@ -35,20 +47,22 @@ export type ChartOptions = {
     MenuComponent,
     IncluirNoDashboardComponent,
     ConfirmarExclusaoComponent,
-    NgApexchartsModule
+    NgApexchartsModule,
   ],
   templateUrl: './relatorios.component.html',
-  styleUrls: ['./relatorios.component.css']
+  styleUrls: ['./relatorios.component.css'],
 })
 export class RelatoriosComponent implements OnInit {
-  referenciaSelecionada: string = 'lancamento';
-  contaSelecionada: string = 'todas';
+  referenciaSelecionada: 'lancamento' | 'efetivacao' = 'lancamento';
+  contaSelecionada: 'todas' | 'selecionar' = 'todas';
   categoriaSelecionada: string = 'todas';
   categoriaSelecionadaDespesas: string = 'todas';
+
   dropdownAberto: number | null = null;
-  mostrarModalIncluir: boolean = false;
-  mostrarConfirmacao: boolean = false;
+  mostrarModalIncluir = false;
+  mostrarConfirmacao = false;
   relatorioParaExcluir: string | null = null;
+  relatorioSelecionado: string = '';
 
   public chartOptions!: ChartOptions;
 
@@ -58,80 +72,311 @@ export class RelatoriosComponent implements OnInit {
     { titulo: 'Sem-título-01', data: '18/01/2025, 08h33min' },
   ];
 
-  exemploGastos = [
-    { descricao: 'R$ 13.503,00', data: '25/01/2025', valor: 1350, percentual: 100 },
-    { descricao: 'R$ 980,00', data: '30/01/2025', valor: 980, percentual: 72, nome:"Parcela prestacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 800,00', data: '02/01/2025', valor: 800, percentual: 59, nome:"Parcela sds", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 786,00', data: '10/01/2025', valor: 786, percentual: 58, nome:"Pafffrcela presfgffftacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 710,00', data: '06/01/2025', valor: 710, percentual: 52, nome:"Parcela prestfacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 350,00', data: '12/01/2025', valor: 350, percentual: 26 ,nome:"Parcsela prestfacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 308,00', data: '08/01/2025', valor: 308, percentual: 23 ,nome:"Parcesla presstacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 277,00', data: '22/01/2025', valor: 277, percentual: 20, nome:"Parcaela prestacao", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 270,00', data: '24/01/2025', valor: 270, percentual: 20 ,nome:"Parcsela yuri", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-    { descricao: 'R$ 198,00', data: '23/01/2025', valor: 198, percentual: 15 ,nome:"Parcela teste", descricaoTransacao:"dsdasfd af adf daf", iconClass: 'fa-solid fa-arrow-up', cor: '#F8AF7A' },
-
+  exemploGastos: Gasto[] = [
+    {
+      nome: 'Parcela automóvel',
+      descricaoTransacao: 'Conta salário, 10 de 48',
+      iconClass: 'fa-solid fa-car',
+      cor: '#ff0000',
+      nomeCategoria: 'Transporte',
+      data: '25/01/2025',
+      valor: 1350.0,
+      percentual: 90,
+    },
+    {
+      nome: 'Prestação do apartamento',
+      descricaoTransacao: 'Conta salário, Mensal',
+      iconClass: 'fa-solid fa-house',
+      cor: '#e84393',
+      nomeCategoria: 'Moradia',
+      data: '30/01/2025',
+      valor: 980,
+      previsto: true,
+      percentual: 72,
+    },
+    {
+      nome: 'Aporte financeiro investimentos',
+      descricaoTransacao: 'Porquinho, Mensal',
+      iconClass: 'fa-solid fa-piggy-bank',
+      cor: '#f9a825',
+      nomeCategoria: 'Investimentos',
+      data: '02/01/2025',
+      valor: 800,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Compra supermercado',
+      descricaoTransacao: 'Cartão, 15/01/2025',
+      iconClass: 'fa-solid fa-cart-shopping',
+      cor: '#27ae60',
+      nomeCategoria: 'Alimentação',
+      data: '10/01/2025',
+      valor: 786,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Conta de luz',
+      descricaoTransacao: 'Boleto, Mensal',
+      iconClass: 'fa-solid fa-bolt',
+      cor: '#f39c12',
+      nomeCategoria: 'Serviços',
+      data: '06/01/2025',
+      valor: 710,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Parcela seguro',
+      descricaoTransacao: 'Cartão, 12/01/2025',
+      iconClass: 'fa-solid fa-shield-halved',
+      cor: '#2980b9',
+      nomeCategoria: 'Seguros',
+      data: '12/01/2025',
+      valor: 350,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Internet banda larga',
+      descricaoTransacao: 'Boleto, Mensal',
+      iconClass: 'fa-solid fa-wifi',
+      cor: '#8e44ad',
+      nomeCategoria: 'Serviços',
+      data: '08/01/2025',
+      valor: 308,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Mensalidade academia',
+      descricaoTransacao: 'Débito automático',
+      iconClass: 'fa-solid fa-dumbbell',
+      cor: '#c0392b',
+      nomeCategoria: 'Saúde',
+      data: '22/01/2025',
+      valor: 277,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Parcela yuri',
+      descricaoTransacao: 'Conta salário',
+      iconClass: 'fa-solid fa-user',
+      cor: '#2c3e50',
+      nomeCategoria: 'Pessoal',
+      data: '24/01/2025',
+      valor: 270,
+      previsto: false,
+      percentual: 72,
+    },
+    {
+      nome: 'Parcela teste',
+      descricaoTransacao: 'Cartão',
+      iconClass: 'fa-solid fa-credit-card',
+      cor: '#16a085',
+      nomeCategoria: 'Outros',
+      data: '23/01/2025',
+      valor: 198,
+      previsto: false,
+      percentual: 72,
+    },
   ];
+
+  get gastosFiltrados(): Gasto[] {
+    if (this.relatorioSelecionado === 'Sem-título-01') {
+      return [
+        {
+          nome: 'Moradia',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-house',
+          cor: '#ff00b4',
+          nomeCategoria: 'Moradia',
+          data: '10/01/2025',
+          valor: 2345.87,
+          percentual: 90,
+          previsto: false,
+        },
+        {
+          nome: 'Alimentação',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-utensils',
+          cor: '#26963e',
+          nomeCategoria: 'Alimentação',
+          data: '11/01/2025',
+          valor: 1551.55,
+          percentual: 80,
+          previsto: false,
+        },
+        {
+          nome: 'Educação',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-gift',
+          cor: '#b91c1c',
+          nomeCategoria: 'Educação',
+          data: '12/01/2025',
+          valor: 1753.05,
+          percentual: 75,
+          previsto: false,
+        },
+        {
+          nome: 'Gastos diversos',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-money-bill-wave',
+          cor: '#14532d',
+          nomeCategoria: 'Diversos',
+          data: '13/01/2025',
+          valor: 1024.66,
+          percentual: 60,
+          previsto: false,
+        },
+        {
+          nome: 'Investimento',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-money-check-dollar',
+          cor: '#fbbf24',
+          nomeCategoria: 'Investimentos',
+          data: '14/01/2025',
+          valor: 1978.08,
+          percentual: 85,
+          previsto: false,
+        },
+        {
+          nome: 'Jantar fora',
+          descricaoTransacao: '',
+          iconClass: 'bi bi-fork-knife',
+          cor: 'black',
+          nomeCategoria: 'Investimentos',
+          data: '14/01/2025',
+          valor:  980.04,
+          percentual: 50,
+          previsto: false,
+        },
+      ];
+    }
+
+    return this.exemploGastos;
+  }
 
   ngOnInit(): void {
     this.gerarGrafico();
   }
 
   gerarGrafico(): void {
-    const valores = this.exemploGastos.map(g => g.valor);
-    const descricoes = this.exemploGastos.map(g => g.descricao);
-
-    const cores = [
-      '#F8AF7A', '#F8AF7A', '#F47922', '#F47922', '#F47922',
-      '#F47922', '#F47922', '#F47922', '#F47922', '#F47922'
+    const usarCoresVariadas = this.relatorioSelecionado === 'Sem-título-01';
+    const usarCorDespesas = this.relatorioSelecionado === 'Dez maiores gastos do mês';
+    const usarGraficoVertical = this.relatorioSelecionado === 'Valores depositados em investimentos';
+    
+    const coresVariadas = [
+      '#F91DB7', '#15953A', '#B61313', '#1F6A35', '#F0B05B',
+      '#4563FB', '#4CAF50', '#FF9800', '#FF5722', '#795548'
     ];
+  
+    const coresDez = ['#F8AF7A','#F8AF7A' ,'#F47922','#F47922','#F47922','#F47922','#F47922','#F47922','#F47922','#F47922'];
+    const corPadrao = '#F8AF7A';
+    const corDespesas = '#F47922';
+  
+    const dados = this.gastosFiltrados;
+  
+    const iconesEmojisMap: Record<string, string> = {
+      'fa-solid fa-house': '🏠',
+      'fa-solid fa-utensils': '🍴',
+      'fa-solid fa-gift': '🎁',
+      'fa-solid fa-money-bill-wave': '💸',
+      'fa-solid fa-money-check-dollar': '💰',
+    };
+  
+    let seriesData: any[] = [];
+    let cores: string[] = [];
+  
+    if (usarGraficoVertical) {
+      const valores = [1552, 252, 480, 1300];
+      seriesData = [
+        { x: 'Receita', y: valores[0] },
+        { x: 'Prev. Receita', y: valores[1] },
+        { x: 'Despesa', y: valores[2] },
+        { x: 'Prev. Despesa', y: valores[3] },
+      ];
+      cores = ['#4A8AF4', '#A6C8FF', '#F47922', '#F8AF7A'];
+    } else {
+      seriesData = dados.map((g) => ({
+        x: `${g.nome}\n${g.data}`,
+        y: g.valor,
+      }));
+    
+      cores = dados.map(g => g.cor); // 👈 MELHOR OPÇÃO
+    
+    
+  
+      cores = usarCoresVariadas
+  ? dados.map((_, i) => coresVariadas[i % coresVariadas.length])
+  : usarCorDespesas
+    ? coresDez
+    : dados.map(() => corPadrao);
 
+    }
+  
     this.chartOptions = {
       series: [{
-        name: 'Gastos',
-        data: this.exemploGastos.map((g, i) => ({
-          x: `${g.descricao}11/03`,
-          y: g.valor,
-          fillColor: cores[i % cores.length]
-        }))
+        name: '',
+        data: seriesData
       }],
       chart: {
         type: 'bar',
-        height: 800,
-        toolbar: { show: false }
+        height: usarGraficoVertical ? 400 : dados.length * 70,
+        toolbar: { show: false },
       },
       plotOptions: {
         bar: {
-          horizontal: true,
-          distributed: false,
-          borderRadius: 10
-        }
+          horizontal: !usarGraficoVertical,
+          distributed: true,
+          borderRadius: 10,
+        },
       },
-      dataLabels: {
-        enabled: false
-      },
+      colors: cores,
+      dataLabels: { enabled: false },
       xaxis: {
-        labels: { show: false },
+        labels: { show: usarGraficoVertical },
         axisBorder: { show: false },
-        axisTicks: { show: false }
+        axisTicks: { show: false },
       },
       yaxis: {
-        show: false,
-        labels: { show: false },
+        labels: {
+          show: false,
+          formatter: (_val: string, index: number) => {
+            if (this.relatorioSelecionado === 'Sem-título-01') {
+              const gasto = (dados as Gasto[])[index];
+              const emoji = iconesEmojisMap[gasto.iconClass] || '•';
+              return emoji;
+            }
+            return dados[index]?.nome ?? '';
+          },
+          style: { fontSize: '24px' },
+        },
         axisBorder: { show: false },
-        axisTicks: { show: false }
-      },
+        axisTicks: { show: false },
+      }
+      ,
       grid: {
         yaxis: { lines: { show: false } },
-        xaxis: { lines: { show: false } }
+        xaxis: { lines: { show: false } },
       }
+
     } as any;
   }
+  
+  
+  selecionarRelatorio(titulo: string) {
+    this.relatorioSelecionado = titulo;
+    this.gerarGrafico();
+  }
 
-  selecionarReferencia(tipo: string) {
+  selecionarReferencia(tipo: 'lancamento' | 'efetivacao') {
     this.referenciaSelecionada = tipo;
   }
 
-  selecionarConta(opcao: string) {
+  selecionarConta(opcao: 'todas' | 'selecionar') {
     this.contaSelecionada = opcao;
   }
 
@@ -162,10 +407,17 @@ export class RelatoriosComponent implements OnInit {
   }
 
   excluirRelatorioConfirmado() {
-    this.relatoriosSalvos = this.relatoriosSalvos.filter(
-      r => r.titulo !== this.relatorioParaExcluir
-    );
-    this.fecharConfirmacao();
+    if (this.relatorioParaExcluir) {
+      this.relatoriosSalvos = this.relatoriosSalvos.filter(
+        (r) => r.titulo !== this.relatorioParaExcluir
+      );
+      this.fecharConfirmacao();
+
+      if (this.relatorioSelecionado === this.relatorioParaExcluir) {
+        this.relatorioSelecionado = '';
+        this.gerarGrafico();
+      }
+    }
   }
 
   fecharConfirmacao() {
@@ -174,10 +426,17 @@ export class RelatoriosComponent implements OnInit {
   }
 
   toggleDropdown(index: number) {
-    this.dropdownAberto = this.dropdownAberto === index ? null : index;
+    if (this.dropdownAberto === index) {
+      this.dropdownAberto = null;
+      this.relatorioSelecionado = '';
+    } else {
+      this.dropdownAberto = index;
+      this.relatorioSelecionado = this.relatoriosSalvos[index].titulo;
+    }
+    this.gerarGrafico();
   }
 
   compartilhar(relatorio: any) {
-    console.log("Compartilhando:", relatorio);
+    console.log('Compartilhando:', relatorio);
   }
 }
