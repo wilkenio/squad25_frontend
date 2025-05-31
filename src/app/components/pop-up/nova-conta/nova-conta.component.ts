@@ -129,10 +129,12 @@ export class NovaContaComponent {
 
     const payload = {
       accountName: this.nome,
-      saldoInicial: this.saldoInicial,
-      chequeEspecial: this.chequeEspecial,
+      openingBalance: this.saldoInicial,
+      specialCheck: this.chequeEspecial,
       accountDescription: this.infoAdicional,
       categoryId: this.categoriaId,
+      additionalInformation: this.infoAdicional,
+      status: "SIM",
     };
 
     const urlBase = `${this.globalService.apiUrl}/account`;
