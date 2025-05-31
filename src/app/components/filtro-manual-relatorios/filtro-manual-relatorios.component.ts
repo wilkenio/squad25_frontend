@@ -54,6 +54,34 @@ export class FiltroManualRelatoriosComponent {
   selecionarCategoriaDespesas(valor: string) {
     this.categoriaSelecionadaDespesas = valor;
   }
+// Mostrar ou ocultar o modal
+mostrarModalCategoriasDespesas: boolean = false;
+
+// Lista de categorias de despesas disponíveis
+categoriasDespesas = [
+  { nome: 'Outross', cor: '#5b5bd6', icone: 'bi bi-triangle' },
+    { nome: 'Alimentação', cor: '#8b5e3c', icone: 'bi bi-tools' },
+    { nome: 'Carro', cor: '#00a5ff', icone: 'bi bi-car-front-fill' },
+    { nome: 'Cartões de crédito', cor: '#3366cc', icone: 'bi bi-triangle' }
+  // ...adicione mais categorias conforme necessário
+];
+
+// Categorias atualmente selecionadas (pode ser um array de strings ou objetos, dependendo da sua lógica)
+categoriasDespesasSelecionadas: any[] = [];
+
+// Verifica se uma categoria está selecionada
+isCategoriaDespesaSelecionada(categoria: any): boolean {
+  return this.categoriasDespesasSelecionadas.includes(categoria);
+}
+
+// Adiciona ou remove categoria do array de selecionadas
+toggleCategoriaDespesaSelecionada(categoria: any, selecionado: boolean) {
+  if (selecionado) {
+    this.categoriasDespesasSelecionadas.push(categoria);
+  } else {
+    this.categoriasDespesasSelecionadas = this.categoriasDespesasSelecionadas.filter(cat => cat !== categoria);
+  }
+}
 
   mostrarModalContas: boolean = false;
 contasDisponiveis = [

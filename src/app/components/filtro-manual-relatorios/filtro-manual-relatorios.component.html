@@ -20,13 +20,13 @@
       </div>
       <div class="linha-horizontal"></div>
 
-      <!-- Data de Referência -->
+      <!-- Data de Referência 
       <div class="bloco-geral">
         <span class="referencia-data">Data de referência:</span>
         <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'lancamento'" (click)="selecionarReferencia('lancamento')">Lançamento</button>
         <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'efetivacao'" (click)="selecionarReferencia('efetivacao')">Efetivação</button>
       </div>
-      <div class="linha-horizontal"></div>
+      <div class="linha-horizontal"></div>-->
 
       <!-- Contas -->
       <div class="bloco-geral">
@@ -184,7 +184,30 @@
       <div class="bloco-adicionais">
         <span class="despesas-categorias">Categorias despesas:</span>
         <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'todas'" (click)="selecionarCategoriaDespesas('todas')">Todas</button>
-        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'" (click)="selecionarCategoriaDespesas('selecionar')">Selecionar</button>
+        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'" (click)="selecionarCategoriaDespesas('selecionar'); mostrarModalCategoriasDespesas = true">Selecionar</button>
+      </div>
+
+      <!-- Modal Categorias Despesas -->
+      <div class="modal-overlay" *ngIf="mostrarModalCategoriasDespesas" (click)="mostrarModalCategoriasDespesas = false">
+        <div class="modal-conteudo" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <button class="fechar" (click)="mostrarModalCategoriasDespesas = false">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <span class="titulo">Selecionar despesas</span>
+            <button class="concluir" (click)="mostrarModalCategoriasDespesas = false">Concluir</button>
+          </div>
+
+          <div class="lista-categorias">
+            <div class="item-categoria" *ngFor="let cat of categoriasDespesas">
+              <input class="selecionar-categorias" type="checkbox" [checked]="isCategoriaDespesaSelecionada(cat)" (change)="toggleCategoriaDespesaSelecionada(cat, $any($event.target).checked)" />
+              <span class="icone" [ngStyle]="{'background-color': cat.cor}">
+                <i [class]="cat.icone"></i>
+              </span>
+              <span class="nome">{{ cat.nome }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="linha-horizontal"></div>
@@ -213,67 +236,46 @@
       <h3>Apresentação dos dados</h3>
       <div class="linha-inicial"></div>
 
+
+    <!-- Tipo de Dado -->
+      <div class="tipo-dado">
+        <span>Tipo de Dado:</span>
+        <div class="dados">
+          <label><input type="radio" name="tipo" /> Transações</label>
+          <label><input type="radio" name="tipo" /> Categoria</label>
+        </div>
+      </div>
+     <div class="linha-horizontal"></div> 
       <!-- Ordenação -->
       <div class="bloco-dados">
         <div class="ordenar-por">
           <span>Ordenar por:</span>
           <div class="opcoes">
-            <label>
-              <input type="radio" name="ordem" [disabled]="mostrarApenasSaldo" />
-              Data
-            </label>
-            <label>
-              <input type="radio" name="ordem" />
-              Valor Decrescente
-            </label>
-            <br />
-            <label>
-              <input type="radio" name="ordem" />
-              Valor Crescente
-            </label>
+            <label><input type="radio" name="ordem" /> Data de lançamento</label>
+            <label><input type="radio" name="ordem" /> Valor Decrescente</label>
+            <label><input type="radio" name="ordem" /> Data de Efetivação</label>
+            <label><input type="radio" name="ordem" /> Valor Crescente</label>
+            <label><input type="radio" name="ordem" [disabled]="mostrarApenasSaldo" /> Data</label>
           </div>
         </div>
       </div>
-      <div class="linha-horizontal"></div>
+      
 
-      <!-- Tipo de Dado -->
-      <div class="tipo-dado">
-        <span>Tipo de Dado:</span>
-        <div class="dados">
-          <label>
-            <input type="radio" name="tipo" />
-            Transações
-          </label>
-          <label>
-            <input type="radio" name="tipo" />
-            Categoria
-          </label>
-        </div>
-      </div>
+     
 
       <!-- Mostrar resultados -->
       <div class="bloco-dados">
         <div class="opcoes">
           <span>Mostrar:</span>
+          
           <label class="opcao">
-            <input type="radio" name="mostrar" />
-            Todos os resultados
-          </label>
-
-          <label class="opcao">
-            <input type="radio" name="mostrar" />
-            Apenas os
+            
+            
             <input type="number" value="0" min="0" max="10" class="input-pequeno" />
-            primeiros resultados
+            Resultados por página(x resultados)
           </label>
 
-          <label class="opcao">
-            <input type="radio" name="mostrar" [(ngModel)]="tipoMostrar" value="ultimos" />
-            Apenas os
-            <input type="number" [(ngModel)]="quantidadeUltimosResultados" min="0" max="10" class="input-pequeno" />
-            últimos resultados
-          </label>
-
+          
           <label class="opcao">
             <input type="radio" name="mostrar" [(ngModel)]="mostrarApenasSoma" (change)="onMostrarApenasSomaChange()" [disabled]="filtroTransferencia" />
             Apenas a soma total dos resultados
