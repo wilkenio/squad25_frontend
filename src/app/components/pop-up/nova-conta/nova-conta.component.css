@@ -233,7 +233,9 @@
 }
 
 #arquivoCsv{
-  visibility: hidden;
+  /* visibility: hidden; */
+  padding: 5%;
+  background-color: red;
 }
 
 .icon-file{
