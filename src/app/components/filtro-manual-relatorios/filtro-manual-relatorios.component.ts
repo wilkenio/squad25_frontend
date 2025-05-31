@@ -55,6 +55,28 @@ export class FiltroManualRelatoriosComponent {
     this.categoriaSelecionadaDespesas = valor;
   }
 
+  mostrarModalContas: boolean = false;
+contasDisponiveis = [
+  { nome: 'Outros', cor: '#5b5bd6', icone: 'bi bi-triangle' },
+  { nome: 'Alimentação', cor: '#8b5e3c', icone: 'bi bi-tools' },
+  { nome: 'Carro', cor: '#00a5ff', icone: 'bi bi-car-front-fill' },
+  { nome: 'Cartões de crédito', cor: '#3366cc', icone: 'bi bi-triangle' }
+  // ... outras contas
+];
+contasSelecionadas: any[] = [];
+
+isContaSelecionada(conta: any): boolean {
+  return this.contasSelecionadas.includes(conta);
+}
+
+toggleContaSelecionada(conta: any, selecionada: boolean) {
+  if (selecionada) {
+    this.contasSelecionadas.push(conta);
+  } else {
+    this.contasSelecionadas = this.contasSelecionadas.filter(c => c !== conta);
+  }
+}
+
   // Seleção de categoria receita — abre modal se "selecionar"
   selecionarCategoria(categoria: string) {
     this.categoriaSelecionada = categoria;
@@ -105,7 +127,7 @@ export class FiltroManualRelatoriosComponent {
 
   // Tipo para filtro de quantidade
   tipoMostrar: 'todos' | 'ultimos' | 'primeiros' | 'soma' = 'todos';
-  quantidadeUltimosResultados: number = 10;
+  quantidadeUltimosResultados: number = 0;
 
   // Controle para "Mostrar apenas a soma"
   mostrarApenasSoma = false;

@@ -32,7 +32,42 @@
       <div class="bloco-geral">
         <span class="contas">Contas:</span>
         <button class="botao-contas" [class.ativo]="contaSelecionada === 'todas'" (click)="selecionarConta('todas')">Todas</button>
-        <button class="botao-contas" [class.ativo]="contaSelecionada === 'selecionar'" (click)="selecionarConta('selecionar')">Selecionar</button>
+        <button class="botao-contas" [class.ativo]="contaSelecionada === 'selecionar'" (click)="selecionarConta('selecionar'); mostrarModalContas = true">Selecionar</button>
+      </div>
+
+      <!-- Contas Selecionadas -->
+      <div class="categorias-selecionadas" *ngIf="contaSelecionada === 'selecionar' && contasSelecionadas.length">
+        <ng-container *ngFor="let conta of contasSelecionadas; let last = last">
+          <span class="categoria-tag">
+            <span class="icone" [ngStyle]="{'background-color': conta.cor}">
+              <i [class]="conta.icone"></i>
+            </span>
+            <span class="nome">{{ conta.nome }}<span *ngIf="!last">,</span></span>
+          </span>
+        </ng-container>
+      </div>
+
+      <!-- Modal Contas -->
+      <div class="modal-overlay" *ngIf="mostrarModalContas" (click)="mostrarModalContas = false">
+        <div class="modal-conteudo" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <button class="fechar" (click)="mostrarModalContas = false">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <span class="titulo">Selecionar contas</span>
+            <button class="concluir" (click)="mostrarModalContas = false">Concluir</button>
+          </div>
+
+          <div class="lista-categorias">
+            <div class="item-categoria" *ngFor="let conta of contasDisponiveis">
+              <input class="selecionar-categorias" type="checkbox" [checked]="isContaSelecionada(conta)" (change)="toggleContaSelecionada(conta, $any($event.target).checked)" />
+              <span class="icone" [ngStyle]="{'background-color': conta.cor}">
+                <i [class]="conta.icone"></i>
+              </span>
+              <span class="nome">{{ conta.nome }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Mostrar apenas saldo -->
@@ -105,8 +140,8 @@
       <!-- Categorias receitas -->
       <div class="bloco-adicionais">
         <span class="receitas-categorias">Categorias receitas:</span>
-        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'todas'" (click)="selecionarCategoria('todas')" >Todas</button>
-        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'selecionar'" (click)="selecionarCategoria('selecionar')">Selecionar</button>
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'todas'" (click)="selecionarCategoria('todas')">Todas</button>
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'selecionar'" (click)="selecionarCategoria('selecionar'); mostrarModalCategoriasReceitas = true">Selecionar</button>
       </div>
 
       <div class="categorias-selecionadas" *ngIf="categoriaSelecionada === 'selecionar' && categoriasSelecionadas.length">
