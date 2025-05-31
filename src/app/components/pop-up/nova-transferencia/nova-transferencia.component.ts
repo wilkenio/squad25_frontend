@@ -13,149 +13,143 @@ import { GlobalService } from '../../../services/global.service';
   styleUrls: ['./nova-transferencia.component.css']
 })
 export class NovaTransferenciaComponent {
-  @Output() contaSalva = new EventEmitter<void>();
+  @Output() transferenciaSalva = new EventEmitter<void>();
 
   mostrarNovaTransferencia: boolean = false;
 
   nome: string = '';
-  saldoInicial: number = 0;
-  dataAtual:string = '';
-  chequeEspecial: number = 0;
+  valor: number = 0;
+  dataLancamento: string = '';
   infoAdicional: string = '';
-  csvFile: File | null = null;
-  contaId: string = '';
-  typePopUp: 'add' | 'edit' = 'add';
-  typeTransation: 'Receita' | 'Despesa' | '' = '';
-
-  // NOVAS VARIÁVEIS
   contaSaidaId: string = '';
   contaEntradaId: string = '';
-  categorias: any[] = [];
-  categoriaSelecionadaId: string = ''; // Adiciona a propriedade para corrigir o erro
+  contas: any[] = [];
 
-  // Campos para tipo de transferência
-  tipoTransferenciaSelecionada: string = 'naoRecorrente'; // default pode ser 'naoRecorrente', 'mensalFixa' ou 'repetir'
+  tipoFrequencia: 'NON_RECURRING' | 'FIXED_MONTHLY' | 'REPEAT' = 'NON_RECURRING';
   parcelas: number = 1;
   periodicidade: string = 'DIARIO';
-  diasUteis: boolean = false;
+  businessDayOnly: boolean = false;
+
+  typePopUp: 'add' | 'edit' = 'add';
 
   private globalService = inject(GlobalService);
 
   constructor(private http: HttpClient, private router: Router) {}
 
-togglePopup() {
-  this.mostrarNovaTransferencia = true;
-  this.buscarCategoriasACCOUNT();
+  togglePopup(typePopUp: 'add' | 'edit') {
+    this.resetarFormulario();
+    this.mostrarNovaTransferencia = true;
+    this.typePopUp = typePopUp;
+    this.dataLancamento = this.getDataAtualFormatada();
 
-  const agora = new Date();
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  
-  this.dataAtual = `${agora.getFullYear()}-${pad(agora.getMonth() + 1)}-${pad(agora.getDate())}T${pad(agora.getHours())}:${pad(agora.getMinutes())}`;
-  
-}
+    this.buscarContas();
+  }
 
-
-  buscarCategoriasACCOUNT() {
-    const url = `${this.globalService.apiUrl}/categories`;
+  buscarContas() {
+    const url = `${this.globalService.apiUrl}/account`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.globalService.userToken}`
+      Authorization: `Bearer ${this.globalService.userToken}`
     });
 
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
+        this.contas = data;
       },
       error: (err) => {
-        console.error('Erro ao carregar categorias:', err);
+        console.error('Erro ao carregar contas:', err);
       }
     });
   }
 
-  fecharNovaConta() {
-    this.mostrarNovaTransferencia = false;
-  }
-
   resetarFormulario() {
     this.nome = '';
-    this.saldoInicial = 0;
-    this.chequeEspecial = 0;
+    this.valor = 0;
+    this.dataLancamento = '';
     this.infoAdicional = '';
-    this.csvFile = null;
-    this.contaId = '';
     this.contaSaidaId = '';
     this.contaEntradaId = '';
-
-    // Reset das novas variáveis
-    this.tipoTransferenciaSelecionada = 'repetir';
+    this.tipoFrequencia = 'NON_RECURRING';
     this.parcelas = 1;
-    this.periodicidade = 'mensal';
-    this.diasUteis = false;
+    this.periodicidade = 'DIARIO';
+    this.businessDayOnly = false;
+  }
+  formatarParaISOComTimezone(data: string): string {
+    const dataObj = new Date(data);
+    const offsetMs = dataObj.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(dataObj.getTime() - offsetMs).toISOString().slice(0, 19); // Remove o "Z"
+    return localISOTime;
+  }
+  onTipoRecorrenciaChange() {
+    if (this.tipoFrequencia === 'NON_RECURRING') {
+      this.parcelas = 0;
+      this.periodicidade = '';
+    } else if (this.tipoFrequencia === 'FIXED_MONTHLY') {
+      this.parcelas = 0;
+      this.periodicidade = 'MENSAL';
+    } else if (this.tipoFrequencia === 'REPEAT') {
+      if (!this.parcelas || this.parcelas <= 0) {
+        this.parcelas = 1;
+      }
+      if (!this.periodicidade) {
+        this.periodicidade = 'MENSAL';
+      }
+    }
   }
 
-  salvarConta() {
-    if (this.contaSaidaId === this.contaEntradaId) {
-      alert('A conta de entrada e de saída não podem ser iguais.');
-      return;
-    }
-  
-    const token = this.globalService.userToken;
+  salvarTransferencia() {
+    const url = `${this.globalService.apiUrl}/transaction/transfer`;
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${this.globalService.userToken}`
     });
-  
-    // Pega a data completa da transferência
-    const data = new Date(this.dataAtual);
-  
-    // Extrair hora, minuto, segundo, nano
-    const releaseTime = {
-      hour: data.getHours(),
-      minute: data.getMinutes(),
-      second: data.getSeconds(),
-      nano: 0
-    };
-  
-    // Formatar releaseDate para ISO string (completo)
-    const releaseDate = data.toISOString();
-  
-    // Estado da transação
-    const state = data.setHours(0,0,0,0) <= new Date().setHours(0,0,0,0) ? 'EFFECTIVE' : 'PENDING';
-  
-    // Mapear periodicidade para maiúsculo
-    const periodicity = this.periodicidade.toUpperCase();
-  
-    // Montar payload conforme solicitado
+
+    const dataObj = new Date(this.dataLancamento);
+
     const payload = {
       originAccountId: this.contaSaidaId,
       destinationAccountId: this.contaEntradaId,
-      categoryId: this.categoriaSelecionadaId || '',  // precisa ter categoria selecionada
-      name: this.nome || 'Transferência',
-      value: this.chequeEspecial,
-      releaseDate: releaseDate,
-      releaseTime: releaseTime,
-      description: this.nome || 'Transferência',
-      additionalInformation: this.infoAdicional || '',
-      state: state,
-      frequency: this.tipoTransferenciaSelecionada === 'naoRecorrente' ? 'NON_RECURRING'
-                : this.tipoTransferenciaSelecionada === 'mensalFixa' ? 'FIXED_MONTHLY' : 'REPEAT',
-      installments: this.tipoTransferenciaSelecionada === 'repetir' ? this.parcelas : 0,
-      periodicity: this.tipoTransferenciaSelecionada === 'repetir' ? periodicity : 'DIARIO',
-      businessDayOnly: this.tipoTransferenciaSelecionada === 'repetir' ? this.diasUteis : true
+      name: this.nome,
+      value: this.valor,
+      releaseDate: this.formatarParaISOComTimezone(this.dataLancamento),
+      releaseTime: {
+        hour: dataObj.getHours(),       // horário local, para o releaseTime
+        minute: dataObj.getMinutes(),
+        second: dataObj.getSeconds(),
+        nano: 0
+      },
+      description: this.nome,
+      additionalInformation: this.infoAdicional,
+      state: (new Date(this.dataLancamento) <= new Date()) ? 'EFFECTIVE' : 'PENDING',
+      frequency: this.tipoFrequencia,
+      installments: this.tipoFrequencia === 'REPEAT' ? this.parcelas : 0,
+      periodicity: this.periodicidade,
+      businessDayOnly: this.businessDayOnly
     };
-  
-    const url = `${this.globalService.apiUrl}/transaction/transfer`;
-  
+
     this.http.post(url, payload, { headers }).subscribe({
       next: () => {
-        this.contaSalva.emit();
-        this.fecharNovaConta();
-        this.resetarFormulario();
+        this.transferenciaSalva.emit();
+        this.fecharNovaTransferencia();
       },
       error: (err) => {
         console.error('Erro ao salvar transferência:', err);
       }
     });
   }
-  
-  
+
+  fecharNovaTransferencia() {
+    this.mostrarNovaTransferencia = false;
+  }
+
+  getDataAtualFormatada(): string {
+    const agora = new Date();
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const horas = String(agora.getHours()).padStart(2, '0');
+    const minutos = String(agora.getMinutes()).padStart(2, '0');
+    // O input datetime-local NÃO usa segundos, por isso vamos ignorar para não dar problema
+    return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+  }
 }
