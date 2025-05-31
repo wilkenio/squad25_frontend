@@ -1,6 +1,6 @@
 .relatorios-container {
     padding: 1%;
-    background-color: var(--cor-1);
+    background-color: var(--cor-2);
     color: #333;
   }
   
@@ -82,7 +82,7 @@
     color: var(--cor-3);
   }
   .periodo {
-    margin-right: 5%;
+    /* margin-right: 5%; */
   }
   .espaco-de,
   .espaco-ate {
@@ -93,7 +93,7 @@
   .bloco-geral input[type="date"],
   .bloco-geral input[type="number"] {
     padding: 0.3rem;
-    margin-right: 3%;
+    /* margin-right: 3%; */
     border: 1px solid var(--cor-14);
     border-radius: 6px;
     background-color: var(--cor-14);
@@ -172,13 +172,16 @@
 .opcao-principal {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  margin-top: 7%;
 }
 .linha-filtro {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  display: flex;
+  /* grid-template-columns: repeat(3, 1fr);  */
+  justify-content: space-between;
   gap: 30px;
   align-items: center;
+  margin-bottom: 2px;
   padding: 1px 0;
 }
 
@@ -207,7 +210,7 @@
   .escolhas {
     display: flex;
     align-items: center;
-    
+    width: 25%;
     font-size: 1rem;
     color: var(--cor-3);
   }
