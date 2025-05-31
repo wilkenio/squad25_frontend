@@ -24,7 +24,7 @@ export class NovaTransacaoComponent {
   subcategoriaId: string = '';
   contaId: string = '';
   idTransacao: string = '';
-  parcelas: number = 0;
+  parcelas: number = 2;
   periodicidade: string = 'DIARIO';
   businessDayOnly: boolean = true;
   tipoFrequencia: 'NON_RECURRING' | 'FIXED_MONTHLY' | 'REPEAT' = 'NON_RECURRING';

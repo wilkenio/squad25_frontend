@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,36 +19,50 @@ export class NovaTransferenciaComponent {
 
   nome: string = '';
   saldoInicial: number = 0;
+  dataAtual:string = '';
   chequeEspecial: number = 0;
   infoAdicional: string = '';
-  categoriaId: string = '';
   csvFile: File | null = null;
   contaId: string = '';
   typePopUp: 'add' | 'edit' = 'add';
-  typeTransation: 'Receita' | 'Despesa' |''= '';
+  typeTransation: 'Receita' | 'Despesa' | '' = '';
 
-
+  // NOVAS VARIÁVEIS
+  contaSaidaId: string = '';
+  contaEntradaId: string = '';
   categorias: any[] = [];
+  categoriaSelecionadaId: string = ''; // Adiciona a propriedade para corrigir o erro
+
+  // Campos para tipo de transferência
+  tipoTransferenciaSelecionada: string = 'naoRecorrente'; // default pode ser 'naoRecorrente', 'mensalFixa' ou 'repetir'
+  parcelas: number = 1;
+  periodicidade: string = 'DIARIO';
+  diasUteis: boolean = false;
 
   private globalService = inject(GlobalService);
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  togglePopup() {
+togglePopup() {
+  this.mostrarNovaTransferencia = true;
+  this.buscarCategoriasACCOUNT();
+
+  const agora = new Date();
+  const pad = (n: number) => n.toString().padStart(2, '0');
   
-    this.mostrarNovaTransferencia = true;
+  this.dataAtual = `${agora.getFullYear()}-${pad(agora.getMonth() + 1)}-${pad(agora.getDate())}T${pad(agora.getHours())}:${pad(agora.getMinutes())}`;
   
-  }
+}
+
 
   buscarCategoriasACCOUNT() {
     const url = `${this.globalService.apiUrl}/categories`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
-  
+
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        // Filtrando as categorias com type "ACCOUNT"
         this.categorias = data.filter(categoria => categoria.type === 'ACCOUNT');
       },
       error: (err) => {
@@ -56,9 +70,6 @@ export class NovaTransferenciaComponent {
       }
     });
   }
-  
-
-
 
   fecharNovaConta() {
     this.mostrarNovaTransferencia = false;
@@ -69,44 +80,82 @@ export class NovaTransferenciaComponent {
     this.saldoInicial = 0;
     this.chequeEspecial = 0;
     this.infoAdicional = '';
-    this.categoriaId = '';
     this.csvFile = null;
     this.contaId = '';
+    this.contaSaidaId = '';
+    this.contaEntradaId = '';
+
+    // Reset das novas variáveis
+    this.tipoTransferenciaSelecionada = 'repetir';
+    this.parcelas = 1;
+    this.periodicidade = 'mensal';
+    this.diasUteis = false;
   }
 
   salvarConta() {
+    if (this.contaSaidaId === this.contaEntradaId) {
+      alert('A conta de entrada e de saída não podem ser iguais.');
+      return;
+    }
+  
     const token = this.globalService.userToken;
     const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-
-    const formData = new FormData();
-    formData.append('nome', this.nome);
-    formData.append('saldoInicial', this.saldoInicial.toString());
-    formData.append('chequeEspecial', this.chequeEspecial.toString());
-    formData.append('infoAdicional', this.infoAdicional);
-    formData.append('categoriaId', this.categoriaId);
-
-    if (this.csvFile) {
-      formData.append('csvFile', this.csvFile);
-    }
-
-    const url = this.typePopUp === 'edit'
-      ? `${this.globalService.apiUrl}/accounts/${this.contaId}`
-      : `${this.globalService.apiUrl}/accounts`;
-
-    const request = this.typePopUp === 'edit'
-      ? this.http.put(url, formData, { headers })
-      : this.http.post(url, formData, { headers });
-
-    request.subscribe({
+  
+    // Pega a data completa da transferência
+    const data = new Date(this.dataAtual);
+  
+    // Extrair hora, minuto, segundo, nano
+    const releaseTime = {
+      hour: data.getHours(),
+      minute: data.getMinutes(),
+      second: data.getSeconds(),
+      nano: 0
+    };
+  
+    // Formatar releaseDate para ISO string (completo)
+    const releaseDate = data.toISOString();
+  
+    // Estado da transação
+    const state = data.setHours(0,0,0,0) <= new Date().setHours(0,0,0,0) ? 'EFFECTIVE' : 'PENDING';
+  
+    // Mapear periodicidade para maiúsculo
+    const periodicity = this.periodicidade.toUpperCase();
+  
+    // Montar payload conforme solicitado
+    const payload = {
+      originAccountId: this.contaSaidaId,
+      destinationAccountId: this.contaEntradaId,
+      categoryId: this.categoriaSelecionadaId || '',  // precisa ter categoria selecionada
+      name: this.nome || 'Transferência',
+      value: this.chequeEspecial,
+      releaseDate: releaseDate,
+      releaseTime: releaseTime,
+      description: this.nome || 'Transferência',
+      additionalInformation: this.infoAdicional || '',
+      state: state,
+      frequency: this.tipoTransferenciaSelecionada === 'naoRecorrente' ? 'NON_RECURRING'
+                : this.tipoTransferenciaSelecionada === 'mensalFixa' ? 'FIXED_MONTHLY' : 'REPEAT',
+      installments: this.tipoTransferenciaSelecionada === 'repetir' ? this.parcelas : 0,
+      periodicity: this.tipoTransferenciaSelecionada === 'repetir' ? periodicity : 'DIARIO',
+      businessDayOnly: this.tipoTransferenciaSelecionada === 'repetir' ? this.diasUteis : true
+    };
+  
+    const url = `${this.globalService.apiUrl}/transaction/transfer`;
+  
+    this.http.post(url, payload, { headers }).subscribe({
       next: () => {
         this.contaSalva.emit();
         this.fecharNovaConta();
+        this.resetarFormulario();
       },
       error: (err) => {
-        console.error('Erro ao salvar conta:', err);
+        console.error('Erro ao salvar transferência:', err);
       }
     });
   }
+  
+  
 }
