@@ -317,7 +317,7 @@ input[type="checkbox"]:disabled {
 
 .relatorios-salvos h3 {
   font-size: 1.1rem;
-  color: #3f3d56;
+  color: var(--cor-5);
   margin-bottom: 1rem;
   font-weight: bold;
 }
@@ -369,7 +369,7 @@ input[type="checkbox"]:disabled {
 
 .acoes button:hover {
   background-color: #eae6ff;
-  color: #3c217a;
+  color: #faf8ff;
 }
 
 
@@ -462,3 +462,283 @@ input[type="checkbox"]:checked + label {
     width: 100%;
   }
 }
+
+
+
+
+.relatorio-linha.ativo .icones button i{
+  color: white;
+  background: none;
+  border: #ffffff !important;
+}
+
+
+
+.relatorios-salvos {
+  margin-top: 20px;
+
+  
+}
+
+.relatorio-linha.ativo .relatorio-titulo,
+.relatorio-linha.ativo .data
+ {
+  color: #fff;
+ 
+}
+.relatorio-bloco {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background-color: #fff;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.relatorio-linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
+  
+}
+.relatorio-linha.ativo {
+  background: linear-gradient(to right, var(--cor-4), var(--cor-5));
+  color: #fff; 
+}
+
+
+.relatorio-titulo {
+  font-weight: 500;
+  color: var(--cor-17);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.data {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.icones button {
+  background: none;
+  border: 1px solid var(--cor-5);
+  margin-left: 8px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  color: #4b2aad;
+  cursor: pointer;
+}
+
+.relatorio-dropdown {
+  
+  background-color: var(--cor-1);
+  animation: expandir 0.3s ease-out;
+  
+  padding: 0.5%
+}
+
+@keyframes expandir {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.relatorio-dropdown {
+  margin-top: 10px;
+}
+
+.relatorio-dividido {
+  display: flex;
+  
+  
+  border-radius: 10px;
+  
+  gap: 15px;
+}
+
+.coluna-esquerda, .coluna-direita {
+  flex: 1;
+}
+
+.coluna-esquerda {
+  background-color: var(--cor-1);
+  padding: 1rem;
+  border: 2px solid var(--cor-16);
+  border-radius: 10px;
+}
+
+.coluna-direita {
+  background-color: var(--cor-1);
+  padding: 1rem;
+  border: 2px solid var(--cor-16);
+  border-radius: 10px;
+}
+
+.barra-gastos {
+  margin-bottom: 1rem;
+}
+
+.barra-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.descricao {
+  font-size: 13px;
+  color: #555;
+  margin: 4px 0;
+}
+
+.barra {
+  height: 8px;
+  background-color: #fa824c;
+  border-radius: 4px;
+}
+
+.tabela {
+  font-size: 14px;
+}
+
+.tabela .linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--cor-15);
+}
+
+
+
+.categoria{
+  display: flex;
+  justify-content: end;
+  width: 50%;
+}
+
+.icon-categoria{
+  color: var(--cor-1);
+  border: 4px solid var(--cor-1); 
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoria-descricao{
+  font-size: 0.6rem;
+}
+
+
+.contain-categorias{
+  width: 35.5%;
+  height: 80%;
+  position: absolute;
+  margin-top: 2.3%;
+  background-color: #ffffff00;
+  z-index: 99999;
+}
+
+.dezcategorias{
+  margin-bottom:3.75vh;
+}
+
+
+
+
+.coluna-direita {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #555;
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  align-items: flex-start;
+}
+
+.descricao {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.titulo-descricao {
+  display: flex;
+  font-size: 1rem;
+  gap: 0.5%;
+}
+
+
+.titulo{
+  color: var(--cor-3);
+}
+
+
+.subtitulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.descricao-transacao {
+  
+  color: var(--cor-16);
+  font-size:  0.9rem;
+}
+
+.categorias {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.categorias i {
+  font-size: 1.1rem;
+}
+
+.categoria-icone-nome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.data,
+.valor {
+  min-width: 100px;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+/* Para que o ícone fique embaixo do título e descrição, você pode usar: */
+.icone-embaixo {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+
+
+
