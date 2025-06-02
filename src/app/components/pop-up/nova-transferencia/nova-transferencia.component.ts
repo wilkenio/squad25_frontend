@@ -69,7 +69,7 @@ export class NovaTransferenciaComponent {
     this.contaSaidaId = '';
     this.contaEntradaId = '';
     this.tipoFrequencia = 'NON_RECURRING';
-    this.parcelas = 1;
+    this.parcelas = 2;
     this.periodicidade = 'DIARIO';
     this.businessDayOnly = false;
   }
@@ -112,12 +112,6 @@ export class NovaTransferenciaComponent {
       name: this.nome,
       value: this.valor,
       releaseDate: this.formatarParaISOComTimezone(this.dataLancamento),
-      releaseTime: {
-        hour: dataObj.getHours(),       // horário local, para o releaseTime
-        minute: dataObj.getMinutes(),
-        second: dataObj.getSeconds(),
-        nano: 0
-      },
       description: this.nome,
       additionalInformation: this.infoAdicional,
       state: (new Date(this.dataLancamento) <= new Date()) ? 'EFFECTIVE' : 'PENDING',
