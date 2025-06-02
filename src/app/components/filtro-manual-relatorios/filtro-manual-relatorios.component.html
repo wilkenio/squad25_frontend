@@ -14,9 +14,9 @@
       <div class="bloco-geral">
         <span class="periodo">Período:</span>
         <span class="espaco-de">De</span>
-        <input type="date" [(ngModel)]="dataInicio"  />
+        <input type="date" [(ngModel)]="dataInicio" />
         <span class="espaco-ate">Até</span>
-        <input type="date" [(ngModel)]="dataFim"  />
+        <input type="date" [(ngModel)]="dataFim" />
       </div>
       <div class="linha-horizontal"></div>
 
@@ -80,7 +80,7 @@
           Mostrar apenas o saldo
         </label>
         <label class="mostrarSaldo">
-          <input type="checkbox" />
+          <input type="checkbox" [(ngModel)]="incluirSaldoPrevistoModel" />
           Incluir Saldo Previsto
         </label>
       </div>
@@ -249,13 +249,13 @@
           <span>Recorrência:</span>
           <div class="checkbox-geral">
             <label class="checkbox-container">
-              <input type="checkbox" checked /> Sem recorrência
+              <input type="checkbox" [(ngModel)]="recorrenciaSem" /> Sem recorrência
             </label>
             <label class="checkbox-container">
-              <input type="checkbox" checked /> Recorrência fixa mensal
+              <input type="checkbox" [(ngModel)]="recorrenciaFixaMensal" /> Recorrência fixa mensal
             </label>
             <label class="checkbox-container">
-              <input type="checkbox" checked /> Recorrência personalizada
+              <input type="checkbox" [(ngModel)]="recorrenciaPersonalizada" /> Recorrência personalizada
             </label>
           </div>
         </div>
@@ -271,8 +271,10 @@
       <div class="tipo-dado">
         <span>Tipo de Dado:</span>
         <div class="dados">
-          <label><input type="radio" checked name="tipo" /> Transações</label>
-          <label><input type="radio" name="tipo" /> Categoria</label>
+          <label><input type="radio" name="tipoDadoGroup" value="TRANSACOES" [(ngModel)]="tipoDadoSelecionado" />
+            Transações</label>
+          <label><input type="radio" name="tipoDadoGroup" value="CATEGORIA" [(ngModel)]="tipoDadoSelecionado" />
+            Categoria</label>
         </div>
       </div>
       <div class="linha-horizontal"></div>
@@ -281,11 +283,16 @@
         <div class="ordenar-por">
           <span>Ordenar por:</span>
           <div class="opcoes">
-            <label><input type="radio" name="ordem" /> Data de lançamento</label>
-            <label><input type="radio" name="ordem" /> Valor Decrescente</label>
-            <label><input type="radio" name="ordem" /> Data de Efetivação</label>
-            <label><input type="radio" checked name="ordem" /> Valor Crescente</label>
-            <label><input type="radio" name="ordem" [disabled]="mostrarApenasSaldo" /> Data</label>
+            <label><input type="radio" name="ordem" value="DATA_LANCAMENTO" [(ngModel)]="ordenacaoSelecionada" /> Data
+              de lançamento</label>
+            <label><input type="radio" name="ordem" value="VALOR_DECRESCENTE" [(ngModel)]="ordenacaoSelecionada" />
+              Valor Decrescente</label>
+            <label><input type="radio" name="ordem" value="DATA_EFETIVACAO" [(ngModel)]="ordenacaoSelecionada" /> Data
+              de Efetivação</label>
+            <label><input type="radio" name="ordem" value="VALOR_CRESCENTE" [(ngModel)]="ordenacaoSelecionada" /> Valor
+              Crescente</label>
+            <label><input type="radio" name="ordem" value="DATA" [(ngModel)]="ordenacaoSelecionada"
+                [disabled]="mostrarApenasSaldo" /> Data</label>
           </div>
         </div>
       </div>
@@ -296,8 +303,8 @@
           <span>Mostrar:</span>
 
           <label class="opcao">
-            <input type="number" value="5" min="0" max="10" class="input-pequeno" />
-            Resultados por página(x resultados)
+            <input type="number" [(ngModel)]="resultadosLimite" min="0" max="10" class="input-pequeno" />
+            Limite de Resultados
           </label>
 
           <label class="opcao">

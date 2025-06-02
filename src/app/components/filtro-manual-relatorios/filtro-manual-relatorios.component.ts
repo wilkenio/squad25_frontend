@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http'; // HttpParams já estava, mas bom confirmar
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { GlobalService } from '../../services/global.service';
+import { RelatorioService } from '../../services/RelatorioService/RelatorioService'; // 1. IMPORTE O SERVIÇO (ajuste o caminho)
 
 interface Categoria {
   nome: string;
   cor: string;
   icone: string;
+  id: string;
 }
 
 interface Conta {
   nome: string;
   cor: string;
   icone: string;
+  id: string;
 }
 
 @Component({
@@ -24,29 +27,22 @@ interface Conta {
   styleUrls: ['./filtro-manual-relatorios.component.css'],
 })
 export class FiltroManualRelatoriosComponent implements OnInit {
-  // Propriedades existentes (algumas podem precisar de revisão de uso conforme o HTML final)
-  referenciaSelecionada: 'LANCAMENTO' | 'EFETIVACAO' = 'LANCAMENTO'; // HTML correspondente está comentado
+  referenciaSelecionada: 'LANCAMENTO' | 'EFETIVACAO' = 'LANCAMENTO';
   contaSelecionada: 'todas' | 'selecionar' = 'todas';
-  categoriaSelecionada: string = 'todas'; // Para receitas
-  categoriaSelecionadaDespesas: string = 'todas';
+  categoriaSelecionada: string = 'todas'; // Para receitas. Controla o modo "Todas" vs "Selecionar"
+  categoriaSelecionadaDespesas: string = 'todas'; // Para despesas. Controla o modo "Todas" vs "Selecionar"
 
-  // Controles de modal existentes
   mostrarModalCategoriasReceitas = false;
   mostrarModalCategoriasDespesas = false;
   mostrarModalContas = false;
-  // As seguintes propriedades de modal parecem não ser usadas pelo HTML fornecido:
-  // mostrarModalIncluir = false;
-  // mostrarConfirmacao = false;
-  // mostrarModal = false;
 
+  categoriasReceitas: Categoria[] = []; // Lista de todas as categorias de receita disponíveis para seleção
+  categoriasDespesas: Categoria[] = []; // Lista de todas as categorias de despesa disponíveis para seleção
+  contasDisponiveis: Conta[] = [];   // Lista de todas as contas disponíveis para seleção
 
-  categoriasReceitas: Categoria[] = [];
-  categoriasDespesas: Categoria[] = [];
-  contasDisponiveis: Conta[] = [];
-
-  categoriasSelecionadas: Categoria[] = []; // Receitas selecionadas
-  categoriasDespesasSelecionadas: Categoria[] = [];
-  contasSelecionadas: Conta[] = [];
+  categoriasSelecionadas: Categoria[] = []; // Categorias de receita efetivamente selecionadas pelo usuário no modal
+  categoriasDespesasSelecionadas: Categoria[] = []; // Categorias de despesa efetivamente selecionadas pelo usuário no modal
+  contasSelecionadas: Conta[] = []; // Contas efetivamente selecionadas pelo usuário no modal
 
   filtroReceita = false;
   filtroDespesa = false;
@@ -59,72 +55,40 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   transferenciaEfetivada = false;
   transferenciaPrevista = false;
 
-  // As seguintes propriedades parecem não ser usadas pelo HTML fornecido:
-  // tipoMostrar: 'todos' | 'ultimos' | 'primeiros' | 'soma' = 'todos';
-  // quantidadeUltimosResultados = 0;
-
   mostrarApenasSoma = false;
   mostrarApenasSaldo = false;
 
   dataInicio = '';
   dataFim = '';
 
-  // --- NOVAS PROPRIEDADES PARA O HTML ATUALIZADO ---
-  incluirSaldoPrevistoModel: boolean = false; // Para o checkbox "Incluir Saldo Previsto"
+  incluirSaldoPrevistoModel: boolean = false;
 
-  // Recorrência
   recorrenciaSem: boolean = true;
   recorrenciaFixaMensal: boolean = true;
-  recorrenciaPersonalizada: boolean = true; // No seu 'filtrar' original era 'incluirFreqRepetida'
+  recorrenciaPersonalizada: boolean = true;
 
-  // Apresentação dos Dados
-  tipoDadoSelecionado: 'TRANSACOES' | 'CATEGORIA' = 'TRANSACOES'; // 'TRANSACOES' pode mapear para 'valor' na API
-  ordenacaoSelecionada: string = 'VALOR_CRESCENTE'; // Opções: 'DATA_LANCAMENTO', 'VALOR_DECRESCENTE', 'DATA_EFETIVACAO', 'VALOR_CRESCENTE', 'DATA'
-  resultadosPorPagina: number = 5; // Para "Resultados por página"
+  tipoDadoSelecionado: 'TRANSACOES' | 'CATEGORIA' = 'TRANSACOES';
+  ordenacaoSelecionada: string = 'VALOR_CRESCENTE';
+  resultadosLimite: number = 0;
 
-  constructor(private http: HttpClient, public globalService: GlobalService) {}
+  constructor(private http: HttpClient, public globalService: GlobalService, private relatorioService: RelatorioService) { }
 
   ngOnInit(): void {
     this.buscarCategorias();
     this.buscarContas();
-    // Definir datas padrão se necessário, ex:
-    // const hoje = new Date();
-    // const primeiroDiaDoMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
-    // this.dataInicio = this.formatarDataParaInput(primeiroDiaDoMes);
-    // this.dataFim = this.formatarDataParaInput(hoje);
   }
-
-  // Método para formatar data para input type="date" (AAAA-MM-DD)
-  // formatarDataParaInput(data: Date): string {
-  //   const ano = data.getFullYear();
-  //   const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-  //   const dia = data.getDate().toString().padStart(2, '0');
-  //   return `${ano}-${mes}-${dia}`;
-  // }
-
-  // Métodos existentes para modais e seleções (manter os que são usados)
-  // abrirModalIncluir(): void { // Parece não usado pelo HTML
-  //   this.mostrarModalIncluir = true;
-  // }
-
-  // abrirModal(): void { // Parece não usado pelo HTML
-  //   this.mostrarModal = true;
-  // }
-
-  // fecharModal(): void { // Parece não usado pelo HTML
-  //   this.mostrarModal = false;
-  //   // this.categoriaSelecionada = 'todas'; // Se este fecharModal era genérico
-  // }
 
   selecionarCategoriaDespesas(valor: string): void {
     this.categoriaSelecionadaDespesas = valor;
-     if (valor === 'selecionar') { // Abrir modal se "selecionar" for clicado
-        this.mostrarModalCategoriasDespesas = true;
+    if (valor === 'selecionar') {
+      this.mostrarModalCategoriasDespesas = true;
+    } else { // Se for "todas", limpa as seleções específicas
+      this.categoriasDespesasSelecionadas = [];
     }
   }
 
   isCategoriaDespesaSelecionada(categoria: Categoria): boolean {
-    return this.categoriasDespesasSelecionadas.some(c => c.nome === categoria.nome);
+    return this.categoriasDespesasSelecionadas.some(c => c.id === categoria.id); // Comparar por ID é mais seguro
   }
 
   toggleCategoriaDespesaSelecionada(categoria: Categoria, selecionado: boolean): void {
@@ -134,13 +98,13 @@ export class FiltroManualRelatoriosComponent implements OnInit {
       }
     } else {
       this.categoriasDespesasSelecionadas = this.categoriasDespesasSelecionadas.filter(
-        cat => cat.nome !== categoria.nome
+        cat => cat.id !== categoria.id // Comparar por ID
       );
     }
   }
 
   isContaSelecionada(conta: Conta): boolean {
-    return this.contasSelecionadas.some(c => c.nome === conta.nome);
+    return this.contasSelecionadas.some(c => c.id === conta.id); // Comparar por ID
   }
 
   toggleContaSelecionada(conta: Conta, selecionada: boolean): void {
@@ -149,7 +113,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
         this.contasSelecionadas.push(conta);
       }
     } else {
-      this.contasSelecionadas = this.contasSelecionadas.filter(c => c.nome !== conta.nome);
+      this.contasSelecionadas = this.contasSelecionadas.filter(c => c.id !== conta.id); // Comparar por ID
     }
   }
 
@@ -157,49 +121,40 @@ export class FiltroManualRelatoriosComponent implements OnInit {
     this.categoriaSelecionada = categoria;
     if (categoria === 'selecionar') {
       this.mostrarModalCategoriasReceitas = true;
+    } else { // Se for "todas", limpa as seleções específicas
+      this.categoriasSelecionadas = [];
     }
   }
 
   selecionarConta(opcao: 'todas' | 'selecionar'): void {
     this.contaSelecionada = opcao;
-    if (opcao === 'selecionar') { // Abrir modal se "selecionar" for clicado
-        this.mostrarModalContas = true;
+    if (opcao === 'selecionar') {
+      this.mostrarModalContas = true;
+    } else { // Se for "todas", limpa as seleções específicas
+      this.contasSelecionadas = [];
     }
   }
 
-  selecionarReferencia(tipo: 'LANCAMENTO' | 'EFETIVACAO'): void { // HTML correspondente está comentado
+  selecionarReferencia(tipo: 'LANCAMENTO' | 'EFETIVACAO'): void {
     this.referenciaSelecionada = tipo;
   }
 
   toggleCategoriaSelecionada(cat: Categoria, checked: boolean): void { // Para receitas
     if (checked) {
-      if (!this.categoriasSelecionadas.some(c => c.nome === cat.nome)) {
+      if (!this.isCategoriaSelecionada(cat)) { // Renomear para isCategoriaReceitaSelecionada para clareza ou usar ID
         this.categoriasSelecionadas.push(cat);
       }
     } else {
-      this.categoriasSelecionadas = this.categoriasSelecionadas.filter(c => c.nome !== cat.nome);
+      this.categoriasSelecionadas = this.categoriasSelecionadas.filter(c => c.id !== cat.id); // Comparar por ID
     }
   }
 
-  isCategoriaSelecionada(cat: Categoria): boolean { // Para receitas
-    return this.categoriasSelecionadas.some(c => c.nome === cat.nome);
+  isCategoriaSelecionada(cat: Categoria): boolean { // Para receitas, comparar por ID
+    return this.categoriasSelecionadas.some(c => c.id === cat.id);
   }
 
   onTipoChange(tipoAlterado?: 'receita' | 'despesa' | 'transferencia'): void {
     setTimeout(() => {
-      const selecionados = [this.filtroReceita, this.filtroDespesa, this.filtroTransferencia].filter(Boolean).length;
-
-      // Lógica para permitir no máximo 2 tipos principais selecionados parece ter sido removida ou alterada no HTML
-      // if (selecionados > 2 && tipoAlterado) {
-      //   if (tipoAlterado === 'receita') this.filtroReceita = false;
-      //   else if (tipoAlterado === 'despesa') this.filtroDespesa = false;
-      //   else if (tipoAlterado === 'transferencia') this.filtroTransferencia = false;
-      // }
-
-      if (this.filtroTransferencia) {
-        // this.mostrarApenasSoma = false; // Apenas desabilitado no HTML, não zerado
-      }
-
       if (!this.filtroReceita) this.resetarSubFiltros('receita');
       if (!this.filtroDespesa) this.resetarSubFiltros('despesa');
       if (!this.filtroTransferencia) this.resetarSubFiltros('transferencia');
@@ -207,15 +162,11 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   }
 
   onMostrarApenasSomaChange(): void {
-    // A lógica de desabilitar se filtroTransferencia está no HTML ([disabled]="filtroTransferencia")
-    // if (this.filtroTransferencia && this.mostrarApenasSoma) {
-    //   this.mostrarApenasSoma = false;
-    // }
+    // Lógica adicional se necessário
   }
 
   onMostrarSaldoChange(): void {
     if (this.mostrarApenasSaldo) {
-      // A desabilitação dos campos está no HTML, mas podemos resetar os valores se desejado
       this.filtroReceita = false;
       this.filtroDespesa = false;
       this.filtroTransferencia = false;
@@ -250,6 +201,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
             nome: c.name,
             cor: c.color,
             icone: c.iconClass || 'bi bi-piggy-bank',
+            id: c.id,
           }));
 
         this.categoriasDespesas = categorias
@@ -258,6 +210,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
             nome: c.name,
             cor: c.color,
             icone: c.iconClass || 'bi bi-wallet2',
+            id: c.id,
           }));
       },
       error: (err) => {
@@ -273,6 +226,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
     this.http.get<any[]>(`${this.globalService.apiUrl}/account`, { headers }).subscribe({
       next: (contas) => {
         this.contasDisponiveis = contas.map(conta => ({
+          id: conta.id,
           nome: conta.accountName,
           cor: conta.color,
           icone: conta.iconClass || 'bi bi-bank',
@@ -285,44 +239,45 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   }
 
   filtrar(): void {
-    // Define datas padrão se estiverem vazias (como no original)
-    // Ajuste as datas padrão conforme necessidade
     const dataInicioISO = this.dataInicio ? `${this.dataInicio}T00:00:00` : '2025-05-01T00:00:00'; // Exemplo
     const dataFimISO = this.dataFim ? `${this.dataFim}T23:59:59` : '2025-06-30T23:59:59';     // Exemplo
 
-    const contaNomes = this.contaSelecionada === 'selecionar'
-      ? this.contasSelecionadas.map(c => c.nome) // Assumindo que o backend espera nomes. Se for IDs, ajuste aqui e na interface Conta
+    const idsCategoriasReceitaEspecificas = this.categoriaSelecionada === 'selecionar' && this.categoriasSelecionadas.length > 0
+      ? this.categoriasSelecionadas.map(c => c.id)
       : [];
 
-    const nomesCategoriasReceita = this.categoriaSelecionada === 'selecionar'
-      ? this.categoriasSelecionadas.map(c => c.nome) // Assumindo nomes
+    const idsCategoriasDespesaEspecificas = this.categoriaSelecionadaDespesas === 'selecionar' && this.categoriasDespesasSelecionadas.length > 0
+      ? this.categoriasDespesasSelecionadas.map(c => c.id)
       : [];
 
-    const nomesCategoriasDespesa = this.categoriaSelecionadaDespesas === 'selecionar'
-      ? this.categoriasDespesasSelecionadas.map(c => c.nome) // Assumindo nomes
+    const contaIds = this.contaSelecionada === 'selecionar' && this.contasSelecionadas.length > 0
+      ? this.contasSelecionadas.map(c => c.id)
       : [];
 
-    // Mapeamento de valores do formulário para os parâmetros da API
-    let tipoDadoApi = 'valor'; // Default from original
+
+    let tipoDadoApi = 'TRANSACAO';
     if (this.tipoDadoSelecionado === 'CATEGORIA') {
-      tipoDadoApi = 'categoria'; // Supondo que a API espera 'categoria'
+      tipoDadoApi = 'CATEGORIA';
+    } else if (this.tipoDadoSelecionado === 'TRANSACOES') {
+      tipoDadoApi = 'TRANSACAO';
     }
 
-    let ordenacaoApi = 'data'; // Default from original
-    // Adicionar mapeamento para as novas opções de ordenação se a API as suportar
-    // Exemplo:
-    if (this.ordenacaoSelecionada === 'VALOR_CRESCENTE') ordenacaoApi = 'valor_asc';
-    else if (this.ordenacaoSelecionada === 'VALOR_DECRESCENTE') ordenacaoApi = 'valor_desc';
-    else if (this.ordenacaoSelecionada === 'DATA_LANCAMENTO') ordenacaoApi = 'data_lancamento';
-    else if (this.ordenacaoSelecionada === 'DATA_EFETIVACAO') ordenacaoApi = 'data_efetivacao';
-    else if (this.ordenacaoSelecionada === 'DATA') ordenacaoApi = 'data'; // Já era o default
+    //let ordenacaoApi = 'data'; // Default inicial, será sobrescrito pela lógica abaixo
+    // baseado no valor de this.ordenacaoSelecionada.
+    const ordenacaoApi = this.ordenacaoSelecionada === 'VALOR_CRESCENTE' ? 'VALOR_CRESCENTE' :
+      this.ordenacaoSelecionada === 'VALOR_DECRESCENTE' ? 'VALOR_DECRESCENTE' :
+        this.ordenacaoSelecionada === 'DATA_LANCAMENTO' ? 'DATA_LANCAMENTO' :
+          this.ordenacaoSelecionada === 'DATA_EFETIVACAO' ? 'DATA_EFETIVACAO' :
+            this.ordenacaoSelecionada === 'DATA' ? 'DATA' :
+              null;
+
 
 
     const params: any = {
       dataInicio: dataInicioISO,
       dataFim: dataFimISO,
       mostrarApenasSaldo: this.mostrarApenasSaldo,
-      incluirSaldoPrevisto: this.incluirSaldoPrevistoModel, // Usar a nova propriedade
+      incluirSaldoPrevisto: this.incluirSaldoPrevistoModel,
 
       incluirReceitas: this.filtroReceita,
       incluirReceitasEfetivadas: this.receitaEfetivada,
@@ -336,63 +291,55 @@ export class FiltroManualRelatoriosComponent implements OnInit {
       incluirTransferenciasEfetivadas: this.transferenciaEfetivada,
       incluirTransferenciasPrevistas: this.transferenciaPrevista,
 
-      incluirTodasCategoriasReceita: this.categoriaSelecionada !== 'selecionar',
-      incluirTodasCategoriasDespesa: this.categoriaSelecionadaDespesas !== 'selecionar',
+      incluirTodasCategoriasReceita: idsCategoriasReceitaEspecificas.length === 0,
+      incluirTodasCategoriasDespesa: idsCategoriasDespesaEspecificas.length === 0,
 
-      // Recorrência da API mapeada para as novas propriedades
       incluirFreqNaoRecorrente: this.recorrenciaSem,
       incluirFreqFixaMensal: this.recorrenciaFixaMensal,
-      incluirFreqRepetida: this.recorrenciaPersonalizada, // Mapeado de 'incluirFreqRepetida'
+      incluirFreqRepetida: this.recorrenciaPersonalizada,
 
-      ordenacao: ordenacaoApi, // Usar valor mapeado
-      tipoDado: tipoDadoApi,   // Usar valor mapeado
-      apresentacao: 'detalhado', // Manter ou tornar configurável se necessário
-      
-      // Paginação
-      limite: 100, // Este pode ser um limite máximo geral da API, não o da página
-      pageNumber: 0, // Adicionar lógica de paginação se necessário
-      pageSize: this.resultadosPorPagina // Usar valor do input
+      ordenacao: ordenacaoApi,
+      tipoDado: tipoDadoApi,
+      apresentacao: 'detalhado',
+
+      pageNumber: 0,
+      pageSize: 5
     };
 
-    // Adiciona IDs/Nomes apenas se houver seleção específica
-    if (contaNomes.length > 0) params.contaNomes = contaNomes; // Ou contaIds se for o caso
-    if (nomesCategoriasReceita.length > 0) params.nomesCategoriasReceita = nomesCategoriasReceita; // Ou idsCategoriasReceitaEspecificas
-    if (nomesCategoriasDespesa.length > 0) params.nomesCategoriasDespesa = nomesCategoriasDespesa; // Ou idsCategoriasDespesaEspecificas
+    if (this.resultadosLimite > 0) {
+      params.limite = this.resultadosLimite;
+    }
 
-    // Log da URL para debug
+
+    if (contaIds.length > 0) {
+      params.contaIds = contaIds;
+    }
+    if (idsCategoriasReceitaEspecificas.length > 0) {
+      params.idsCategoriasReceitaEspecificas = idsCategoriasReceitaEspecificas;
+    }
+    if (idsCategoriasDespesaEspecificas.length > 0) {
+      params.idsCategoriasDespesaEspecificas = idsCategoriasDespesaEspecificas;
+    }
+
     let httpParams = new HttpParams();
     Object.keys(params).forEach(key => {
       const value = params[key];
       if (Array.isArray(value)) {
         value.forEach(v => {
-          httpParams = httpParams.append(key, String(v)); // Garantir que seja string
+          httpParams = httpParams.append(key, String(v));
         });
       } else {
-        if (value !== undefined && value !== null) { // Evitar params com valor undefined/null
-            httpParams = httpParams.set(key, String(value)); // Garantir que seja string
+        if (value !== undefined && value !== null) {
+          httpParams = httpParams.set(key, String(value));
         }
       }
     });
 
-    // ATENÇÃO: O endpoint da API deve ser ajustado aqui.
-    // O exemplo abaixo usa '/seu-endpoint-de-relatorio'
-    // A URL completa não deve começar com '?', o HttpParams já cuida disso.
-    const apiUrlRelatorio = `${this.globalService.apiUrl}/seu-endpoint-de-relatorio`;
-    //console.log('🔗 URL que seria chamada:', `${apiUrlRelatorio}?${httpParams.toString()}`);
-    console.log(`?${httpParams.toString()}`);
+    const queryString = httpParams.toString();
+    const apiUrlRelatorio = `${this.globalService.apiUrl}/relatorios/summaries?${queryString}`;
+    console.log(apiUrlRelatorio)
+    console.log('Objeto de Parâmetros completo (para API):', params);
+    this.relatorioService.aplicarFiltros(params);
 
-
-    // Requisição HTTP (descomentar e ajustar endpoint para usar)
-    // const token = this.globalService.userToken;
-    // const headers = { Authorization: `Bearer ${token}` };
-    // this.http.get<any>(apiUrlRelatorio, { headers, params: httpParams }).subscribe({
-    //   next: (res) => {
-    //     console.log('Resultado filtrado:', res);
-    //     // Processar os resultados do relatório aqui
-    //   },
-    //   error: (err) => {
-    //     console.error('Erro ao buscar relatório:', err);
-    //   }
-    // });
   }
 }
