@@ -1,6 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { GlobalService } from '../../services/global.service';
+
+interface Categoria {
+  nome: string;
+  cor: string;
+  icone: string;
+}
+
+interface Conta {
+  nome: string;
+  cor: string;
+  icone: string;
+}
 
 @Component({
   selector: 'app-filtro-manual-relatorios',
@@ -9,123 +23,118 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './filtro-manual-relatorios.component.html',
   styleUrls: ['./filtro-manual-relatorios.component.css'],
 })
-export class FiltroManualRelatoriosComponent {
-  // Seleção principal
-  referenciaSelecionada: 'lancamento' | 'efetivacao' = 'lancamento';
+export class FiltroManualRelatoriosComponent implements OnInit {
+  referenciaSelecionada: 'LANCAMENTO' | 'EFETIVACAO' = 'LANCAMENTO';
   contaSelecionada: 'todas' | 'selecionar' = 'todas';
 
   categoriaSelecionada: string = 'todas';
   categoriaSelecionadaDespesas: string = 'todas';
 
-  // Controle de modais
   mostrarModalIncluir = false;
   mostrarConfirmacao = false;
   mostrarModalCategoriasReceitas = false;
   mostrarModal = false;
+  mostrarModalCategoriasDespesas = false;
+  mostrarModalContas = false;
 
-  // Categorias receitas disponíveis
-  categoriasReceitas = [
-    { nome: 'Outros', cor: '#5b5bd6', icone: 'bi bi-triangle' },
-    { nome: 'Alimentação', cor: '#8b5e3c', icone: 'bi bi-tools' },
-    { nome: 'Carro', cor: '#00a5ff', icone: 'bi bi-car-front-fill' },
-    { nome: 'Cartões de crédito', cor: '#3366cc', icone: 'bi bi-triangle' }
-  ];
+  categoriasReceitas: Categoria[] = [];
+  categoriasDespesas: Categoria[] = [];
+  contasDisponiveis: Conta[] = [];
 
-  // Categorias selecionadas no filtro múltiplo
-  categoriasSelecionadas: { nome: string; cor: string; icone: string }[] = [];
+  categoriasSelecionadas: Categoria[] = [];
+  categoriasDespesasSelecionadas: Categoria[] = [];
+  contasSelecionadas: Conta[] = [];
 
+  filtroReceita = false;
+  filtroDespesa = false;
+  filtroTransferencia = false;
 
-  
-  // Métodos para abrir e fechar modais
-  abrirModalIncluir() {
+  receitaEfetivada = false;
+  receitaPrevista = false;
+  despesaEfetivada = false;
+  despesaPrevista = false;
+  transferenciaEfetivada = false;
+  transferenciaPrevista = false;
+
+  tipoMostrar: 'todos' | 'ultimos' | 'primeiros' | 'soma' = 'todos';
+  quantidadeUltimosResultados = 0;
+
+  mostrarApenasSoma = false;
+  mostrarApenasSaldo = false;
+
+  dataInicio = '';
+  dataFim = '';
+
+  constructor(private http: HttpClient, public globalService: GlobalService) {}
+
+  ngOnInit(): void {
+    this.buscarCategorias();
+    this.buscarContas();
+  }
+
+  abrirModalIncluir(): void {
     this.mostrarModalIncluir = true;
   }
 
-  abrirModal() {
+  abrirModal(): void {
     this.mostrarModal = true;
   }
 
-  fecharModal() {
+  fecharModal(): void {
     this.mostrarModal = false;
     this.categoriaSelecionada = 'todas';
   }
 
-  // Seleção de categoria despesa
-  selecionarCategoriaDespesas(valor: string) {
+  selecionarCategoriaDespesas(valor: string): void {
     this.categoriaSelecionadaDespesas = valor;
   }
-// Mostrar ou ocultar o modal
-mostrarModalCategoriasDespesas: boolean = false;
 
-// Lista de categorias de despesas disponíveis
-categoriasDespesas = [
-  { nome: 'Outross', cor: '#5b5bd6', icone: 'bi bi-triangle' },
-    { nome: 'Alimentação', cor: '#8b5e3c', icone: 'bi bi-tools' },
-    { nome: 'Carro', cor: '#00a5ff', icone: 'bi bi-car-front-fill' },
-    { nome: 'Cartões de crédito', cor: '#3366cc', icone: 'bi bi-triangle' }
-  // ...adicione mais categorias conforme necessário
-];
-
-// Categorias atualmente selecionadas (pode ser um array de strings ou objetos, dependendo da sua lógica)
-categoriasDespesasSelecionadas: any[] = [];
-
-// Verifica se uma categoria está selecionada
-isCategoriaDespesaSelecionada(categoria: any): boolean {
-  return this.categoriasDespesasSelecionadas.includes(categoria);
-}
-
-// Adiciona ou remove categoria do array de selecionadas
-toggleCategoriaDespesaSelecionada(categoria: any, selecionado: boolean) {
-  if (selecionado) {
-    this.categoriasDespesasSelecionadas.push(categoria);
-  } else {
-    this.categoriasDespesasSelecionadas = this.categoriasDespesasSelecionadas.filter(cat => cat !== categoria);
+  isCategoriaDespesaSelecionada(categoria: Categoria): boolean {
+    return this.categoriasDespesasSelecionadas.some(c => c.nome === categoria.nome);
   }
-}
 
-  mostrarModalContas: boolean = false;
-contasDisponiveis = [
-  { nome: 'Outros', cor: '#5b5bd6', icone: 'bi bi-triangle' },
-  { nome: 'Alimentação', cor: '#8b5e3c', icone: 'bi bi-tools' },
-  { nome: 'Carro', cor: '#00a5ff', icone: 'bi bi-car-front-fill' },
-  { nome: 'Cartões de crédito', cor: '#3366cc', icone: 'bi bi-triangle' }
-  // ... outras contas
-];
-contasSelecionadas: any[] = [];
-
-isContaSelecionada(conta: any): boolean {
-  return this.contasSelecionadas.includes(conta);
-}
-
-toggleContaSelecionada(conta: any, selecionada: boolean) {
-  if (selecionada) {
-    this.contasSelecionadas.push(conta);
-  } else {
-    this.contasSelecionadas = this.contasSelecionadas.filter(c => c !== conta);
+  toggleCategoriaDespesaSelecionada(categoria: Categoria, selecionado: boolean): void {
+    if (selecionado) {
+      if (!this.isCategoriaDespesaSelecionada(categoria)) {
+        this.categoriasDespesasSelecionadas.push(categoria);
+      }
+    } else {
+      this.categoriasDespesasSelecionadas = this.categoriasDespesasSelecionadas.filter(
+        cat => cat.nome !== categoria.nome
+      );
+    }
   }
-}
 
-  // Seleção de categoria receita — abre modal se "selecionar"
-  selecionarCategoria(categoria: string) {
+  isContaSelecionada(conta: Conta): boolean {
+    return this.contasSelecionadas.some(c => c.nome === conta.nome);
+  }
+
+  toggleContaSelecionada(conta: Conta, selecionada: boolean): void {
+    if (selecionada) {
+      if (!this.isContaSelecionada(conta)) {
+        this.contasSelecionadas.push(conta);
+      }
+    } else {
+      this.contasSelecionadas = this.contasSelecionadas.filter(c => c.nome !== conta.nome);
+    }
+  }
+
+  selecionarCategoria(categoria: string): void {
     this.categoriaSelecionada = categoria;
-
     if (categoria === 'selecionar') {
       this.mostrarModalCategoriasReceitas = true;
     }
   }
 
-  // Seleção de conta
-  selecionarConta(opcao: 'todas' | 'selecionar') {
+  selecionarConta(opcao: 'todas' | 'selecionar'): void {
     this.contaSelecionada = opcao;
   }
 
-  // Seleção de referência
-  selecionarReferencia(tipo: 'lancamento' | 'efetivacao') {
+  selecionarReferencia(tipo: 'LANCAMENTO' | 'EFETIVACAO'): void {
     this.referenciaSelecionada = tipo;
   }
 
-  // Adiciona ou remove categoria do filtro múltiplo
-  toggleCategoriaSelecionada(cat: { nome: string; cor: string; icone: string }, checked: boolean) {
+  toggleCategoriaSelecionada(cat: Categoria, checked: boolean): void {
     if (checked) {
       if (!this.categoriasSelecionadas.some(c => c.nome === cat.nome)) {
         this.categoriasSelecionadas.push(cat);
@@ -135,72 +144,36 @@ toggleContaSelecionada(conta: any, selecionada: boolean) {
     }
   }
 
-  // Verifica se a categoria está selecionada no filtro múltiplo
-  isCategoriaSelecionada(cat: { nome: string }): boolean {
+  isCategoriaSelecionada(cat: Categoria): boolean {
     return this.categoriasSelecionadas.some(c => c.nome === cat.nome);
   }
 
-  // Variáveis para filtros por tipo
-  filtroReceita = false;
-  filtroDespesa = false;
-  filtroTransferencia = false;
-
-  // Sub-filtros por tipo e situação
-  receitaEfetivada = false;
-  receitaPrevista = false;
-  despesaEfetivada = false;
-  despesaPrevista = false;
-  transferenciaEfetivada = false;
-  transferenciaPrevista = false;
-
-  // Tipo para filtro de quantidade
-  tipoMostrar: 'todos' | 'ultimos' | 'primeiros' | 'soma' = 'todos';
-  quantidadeUltimosResultados: number = 0;
-
-  // Controle para "Mostrar apenas a soma"
-  mostrarApenasSoma = false;
-
-  // Controle para "Mostrar apenas o saldo"
-  mostrarApenasSaldo = false;
-
-  /**
-   * Controla seleção dos tipos de transação.
-   * Limita a no máximo 2 tipos marcados.
-   * Desabilita mostrarApenasSoma se Transferência selecionada.
-   */
   onTipoChange(tipoAlterado?: 'receita' | 'despesa' | 'transferencia'): void {
     setTimeout(() => {
       const selecionados = [this.filtroReceita, this.filtroDespesa, this.filtroTransferencia].filter(Boolean).length;
-  
+
       if (selecionados > 2 && tipoAlterado) {
         if (tipoAlterado === 'receita') this.filtroReceita = false;
         else if (tipoAlterado === 'despesa') this.filtroDespesa = false;
         else if (tipoAlterado === 'transferencia') this.filtroTransferencia = false;
       }
-  
+
       if (this.filtroTransferencia) {
         this.mostrarApenasSoma = false;
       }
-  
-      // Limpa sub-filtros dos tipos desmarcados
+
       if (!this.filtroReceita) this.resetarSubFiltros('receita');
       if (!this.filtroDespesa) this.resetarSubFiltros('despesa');
       if (!this.filtroTransferencia) this.resetarSubFiltros('transferencia');
     });
   }
-  
-  // Também no método que lida com "mostrar apenas soma", evitar ativar se transferência estiver ativa
+
   onMostrarApenasSomaChange(): void {
     if (this.filtroTransferencia && this.mostrarApenasSoma) {
       this.mostrarApenasSoma = false;
     }
   }
-  
 
-  /**
-   * Quando "Mostrar apenas saldo" for ativado,
-   * limpa os filtros de tipo e sub-filtros.
-   */
   onMostrarSaldoChange(): void {
     if (this.mostrarApenasSaldo) {
       this.filtroReceita = false;
@@ -216,8 +189,7 @@ toggleContaSelecionada(conta: any, selecionada: boolean) {
     }
   }
 
-  // Reseta sub-filtros para o tipo informado
-  resetarSubFiltros(tipo: 'receita' | 'despesa' | 'transferencia') {
+  resetarSubFiltros(tipo: 'receita' | 'despesa' | 'transferencia'): void {
     if (tipo === 'receita') {
       this.receitaEfetivada = false;
       this.receitaPrevista = false;
@@ -230,18 +202,90 @@ toggleContaSelecionada(conta: any, selecionada: boolean) {
     }
   }
 
-  // Para usar no template e habilitar categorias receita
-  habilitarCategoriasReceita(): boolean {
-    return this.filtroReceita;
+  private buscarCategorias(): void {
+    const token = this.globalService.userToken;
+    const headers = { Authorization: `Bearer ${token}` };
+
+    this.http.get<any[]>(`${this.globalService.apiUrl}/categories`, { headers }).subscribe({
+      next: (categorias) => {
+        this.categoriasReceitas = categorias
+          .filter(c => c.type === 'REVENUE')
+          .map(c => ({
+            nome: c.name,
+            cor: c.color,
+            icone: c.iconClass || 'bi bi-piggy-bank',
+          }));
+
+        this.categoriasDespesas = categorias
+          .filter(c => c.type === 'EXPENSE')
+          .map(c => ({
+            nome: c.name,
+            cor: c.color,
+            icone: c.iconClass || 'bi bi-wallet2',
+          }));
+      },
+      error: (err) => {
+        console.error('Erro ao buscar categorias:', err);
+      }
+    });
   }
 
-  // Para usar no template e habilitar categorias despesa
-  habilitarCategoriasDespesa(): boolean {
-    return this.filtroDespesa;
+  private buscarContas(): void {
+    const token = this.globalService.userToken;
+    const headers = { Authorization: `Bearer ${token}` };
+
+    this.http.get<any[]>(`${this.globalService.apiUrl}/account`, { headers }).subscribe({
+      next: (contas) => {
+        this.contasDisponiveis = contas.map(conta => ({
+          nome: conta.accountName,
+          cor: conta.color,
+          icone: conta.iconClass || 'bi bi-bank',
+        }));
+      },
+      error: (err) => {
+        console.error('Erro ao buscar contas:', err);
+      }
+    });
   }
 
-  // Para habilitar/desabilitar "Mostrar apenas soma"
-  habilitarMostrarApenasSoma(): boolean {
-    return !this.filtroTransferencia;
+  filtrar(): void {
+    // Use as datas preenchidas nos inputs, se tiverem, senão defaults:
+    const dataInicio = this.dataInicio ? this.dataInicio + 'T00:00:00' : '2025-05-01T00:00:00';
+    const dataFim = this.dataFim ? this.dataFim + 'T00:00:00' : '2025-06-30T00:00:00';
+
+    const dataReferencia = this.referenciaSelecionada === 'EFETIVACAO' ? 'LANCAMENTO' : 'EFETIVACAO';
+    const mostrarSaldo = this.mostrarApenasSaldo;
+    const incluirPrevisto = this.receitaPrevista || this.despesaPrevista || this.transferenciaPrevista;
+
+    // Determinar tipo de transação
+    let transacaoTipo = '';
+    if (this.filtroReceita) transacaoTipo = 'RECEITA';
+    else if (this.filtroDespesa) transacaoTipo = 'DESPESA';
+    else if (this.filtroTransferencia) transacaoTipo = 'TRANSFERENCIA';
+
+    // Determinar estado
+    const estado =
+      this.receitaEfetivada || this.despesaEfetivada || this.transferenciaEfetivada ? 'EFFECTIVE' : 'PLANNED';
+
+    // Montar query string
+    const params = new URLSearchParams({
+      dataInicio,
+      dataFim,
+      dataReferencia,
+      mostrarSaldo: String(mostrarSaldo),
+      incluirPrevisto: String(incluirPrevisto),
+      transacaoTipo,
+      estado,
+      frequencia: 'NON_RECURRING',
+      ordenacao: 'VALOR_CRESCENTE',
+      tipoDado: 'TRANSACAO',
+      apresentacao: 'TODOS',
+    });
+
+    const url = params.toString();
+    console.log('Filtro gerado:', url);
+
+    // Exemplo: abrir em nova aba
+    // window.open(`${this.globalService.apiUrl}/relatorios?${url}`, '_blank');
   }
 }

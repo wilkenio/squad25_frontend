@@ -1,6 +1,6 @@
 <div class="relatorios-container">
   <div class="filtro-topo">
-    <button class="botao-filtrar">Filtrar</button>
+    <button class="botao-filtrar" (click)="filtrar()">Filtrar</button>
   </div>
 
   <div class="filtros-wrapper">
@@ -14,9 +14,9 @@
       <div class="bloco-geral">
         <span class="periodo">Período:</span>
         <span class="espaco-de">De</span>
-        <input type="date" />
+        <input type="date" [(ngModel)]="dataInicio"  />
         <span class="espaco-ate">Até</span>
-        <input type="date" />
+        <input type="date" [(ngModel)]="dataFim"  />
       </div>
       <div class="linha-horizontal"></div>
 
@@ -249,13 +249,13 @@
           <span>Recorrência:</span>
           <div class="checkbox-geral">
             <label class="checkbox-container">
-              <input type="checkbox" /> Sem recorrência
+              <input type="checkbox" checked /> Sem recorrência
             </label>
             <label class="checkbox-container">
-              <input type="checkbox" /> Recorrência fixa mensal
+              <input type="checkbox" checked /> Recorrência fixa mensal
             </label>
             <label class="checkbox-container">
-              <input type="checkbox" /> Recorrência personalizada
+              <input type="checkbox" checked /> Recorrência personalizada
             </label>
           </div>
         </div>
@@ -271,7 +271,7 @@
       <div class="tipo-dado">
         <span>Tipo de Dado:</span>
         <div class="dados">
-          <label><input type="radio" name="tipo" /> Transações</label>
+          <label><input type="radio" checked name="tipo" /> Transações</label>
           <label><input type="radio" name="tipo" /> Categoria</label>
         </div>
       </div>
@@ -284,7 +284,7 @@
             <label><input type="radio" name="ordem" /> Data de lançamento</label>
             <label><input type="radio" name="ordem" /> Valor Decrescente</label>
             <label><input type="radio" name="ordem" /> Data de Efetivação</label>
-            <label><input type="radio" name="ordem" /> Valor Crescente</label>
+            <label><input type="radio" checked name="ordem" /> Valor Crescente</label>
             <label><input type="radio" name="ordem" [disabled]="mostrarApenasSaldo" /> Data</label>
           </div>
         </div>
@@ -296,7 +296,7 @@
           <span>Mostrar:</span>
 
           <label class="opcao">
-            <input type="number" value="0" min="0" max="10" class="input-pequeno" />
+            <input type="number" value="5" min="0" max="10" class="input-pequeno" />
             Resultados por página(x resultados)
           </label>
 
