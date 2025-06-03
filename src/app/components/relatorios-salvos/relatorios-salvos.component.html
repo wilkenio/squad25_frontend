@@ -1,4 +1,6 @@
 <section class="resultados-relatorio">
+  <p>Total:{{totalPage}}</p>
+  <p> Página Atual:{{page}}</p>
   <div class="transacao" *ngFor="let gasto of gastos">
     <div class="icon">
       <i [class]="gasto.iconClass"></i>

@@ -32,6 +32,8 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   categoriaSelecionada: string = 'todas'; // Para receitas. Controla o modo "Todas" vs "Selecionar"
   categoriaSelecionadaDespesas: string = 'todas'; // Para despesas. Controla o modo "Todas" vs "Selecionar"
 
+  pageNumber: number = 0;
+
   mostrarModalCategoriasReceitas = false;
   mostrarModalCategoriasDespesas = false;
   mostrarModalContas = false;
@@ -244,6 +246,18 @@ onMostrarApenasSomaChange(): void {
     });
   }
 
+  paginaAnterior() {
+  if (this.pageNumber > 0) {
+    this.pageNumber--;
+    this.filtrar();
+  }
+}
+
+proximaPagina() {
+  this.pageNumber++;
+  this.filtrar();
+}
+
   filtrar(): void {
     const dataInicioISO = this.dataInicio ? `${this.dataInicio}T00:00:00` : '2025-05-01T00:00:00'; // Exemplo
     const dataFimISO = this.dataFim ? `${this.dataFim}T23:59:59` : '2025-06-30T23:59:59';     // Exemplo
@@ -308,8 +322,8 @@ onMostrarApenasSomaChange(): void {
       tipoDado: tipoDadoApi,
       apresentacao: this.mostrarApenasSoma,
 
-      pageNumber: 0,
-      pageSize: 5
+      pageNumber: this.pageNumber,
+      pageSize: 10
     };
 
     if (this.resultadosLimite > 0) {

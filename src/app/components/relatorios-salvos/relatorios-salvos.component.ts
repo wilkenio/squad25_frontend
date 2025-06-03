@@ -40,9 +40,13 @@ export class RelatoriosSalvosComponent implements OnInit {
   }
 
 gastos: Gasto[] = [];
+totalPage: number = 0; 
+page: number = 0; 
 
 exibirDadosRelatorio(dadosRecebidos: any): void {
   this.gastos = [];
+  this.totalPage = dadosRecebidos.totalPages
+  this.page = dadosRecebidos.number
 
   for (const item of dadosRecebidos.content) {
     switch (item.itemType) {
