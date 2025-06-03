@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { IncluirNoDashboardComponent } from '../../components/pop-up/incluir-no-dashboard/incluir-no-dashboard.component';
-import { ConfirmarExclusaoComponent } from '../../components/pop-up/confirmar-exclusao/confirmar-exclusao.component';
+import { RelatoriosSalvosComponent} from '../../components/relatorios-salvos/relatorios-salvos.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import {FiltroManualRelatoriosComponent} from '../../components/filtro-manual-relatorios/filtro-manual-relatorios.component';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -42,11 +42,11 @@ interface Gasto {
   selector: 'app-relatorios',
   standalone: true,
   imports: [
+    FiltroManualRelatoriosComponent,
     CommonModule,
     SidebarComponent,
     MenuComponent,
-    IncluirNoDashboardComponent,
-    ConfirmarExclusaoComponent,
+    RelatoriosSalvosComponent,
     NgApexchartsModule,
   ],
   templateUrl: './relatorios.component.html',
@@ -63,13 +63,16 @@ export class RelatoriosComponent implements OnInit {
   mostrarConfirmacao = false;
   relatorioParaExcluir: string | null = null;
   relatorioSelecionado: string = '';
+  mostrarModalCategoriasReceitas = false;
 
   public chartOptions!: ChartOptions;
 
   relatoriosSalvos = [
     { titulo: 'Valores depositados em investimentos', data: '28/04/2025, 14h34min' },
     { titulo: 'Dez maiores gastos do mês', data: '11/02/2025, 21h12min' },
-    { titulo: 'Sem-título-01', data: '18/01/2025, 08h33min' },
+    { titulo: 'Gastos por categoria ', data: '18/01/2025, 08h33min' },
+    { titulo: 'Receitas - Trabalhos extras', data: '18/01/2025, 08h33min' },
+    { titulo: 'Transferências de Abril', data: '18/01/2025, 08h33min' },
   ];
 
   exemploGastos: Gasto[] = [
@@ -185,7 +188,7 @@ export class RelatoriosComponent implements OnInit {
   ];
 
   get gastosFiltrados(): Gasto[] {
-    if (this.relatorioSelecionado === 'Sem-título-01') {
+    if (this.relatorioSelecionado === 'Gastos por categoria ') {
       return [
         {
           nome: 'Moradia',
@@ -255,7 +258,120 @@ export class RelatoriosComponent implements OnInit {
         },
       ];
     }
+    if (this.relatorioSelecionado === 'Receitas - Trabalhos extras') {
+      return [
+        
+          {
+            nome: 'Aluguel Sala',
+            descricaoTransacao: '',
+            iconClass: 'fa-solid fa-building', 
+            cor: '',
+            nomeCategoria: 'Trabalhos extras',
+            data: '18/01/2025',
+            valor: 800.00,
+            percentual: 95,
+            previsto: false,
+          },
+          {
+            nome: 'Venda de papéis',
+            descricaoTransacao: '',
+            iconClass: 'fa-solid fa-file-invoice-dollar', 
+            cor: '',
+            nomeCategoria: 'Trabalhos extras',
+            data: '20/01/2025',
+            valor: 350.00,
+            percentual: 80,
+            previsto: false,
+          },
+          {
+            nome: 'Prolabore',
+            descricaoTransacao: '',
+            iconClass: 'fa-solid fa-user-tie', 
+            cor: '',
+            nomeCategoria: 'Trabalhos extras',
+            data: '20/01/2025',
+            valor: 900.00,
+            percentual: 80,
+            previsto: false,
+          },
+          {
+            nome: 'Dividendos Loja',
+            descricaoTransacao: '',
+            iconClass: 'fa-solid fa-store', 
+            cor: '',
+            nomeCategoria: 'Trabalhos extras',
+            data: '20/01/2025',
+            valor: 776.00,
+            percentual: 80,
+            previsto: false,
+          },
+          {
+            nome: 'Comissão Vendas',
+            descricaoTransacao: '',
+            iconClass: 'fa-solid fa-handshake', 
+            cor: '',
+            nomeCategoria: 'Trabalhos extras',
+            data: '20/01/2025',
+            valor: 258.00,
+            percentual: 80,
+            previsto: false,
+          }
+       
+        
+      ];
+    }
 
+    if (this.relatorioSelecionado === 'Transferências de Abril') {
+      return [
+        {
+          nome: 'Conta salário → Porquinho',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-right-left', 
+          cor: '#6b4e90', // cor da origem: Conta salário (marrom roxo)
+          nomeCategoria: 'Transferência',
+          data: '06/04/2025',
+          valor: 800.00,
+          percentual: 100,
+          previsto: false,
+        },
+        {
+          nome: 'Aplicações Ágora → Trabalhos extras PJ',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-right-left', 
+          cor: '#2e8b57', // cor da origem: Aplicações Ágora (verde)
+          nomeCategoria: 'Transferência',
+          data: '09/04/2025',
+          valor: 350.00,
+          percentual: 100,
+          previsto: false,
+        },
+        {
+          nome: 'Trabalhos extras PJ → Conta salário',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-right-left', 
+          cor: '#8b5e3c', // cor da origem: Trabalhos extras PJ (marrom)
+          nomeCategoria: 'Transferência',
+          data: '19/04/2025',
+          valor: 900.00,
+          percentual: 100,
+          previsto: false,
+        },
+        {
+          nome: 'Conta salário → Aplicações Ágora',
+          descricaoTransacao: '',
+          iconClass: 'fa-solid fa-right-left', 
+          cor: '#6b4e90', // cor da origem: Conta salário (mesma do primeiro)
+          nomeCategoria: 'Transferência',
+          data: '21/04/2025',
+          valor: 25.00,
+          percentual: 100,
+          previsto: false,
+        }
+      ];
+    }
+    
+    
+    
     return this.exemploGastos;
   }
 
@@ -264,15 +380,20 @@ export class RelatoriosComponent implements OnInit {
   }
 
   gerarGrafico(): void {
-    const usarCoresVariadas = this.relatorioSelecionado === 'Sem-título-01';
+    const usarCoresVariadas = this.relatorioSelecionado === 'Gastos por categoria ';
     const usarCorDespesas = this.relatorioSelecionado === 'Dez maiores gastos do mês';
     const usarGraficoVertical = this.relatorioSelecionado === 'Valores depositados em investimentos';
-    
+    const usarGraficoTrabalhosExtras = this.relatorioSelecionado === 'Receitas - Trabalhos extras';
+    const usarGraficoAbril = this.relatorioSelecionado === 'Transferências de Abril';
+ 
+    const CoresGraficoAbril = ['#755D4B', '#15953A', '#755D4B', '#15953A'];
+
     const coresVariadas = [
       '#F91DB7', '#15953A', '#B61313', '#1F6A35', '#F0B05B',
       '#4563FB', '#4CAF50', '#FF9800', '#FF5722', '#795548'
     ];
-  
+    const usarCorTrabalhosExtras = '#5A89F0';
+
     const coresDez = ['#F8AF7A','#F8AF7A' ,'#F47922','#F47922','#F47922','#F47922','#F47922','#F47922','#F47922','#F47922'];
     const corPadrao = '#F8AF7A';
     const corDespesas = '#F47922';
@@ -289,7 +410,21 @@ export class RelatoriosComponent implements OnInit {
   
     let seriesData: any[] = [];
     let cores: string[] = [];
-  
+
+    if (usarGraficoAbril) {
+      cores = dados.map((_, i) => CoresGraficoAbril[i % CoresGraficoAbril.length]);
+    } else if (usarGraficoTrabalhosExtras) {
+      cores = dados.map(() => usarCorTrabalhosExtras);
+    } else if (usarCoresVariadas) {
+      cores = dados.map((_, i) => coresVariadas[i % coresVariadas.length]);
+    } else if (usarCorDespesas) {
+      cores = coresDez;
+    } else {
+      cores = dados.map(g => g.cor || corPadrao);
+    }
+    
+    
+
     if (usarGraficoVertical) {
       const valores = [1552, 252, 480, 1300];
       seriesData = [
@@ -305,15 +440,19 @@ export class RelatoriosComponent implements OnInit {
         y: g.valor,
       }));
     
-      cores = dados.map(g => g.cor); // 👈 MELHOR OPÇÃO
-    
-    
-  
-      cores = usarCoresVariadas
-  ? dados.map((_, i) => coresVariadas[i % coresVariadas.length])
-  : usarCorDespesas
-    ? coresDez
-    : dados.map(() => corPadrao);
+      if (usarGraficoAbril) {
+        cores = dados.map((_, i) => CoresGraficoAbril[i % CoresGraficoAbril.length]);
+
+      } else if (usarGraficoTrabalhosExtras) {
+        cores = dados.map(() => usarCorTrabalhosExtras); // azul definido
+      } else if (usarCoresVariadas) {
+        cores = dados.map((_, i) => coresVariadas[i % coresVariadas.length]);
+      } else if (usarCorDespesas) {
+        cores = coresDez;
+      } else {
+        cores = dados.map(g => g.cor); // usa cor dos dados padrão
+      }
+      
 
     }
   
@@ -324,16 +463,20 @@ export class RelatoriosComponent implements OnInit {
       }],
       chart: {
         type: 'bar',
-        height: usarGraficoVertical ? 400 : dados.length * 70,
+        height: usarGraficoVertical ? 400 : dados.length * 80,
         toolbar: { show: false },
       },
+      
       plotOptions: {
         bar: {
           horizontal: !usarGraficoVertical,
           distributed: true,
           borderRadius: 10,
+        }
         },
-      },
+
+
+      
       colors: cores,
       dataLabels: { enabled: false },
       xaxis: {
@@ -345,7 +488,7 @@ export class RelatoriosComponent implements OnInit {
         labels: {
           show: false,
           formatter: (_val: string, index: number) => {
-            if (this.relatorioSelecionado === 'Sem-título-01') {
+            if (this.relatorioSelecionado === 'Gastos por categoria ') {
               const gasto = (dados as Gasto[])[index];
               const emoji = iconesEmojisMap[gasto.iconClass] || '•';
               return emoji;
@@ -382,7 +525,12 @@ export class RelatoriosComponent implements OnInit {
 
   selecionarCategoria(categoria: string) {
     this.categoriaSelecionada = categoria;
+  
+    if (categoria === 'selecionar') {
+      this.mostrarModalCategoriasReceitas = true;
+    }
   }
+  
 
   selecionarCategoriaDespesas(valor: string) {
     this.categoriaSelecionadaDespesas = valor;
@@ -439,4 +587,14 @@ export class RelatoriosComponent implements OnInit {
   compartilhar(relatorio: any) {
     console.log('Compartilhando:', relatorio);
   }
+
+  aplicarFiltros() {
+    // Lógica de aplicação dos filtros selecionados
+    console.log('Aplicando filtros...');
+    // Ex: this.filtrarRelatorios(); ou this.carregarDadosFiltrados();
+  }
+ 
+
+
+
 }

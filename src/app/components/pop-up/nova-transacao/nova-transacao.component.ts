@@ -188,6 +188,12 @@ export class NovaTransacaoComponent {
       }
     }
   }
+  formatarParaISOComTimezone(data: string): string {
+    const dataObj = new Date(data);
+    const offsetMs = dataObj.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(dataObj.getTime() - offsetMs).toISOString().slice(0, 19); // Remove o "Z"
+    return localISOTime;
+  }
   
   salvarTransacao() {
     const isEdicao = this.typePopUp === 'edit';
@@ -209,11 +215,13 @@ export class NovaTransacaoComponent {
       status: 'SIM',
       value: this.valor,
       description: this.nome,
-      state: (new Date(this.dataLancamento).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0)) ? 'EFFECTIVE' : 'PENDING',
+      state: (new Date(this.dataLancamento) <= new Date()) ? 'EFFECTIVE' : 'PENDING',
+
       additionalInformation: this.infoAdicional,
       frequency: this.tipoFrequencia,
       installments: this.tipoFrequencia === 'REPEAT' ? this.parcelas : 0,
-      releaseDate: new Date(this.dataLancamento).toISOString(),
+      releaseDate: this.formatarParaISOComTimezone(this.dataLancamento),
+
       periodicity: this.periodicidade,
       businessDayOnly: this.businessDayOnly
     };

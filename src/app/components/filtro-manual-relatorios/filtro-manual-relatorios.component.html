@@ -1,0 +1,319 @@
+<div class="relatorios-container">
+  <div class="filtro-topo">
+    <button class="botao-filtrar" (click)="filtrar()">Filtrar</button>
+  </div>
+
+  <div class="filtros-wrapper">
+
+    <!-- Filtro Geral -->
+    <div class="filtro-geral">
+      <h3>Filtro geral</h3>
+      <div class="linha-inicial"></div>
+
+      <!-- Período -->
+      <div class="bloco-geral">
+        <span class="periodo">Período:</span>
+        <span class="espaco-de">De</span>
+        <input type="date" [(ngModel)]="dataInicio" />
+        <span class="espaco-ate">Até</span>
+        <input type="date" [(ngModel)]="dataFim" />
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <!-- Data de Referência 
+      <div class="bloco-geral">
+        <span class="referencia-data">Data de referência:</span>
+        <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'lancamento'" (click)="selecionarReferencia('lancamento')">Lançamento</button>
+        <button class="botao-referencia" [class.ativo]="referenciaSelecionada === 'efetivacao'" (click)="selecionarReferencia('efetivacao')">Efetivação</button>
+      </div>
+      <div class="linha-horizontal"></div>-->
+
+      <!-- Contas -->
+      <div class="bloco-geral">
+        <span class="contas">Contas:</span>
+        <button class="botao-contas" [class.ativo]="contaSelecionada === 'todas'"
+          (click)="selecionarConta('todas')">Todas</button>
+        <button class="botao-contas" [class.ativo]="contaSelecionada === 'selecionar'"
+          (click)="selecionarConta('selecionar'); mostrarModalContas = true">Selecionar</button>
+      </div>
+
+      <!-- Contas Selecionadas -->
+      <div class="categorias-selecionadas" *ngIf="contaSelecionada === 'selecionar' && contasSelecionadas.length">
+        <ng-container *ngFor="let conta of contasSelecionadas; let last = last">
+          <span class="categoria-tag">
+            <span class="icone" [ngStyle]="{'background-color': conta.cor}">
+              <i [class]="conta.icone"></i>
+            </span>
+            <span class="nome">{{ conta.nome }}<span *ngIf="!last">,</span></span>
+          </span>
+        </ng-container>
+      </div>
+
+      <!-- Modal Contas -->
+      <div class="modal-overlay" *ngIf="mostrarModalContas" (click)="mostrarModalContas = false">
+        <div class="modal-conteudo" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <button class="fechar" (click)="mostrarModalContas = false">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <span class="titulo">Selecionar contas</span>
+            <button class="concluir" (click)="mostrarModalContas = false">Concluir</button>
+          </div>
+
+          <div class="lista-categorias">
+            <div class="item-categoria" *ngFor="let conta of contasDisponiveis">
+              <input class="selecionar-categorias" type="checkbox" [checked]="isContaSelecionada(conta)"
+                (change)="toggleContaSelecionada(conta, $any($event.target).checked)" />
+              <span class="icone" [ngStyle]="{'background-color': conta.cor}">
+                <i [class]="conta.icone"></i>
+              </span>
+              <span class="nome">{{ conta.nome }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mostrar apenas saldo -->
+      <div class="opcao-principal">
+        <label class="mostrarSaldo">
+          <input type="checkbox" [(ngModel)]="mostrarApenasSaldo" (change)="onMostrarSaldoChange()" />
+          Mostrar apenas o saldo
+        </label>
+        <label class="mostrarSaldo">
+          <input type="checkbox" [(ngModel)]="incluirSaldoPrevistoModel" />
+          Incluir Saldo Previsto
+        </label>
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <!-- Tipos de transações -->
+      <div class="linha-filtro">
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="filtroReceita" (change)="onTipoChange('receita')"
+            [disabled]="mostrarApenasSaldo" />
+          Receitas
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="receitaEfetivada" [disabled]="!filtroReceita || mostrarApenasSaldo" />
+          Efetivadas
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="receitaPrevista" [disabled]="!filtroReceita || mostrarApenasSaldo" />
+          Previstas
+        </label>
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <div class="linha-filtro">
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="filtroDespesa" (change)="onTipoChange('despesa')"
+            [disabled]="mostrarApenasSaldo" />
+          Despesas
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="despesaEfetivada" [disabled]="!filtroDespesa || mostrarApenasSaldo" />
+          Efetivadas
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="despesaPrevista" [disabled]="!filtroDespesa || mostrarApenasSaldo" />
+          Previstas
+        </label>
+      </div>
+      <div class="linha-horizontal"></div>
+
+      <div class="linha-filtro">
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="filtroTransferencia" (change)="onTipoChange('transferencia')"
+            [disabled]="mostrarApenasSaldo" />
+          Transferências
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="transferenciaEfetivada"
+            [disabled]="!filtroTransferencia || mostrarApenasSaldo" />
+          Efetivadas
+        </label>
+        <label class="escolhas">
+          <input type="checkbox" [(ngModel)]="transferenciaPrevista"
+            [disabled]="!filtroTransferencia || mostrarApenasSaldo" />
+          Previstas
+        </label>
+      </div>
+    </div>
+
+    <!-- Filtros adicionais -->
+    <div class="filtro-bloco" [class.desabilitado]="mostrarApenasSaldo">
+      <h3>Filtros adicionais</h3>
+      <div class="linha-inicial"></div>
+
+      <!-- Categorias receitas -->
+      <div class="bloco-adicionais">
+        <span class="receitas-categorias">Categorias receitas:</span>
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'todas'"
+          (click)="selecionarCategoria('todas')">Todas</button>
+        <button class="botao-receitas" [class.ativo]="categoriaSelecionada === 'selecionar'"
+          (click)="selecionarCategoria('selecionar'); mostrarModalCategoriasReceitas = true">Selecionar</button>
+      </div>
+
+      <div class="categorias-selecionadas"
+        *ngIf="categoriaSelecionada === 'selecionar' && categoriasSelecionadas.length">
+        <ng-container *ngFor="let cat of categoriasSelecionadas; let last = last">
+          <span class="categoria-tag">
+            <span class="icone" [ngStyle]="{'background-color': cat.cor}">
+              <i [class]="cat.icone"></i>
+            </span>
+            <span class="nome">{{ cat.nome }}<span *ngIf="!last">,</span></span>
+          </span>
+        </ng-container>
+      </div>
+
+      <!-- Modal Categorias Receitas -->
+      <div class="modal-overlay" *ngIf="mostrarModalCategoriasReceitas"
+        (click)="mostrarModalCategoriasReceitas = false">
+        <div class="modal-conteudo" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <button class="fechar" (click)="mostrarModalCategoriasReceitas = false">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <span class="titulo">Selecionar categorias</span>
+            <button class="concluir" (click)="mostrarModalCategoriasReceitas = false">Concluir</button>
+          </div>
+
+          <div class="lista-categorias">
+            <div class="item-categoria" *ngFor="let cat of categoriasReceitas">
+              <input class="selecionar-categorias" type="checkbox" [checked]="isCategoriaSelecionada(cat)"
+                (change)="toggleCategoriaSelecionada(cat, $any($event.target).checked)" />
+              <span class="icone" [ngStyle]="{'background-color': cat.cor}">
+                <i [class]="cat.icone"></i>
+              </span>
+              <span class="nome">{{ cat.nome }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="linha-adicionais"></div>
+
+      <!-- Categorias despesas -->
+      <div class="bloco-adicionais">
+        <span class="despesas-categorias">Categorias despesas:</span>
+
+        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'todas'"
+          (click)="selecionarCategoriaDespesas('todas')">Todas</button>
+
+        <button class="botao-despesas" [class.ativo]="categoriaSelecionadaDespesas === 'selecionar'"
+          (click)="selecionarCategoriaDespesas('selecionar'); mostrarModalCategoriasDespesas = true">Selecionar</button>
+      </div>
+
+      <!-- Categorias Despesas Selecionadas -->
+      <div class="categorias-selecionadas"
+        *ngIf="categoriaSelecionadaDespesas === 'selecionar' && categoriasDespesasSelecionadas.length">
+        <ng-container *ngFor="let cat of categoriasDespesasSelecionadas; let last = last">
+          <span class="categoria-tag">
+            <span class="icone" [ngStyle]="{ 'background-color': cat.cor }">
+              <i [class]="cat.icone"></i>
+            </span>
+            <span class="nome">{{ cat.nome }}<span *ngIf="!last">,</span></span>
+          </span>
+        </ng-container>
+      </div>
+      <!-- Modal Categorias Despesas -->
+      <div class="modal-overlay" *ngIf="mostrarModalCategoriasDespesas"
+        (click)="mostrarModalCategoriasDespesas = false">
+        <div class="modal-conteudo" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <button class="fechar" (click)="mostrarModalCategoriasDespesas = false">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <span class="titulo">Selecionar despesas</span>
+            <button class="concluir" (click)="mostrarModalCategoriasDespesas = false">Concluir</button>
+          </div>
+
+          <div class="lista-categorias">
+            <div class="item-categoria" *ngFor="let cat of categoriasDespesas">
+              <input class="selecionar-categorias" type="checkbox" [checked]="isCategoriaDespesaSelecionada(cat)"
+                (change)="toggleCategoriaDespesaSelecionada(cat, $any($event.target).checked)" />
+              <span class="icone" [ngStyle]="{ 'background-color': cat.cor }">
+                <i [class]="cat.icone"></i>
+              </span>
+              <span class="nome">{{ cat.nome }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="linha-horizontal"></div>
+
+      <!-- Recorrência -->
+      <div class="bloco-adicionais">
+        <div class="check-geral">
+          <span>Recorrência:</span>
+          <div class="checkbox-geral">
+            <label class="checkbox-container">
+              <input type="checkbox" [(ngModel)]="recorrenciaSem" /> Sem recorrência
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" [(ngModel)]="recorrenciaFixaMensal" /> Recorrência fixa mensal
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" [(ngModel)]="recorrenciaPersonalizada" /> Recorrência personalizada
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apresentação dos dados -->
+    <div class="filtro-bloco">
+      <h3>Apresentação dos dados</h3>
+      <div class="linha-inicial"></div>
+
+      <!-- Tipo de Dado -->
+      <div class="tipo-dado">
+        <span>Tipo de Dado:</span>
+        <div class="dados">
+          <label><input type="radio" name="tipoDadoGroup" value="TRANSACOES" [(ngModel)]="tipoDadoSelecionado" />
+            Transações</label>
+          <label><input type="radio" name="tipoDadoGroup" value="CATEGORIA" [(ngModel)]="tipoDadoSelecionado" />
+            Categoria</label>
+        </div>
+      </div>
+      <div class="linha-horizontal"></div>
+      <!-- Ordenação -->
+      <div class="bloco-dados">
+        <div class="ordenar-por">
+          <span>Ordenar por:</span>
+          <div class="opcoes">
+            <label><input type="radio" name="ordem" value="DATA_LANCAMENTO" [(ngModel)]="ordenacaoSelecionada" /> Data
+              de lançamento</label>
+            <label><input type="radio" name="ordem" value="VALOR_DECRESCENTE" [(ngModel)]="ordenacaoSelecionada" />
+              Valor Decrescente</label>
+            <label><input type="radio" name="ordem" value="DATA_EFETIVACAO" [(ngModel)]="ordenacaoSelecionada" /> Data
+              de Efetivação</label>
+            <label><input type="radio" name="ordem" value="VALOR_CRESCENTE" [(ngModel)]="ordenacaoSelecionada" /> Valor
+              Crescente</label>
+            <label><input type="radio" name="ordem" value="DATA" [(ngModel)]="ordenacaoSelecionada"
+                [disabled]="mostrarApenasSaldo" /> Data</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mostrar resultados -->
+      <div class="bloco-dados">
+        <div class="opcoes">
+          <span>Mostrar:</span>
+
+          <label class="opcao">
+            <input type="number" [(ngModel)]="resultadosLimite" min="0" max="10" class="input-pequeno" />
+            Limite de Resultados
+          </label>
+
+          <label class="opcao">
+            <input type="checkbox" name="mostrar" [(ngModel)]="mostrarApenasSoma" (change)="onMostrarApenasSomaChange()"
+              [disabled]="filtroTransferencia" />
+            Apenas a soma total dos resultados
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
