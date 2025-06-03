@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { GlobalService } from '../../services/global.service';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +39,6 @@ export class RelatorioService {
 
     this.http.get(url, { params: httpParams, headers }).subscribe(
       (response) => {
-        console.log('Resposta recebida:', response);
         this.resultadoSubject.next(response); 
       },
       (error) => {

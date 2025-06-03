@@ -1,30 +1,18 @@
 <section class="resultados-relatorio">
-  <div class="transacao">
-    <div class="icon"><i class="bi bi-0-circle-fill"></i></div>
+  <div class="transacao" *ngFor="let gasto of gastos">
+    <div class="icon">
+      <i [class]="gasto.iconClass"></i>
+    </div>
     <div class="dados-transacao">
       <div class="tituloEconta">
-        <label>Emprestimo</label>
-        <label>Conta 2</label>
+        <label>{{ gasto.nome }}</label>
+        <label>{{ gasto.descricaoTransacao }}</label>
       </div>
       <div class="valorEdadoAdicional">
-        <label>R$ 400,00</label>
-        <label>29%</label>
+        <label>R$ {{ gasto.valor | number:'1.2-2' }}</label>
+        <label *ngIf="gasto.percentual">{{ gasto.percentual }}%</label>
+        <label *ngIf="gasto.data">{{ gasto.data }}</label>
       </div>
     </div>
   </div>
-
-  <div class="transacao">
-    <div class="icon"><i class="bi bi-0-circle-fill"></i></div>
-    <div class="dados-transacao">
-      <div class="tituloEconta">
-        <label>Emprestimo</label>
-        <label>Conta 2</label>
-      </div>
-      <div class="valorEdadoAdicional">
-        <label>R$ 400,00</label>
-        <label>29%</label>
-      </div>
-    </div>
-  </div>
-
 </section>

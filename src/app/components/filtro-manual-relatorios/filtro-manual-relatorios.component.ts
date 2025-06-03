@@ -55,7 +55,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   transferenciaEfetivada = false;
   transferenciaPrevista = false;
 
-  mostrarApenasSoma: string | boolean = "LISTA_LIMITADA"; // Valor inicial padrão
+  mostrarApenasSoma: string  = "LISTA_LIMITADA"; // Valor inicial padrão
   mostrarListaLimitada: boolean = false; // exemplo
   mostrarApenasSaldo = false;
 
@@ -162,13 +162,14 @@ export class FiltroManualRelatoriosComponent implements OnInit {
     });
   }
 
-  onMostrarApenasSomaChange(): void {
-    if (this.mostrarApenasSoma === 'LISTA_LIMITADA') {
-      this.mostrarApenasSoma = "SOMA"
-    } else {
-  this.mostrarApenasSoma = "LISTA_LIMITADA"
-    }
+onMostrarApenasSomaChange(): void {
+  if (this.mostrarApenasSoma === 'LISTA_LIMITADA') {
+    this.mostrarApenasSoma = 'SOMA';
+  } else {
+    this.mostrarApenasSoma = 'LISTA_LIMITADA';
   }
+}
+
 
   onMostrarSaldoChange(): void {
     if (this.mostrarApenasSaldo) {

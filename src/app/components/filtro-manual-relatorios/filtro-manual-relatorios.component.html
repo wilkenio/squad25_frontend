@@ -79,6 +79,7 @@
           <input type="checkbox" [(ngModel)]="mostrarApenasSaldo" (change)="onMostrarSaldoChange()" />
           Mostrar apenas o saldo
         </label>
+        
         <label class="mostrarSaldo">
           <input type="checkbox" [(ngModel)]="incluirSaldoPrevistoModel" />
           Incluir Saldo Previsto
@@ -307,13 +308,17 @@
             Limite de Resultados
           </label>
 
-          <label class="opcao">
-            <input type="checkbox" name="mostrar"
-                   [(ngModel)]="mostrarApenasSoma"
-                   (change)="onMostrarApenasSomaChange()"
-                   [disabled]="mostrarListaLimitada" />
-            Apenas a soma total dos resultados
-          </label>
+         <label class="opcao">
+  <input
+    type="checkbox"
+    name="mostrar"
+    [checked]="mostrarApenasSoma === 'SOMA'"
+    (change)="onMostrarApenasSomaChange()"
+    [disabled]="mostrarListaLimitada"
+  />
+  Apenas a soma total dos resultados
+</label>
+
           
         </div>
       </div>
