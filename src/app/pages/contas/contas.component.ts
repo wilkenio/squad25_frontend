@@ -36,12 +36,12 @@ export class ContasComponent implements OnInit {
     this.getContas();
   }
 
-  getContas() {
-    const url = `${this.globalService.apiUrl}/account`;
+  getContas(ano: number = this.anoAtual, mes: number = this.dataAtual.getMonth() + 1) {
+    const url = `${this.globalService.apiUrl}/account?year=${ano}&month=${mes.toString().padStart(2, '0')}`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
-
+  
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
         this.contas = data.map(conta => ({
@@ -63,6 +63,7 @@ export class ContasComponent implements OnInit {
       }
     });
   }
+  
 
   toggleMenu(index: number) {
     this.showMenuIndex = this.showMenuIndex === index ? null : index;
@@ -123,4 +124,32 @@ export class ContasComponent implements OnInit {
       this.showMenuIndex = null;
     }
   }
+
+
+  meses: string[] = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  dataAtual: Date = new Date(); 
+
+  get nomeMesAtual(): string {
+    return this.meses[this.dataAtual.getMonth()];
+  }
+
+  get anoAtual(): number {
+    return this.dataAtual.getFullYear();
+  }
+
+  voltarMes(): void {
+    this.dataAtual = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() - 1));
+    this.getContas(this.anoAtual, this.dataAtual.getMonth() + 1);
+  }
+  
+  avancarMes(): void {
+    this.dataAtual = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() + 1));
+    this.getContas(this.anoAtual, this.dataAtual.getMonth() + 1);
+  }
+  
+
 }

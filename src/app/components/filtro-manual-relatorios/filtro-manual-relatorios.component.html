@@ -308,10 +308,13 @@
           </label>
 
           <label class="opcao">
-            <input type="checkbox" name="mostrar" [(ngModel)]="mostrarApenasSoma" (change)="onMostrarApenasSomaChange()"
-              [disabled]="filtroTransferencia" />
+            <input type="checkbox" name="mostrar"
+                   [(ngModel)]="mostrarApenasSoma"
+                   (change)="onMostrarApenasSomaChange()"
+                   [disabled]="mostrarListaLimitada" />
             Apenas a soma total dos resultados
           </label>
+          
         </div>
       </div>
     </div>
