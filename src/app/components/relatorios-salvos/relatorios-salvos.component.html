@@ -1,147 +1,33 @@
-<div class="relatorios-container">
-<div class="linha-meio"></div>
-
-  <div class="relatorios-salvos">
-    <h3>Relatórios salvos</h3>
-
-    <div class="relatorio-bloco" *ngFor="let relatorio of relatoriosSalvos; let i = index">
-      <div class="relatorio-linha" [class.ativo]="dropdownAberto === i" (click)="toggleDropdown(i)">
-
-        <div class="relatorio-header">
-          <div class="relatorio-titulo">{{ relatorio.titulo }}</div>
-          <span class="data-relatorios">{{ relatorio.data }}</span>
-        </div>
-        
-        <div class="info">
-          
-          <div class="icones">
-            <button (click)="compartilhar(relatorio); $event.stopPropagation()">
-              <i class="bi bi-box-arrow-in-up"></i>
-            </button>
-            <button (click)="abrirModalIncluir(); $event.stopPropagation()">
-              <i class="bi bi-grid-fill"></i>
-            </button>
-            <button (click)="abrirConfirmacaoExclusao(relatorio.titulo); $event.stopPropagation()">
-              <i class="bi bi-trash-fill"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dentro do *ngFor que renderiza os relatórios -->
-      <!-- Dentro do *ngFor que renderiza os relatórios -->
-      <div *ngIf="dropdownAberto === i" class="relatorio-dropdown">
-
-        <div class="relatorio-dividido">
-
-          
-          <!-- Coluna esquerda: barras ou resumo -->
-          <!-- Coluna esquerda: gráfico de barras -->
-          <div class="coluna-esquerda">
-
-            <p class="Tempo">Período: De /01/2025 até 31/01/2025</p>
-
-           
-            <div class="grafico-barras">
-              <div class="contain-categorias">
-                
-                <div class="dezcategorias" *ngFor="let gasto of gastosFiltrados"
-
-                  [ngStyle]="{'margin-right':- gasto.percentual + '%'}">
-                  <div class="categoria">
-                    <div class="dados-categoria">
-                      
-                      <div class="nome-categoria">{{ gasto.nome || 'Sem nome' }}</div>
-                      <div class="categoria-descricao"> {{ gasto.descricaoTransacao || 'Sem descrição' }}</div>
-                    </div>
-                    <div class="icon-categoria">
-                      <i [class]="gasto.iconClass || 'fa-solid fa-question'"></i>
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-
-
-              </div>
-              <apx-chart
-              [series]="chartOptions.series"
-              [chart]="chartOptions.chart"
-              [xaxis]="chartOptions.xaxis"
-              [plotOptions]="chartOptions.plotOptions"
-              [dataLabels]="chartOptions.dataLabels"
-              [colors]="chartOptions.colors || []"
-              [yaxis]="chartOptions.yaxis"
-              [grid]="chartOptions.grid"
-            ></apx-chart>
-            </div>
-          </div>
-
-
-          <div class="coluna-direita">
-            <p class="Tempo">Período: De 01/01/2025 até 31/01/2025</p>
-          
-            <div class="tabela">
-              <!-- Cabeçalho da tabela -->
-              <!-- Cabeçalho da tabela -->
-<div class="linha-cabecalho">
-  <span class="titulo-descricao">Descrição</span>
-  <span class="titulo-data" *ngIf="relatorioSelecionado !== 'Gastos por categoria '">
-    Data Referência
-  </span>
-  <span class="titulo-valor">Valor</span>
+<section class="resultados-relatorio">
+  <div class="dados-pagination">
+  <p>Total:{{totalPage}}</p>
+  <p class="numero-page"><br><br>{{page + 1}}</p>
 </div>
-
-<!-- Linhas dinâmicas -->
-<div class="linha" *ngFor="let item of gastosFiltrados">
-  <div class="descricao">
-    <div class="nomes-descricao">
-      <span class="titulo">{{ item.nome }} |</span>
-      <span class="descricao-transacao" *ngIf="item.descricaoTransacao">
-        {{ item.descricaoTransacao }}
-      </span>
+  <div class="transacao"  *ngFor="let gasto of gastos">
+    <div class="icon" [ngStyle]="{ 'background-color': gasto.cor }">
+      <i [class]="gasto.iconClass"></i>
     </div>
+    <div class="dados-transacao">
+      <div class="tituloEconta">
+        <label class="titulo">{{ gasto.nome }}</label>
+        <label class="subtitulo">{{ gasto.descricaoTransacao }}</label>
+        <label class="subtitulo">{{ gasto.state === 'EFFECTIVE' ? 'Efetivado' : 'Pendente' }}
+        </label>
+      </div>
+      <div class="valorEdadoAdicional">
+        <label class="titulo"
+        [ngStyle]="{
+          'color': gasto.transactionType === 'RECEITA' ? 'green' :
+                   gasto.transactionType === 'DESPESA' ? 'red' : null
+        }"
+        >
+   R$ {{ gasto.valor | number:'1.2-2' }}
+ </label>
 
-    <div class="categoria-icone" *ngIf="item.iconClass">
-      <i [ngClass]="item.iconClass" [style.color]="item.cor"></i>
-      <span class="nome-categoria">{{ item.nomeCategoria }}</span>
+ 
+        <label *ngIf="gasto.percentual">{{ gasto.percentual }}d%</label>
+        <label class="subtitulo" *ngIf="gasto.data">{{ gasto.data }}</label>
+      </div>
     </div>
   </div>
-
-  <span class="data-numero" *ngIf="relatorioSelecionado !== 'Gastos por categoria '">
-    {{ item.data }}
-  </span>
-  
-  <span 
-  class="valor-numero"
-  [ngStyle]="relatorioSelecionado === 'Gastos por categoria ' 
-    ? { 'color': '#8E8E8E', 'font-weight': '600' } 
-    : {}">
-  R$ {{ item.valor | number:'1.2-2' }}
-</span>
-
-
-
-</div>
-
-          </div>
-          
-          
-          
-
-        </div>
-      </div>
-
-    </div>
-
-
-    <app-incluir-no-dashboard *ngIf="mostrarModalIncluir" (fecharModal)="fecharModalIncluir()"
-      (incluir)="handleIncluir($event)">
-    </app-incluir-no-dashboard>
-
-    <app-confirmar-exclusao *ngIf="mostrarConfirmacao" [nomeRelatorio]="relatorioParaExcluir"
-      (confirmar)="excluirRelatorioConfirmado()" (cancelar)="fecharConfirmacao()">
-    </app-confirmar-exclusao>
+</section>

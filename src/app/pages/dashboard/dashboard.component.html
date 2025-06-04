@@ -5,122 +5,110 @@
   <header class="topo-dashboard">
     <div class="dashboard-topo">
       <div class="boas-vindas">
-        <p>Seja bem-vindo, <span class="usuario-nome">Álvaro</span></p>
+        <p>Seja bem-vindo, <span class="usuario-nome">{{nomeDoUsuario}}</span></p>
       </div>
-      <div class="seletor-mes">
-        <select [(ngModel)]="mesSelecionado" name="mesSelecionado">
-          <option *ngFor="let mes of meses" [value]="mes">{{ mes }}</option>
-        </select>
-      </div>
+
     </div>
   </header>
 
   <div class="container-dashboard">
     <!-- LADO ESQUERDO -->
-    <div class="lado-esquerdo" cdkDropList (cdkDropListDropped)="dropEsquerda($event)">
-
-      <!-- Minhas cinco principais despesas -->
-      <div class="card-dashboard" id="despesasPrincipais" cdkDrag>
-        <div class="cabecalho-card despesas-card" (click)="toggleDespesasPrincipais()">
-          <span>Minhas cinco principais despesas</span>
-          <i class="bi bi-trash-fill" (click)="abrirConfirmacao('despesas'); $event.stopPropagation()" style="cursor: pointer;" title="Remover despesas principais"></i>
-        </div>
-
-        <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
-          <div class="grafico-despesas">
-            <apx-chart 
-              [series]="chartOptions.series"   
-              [chart]="chartOptions.chart"
-              [colors]="chartOptions.colors || []"
-              [plotOptions]="chartOptions.plotOptions"
-              [dataLabels]="chartOptions.dataLabels"
-              [xaxis]="chartOptions.xaxis"
-              [yaxis]="chartOptions.yaxis"
-              [grid]="chartOptions.grid"
-              [fill]="chartOptions.fill"
-              [tooltip]="chartOptions.tooltip"
-              [legend]="chartOptions.legend"
-            ></apx-chart>
-          </div>
-
-          <div class="icones-despesas">
-            <div class="icone-despesa aluguel"><i class="fa fa-car"></i></div>
-            <div class="icone-despesa transporte"><i class="fa fa-home"></i></div>
-            <div class="icone-despesa alimentacao"><i class="bi bi-cash"></i></div>
-            <div class="icone-despesa educacao"><i class="fa fa-graduation-cap"></i></div>
-            <div class="icone-despesa outros"><i class="fa fa-cutlery"></i></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pagamentos a receber -->
-      <div class="card-dashboard simples" id="pagamentosReceber" cdkDrag>
-        <div class="cabecalho-card" (click)="togglePagamentosreceber()">
-          <span>Pagamentos a receber</span>
-          <i class="bi bi-trash-fill" (click)="abrirConfirmacao('pagamentos'); $event.stopPropagation()" style="cursor: pointer;" title="Remover pagamentos a receber"></i>
-        </div>
-        <div *ngIf="mostrarPagamentosreceber" class="conteudo-card"></div>
-      </div>
-
-      <!-- Compras parceladas do cartão -->
-      <div class="card-dashboard simples" id="comprasParceladas" cdkDrag>
-        <div class="cabecalho-card" (click)="toggleComprasParceladas()">
-          <span>Compras parceladas do cartão</span>
-          <i class="bi bi-trash-fill" (click)="abrirConfirmacao('parceladas'); $event.stopPropagation()" style="cursor: pointer;" title="Remover compras parceladas"></i>
-        </div>
-        <div *ngIf="mostrarComprasParceladas" class="conteudo-card"></div>
-      </div>
-    </div>
-
-    <!-- LADO DIREITO -->
-    <div class="lado-direito" cdkDropList (cdkDropListDropped)="dropDireita($event)">
+    <div class="lado-esquerdo">
 
       <!-- Meu saldo atual -->
-      <div class="card-dashboard saldo" id="saldoAtual" cdkDrag>
-        <div class="cabecalho-card" (click)="toggleSaldoAtual()">
+      <div class="card-dashboard saldo" id="saldoAtual">
+        <div class="cabecalho-card">
           <span>Meu saldo atual</span>
-          <i class="bi bi-trash-fill" (click)="abrirConfirmacao('saldo'); $event.stopPropagation()" style="cursor: pointer;" title="Remover saldo atual"></i>
+
         </div>
         <div *ngIf="mostrarSaldoAtual" class="saldo-container">
           <div class="saldo-info">
-            <p class="saldo-titulo">Saldo Atual</p>
-            <h2 class="saldo-valor">{{ saldoAtual | currency: 'BRL':'symbol-narrow':'1.2-2' }}</h2>
-            <p class="saldo-previsto">Saldo Previsto</p>
+            <div class="saldo-atual-container">
+              <p class="saldo-titulo">Saldo Atual:</p>
+              <h2 class="saldo-valor">{{ saldoAtual | currency:'BRL' }}</h2>
+            </div>
+            <div class="saldo-previsto-container">
+              <p class="saldo-previsto">Saldo Previsto:</p>
+              <h2 class="valor-saldoPrevisto">{{ saldoPrevisto | currency:'BRL' }}</h2>
+            </div>
           </div>
         </div>
+
+
       </div>
 
-      <!-- Gráfico do balanço do mês -->
-      <div class="card-dashboard" id="graficoBalanco" cdkDrag>
-        <div class="cabecalho-card" (click)="toggleGraficoBalanco()">
-          <span>Gráfico do balanço do mês</span>
-          <i class="bi bi-trash-fill" (click)="abrirConfirmacao('grafico'); $event.stopPropagation()" style="cursor: pointer;" title="Remover gráfico do balanço"></i>
+
+      <div class="card-dashboard" id="despesasPrincipais">
+        <div class="cabecalho-card despesas-card">
+          <span>Categorias com maiores gastos</span>
+
         </div>
-        <div *ngIf="mostrarGraficoBalanco && graficoBalancoMesOptions">
-          <apx-chart
-            [series]="graficoBalancoMesOptions.series"
-            [chart]="graficoBalancoMesOptions.chart"
-            [xaxis]="graficoBalancoMesOptions.xaxis"
-            [plotOptions]="graficoBalancoMesOptions.plotOptions"
-            [dataLabels]="graficoBalancoMesOptions.dataLabels"
-            [colors]="graficoBalancoMesOptions.colors"
-            [yaxis]="graficoBalancoMesOptions.yaxis"
-            [grid]="graficoBalancoMesOptions.grid"
-            [fill]="graficoBalancoMesOptions.fill"
-            [tooltip]="graficoBalancoMesOptions.tooltip"
-            [legend]="graficoBalancoMesOptions.legend"
-          ></apx-chart>
-        </div>
+        <p class="msg"> {{this.dadosDespesas.length <= 0 ? 'Sem dados no momento para gerar o gráfico 😔' :''}}</p>
+
+            <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
+              <div class="grafico-despesas">
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                  [colors]="chartOptions.colors || []" [plotOptions]="chartOptions.plotOptions"
+                  [dataLabels]="chartOptions.dataLabels" [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis"
+                  [grid]="chartOptions.grid" [fill]="chartOptions.fill" [tooltip]="chartOptions.tooltip"
+                  [legend]="chartOptions.legend"></apx-chart>
+              </div>
+
+              <div class="icones-despesas">
+                <div class="icone-despesa" *ngFor="let despesa of dadosDespesas"
+                  [ngClass]="despesa.categoryName.toLowerCase()" [style.backgroundColor]="despesa.color"
+                  [title]="despesa.categoryName + ': R$ ' + despesa.totalValue.toFixed(2)">
+                  <i class="iconCincoDespesas" [class]="despesa.iconClass"></i>
+                  <div class="dados-despesa">
+                    <div class="valor-despesa">R$ {{despesa.totalValue}}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
       </div>
+
+    </div>
+
+    <!-- LADO DIREITO -->
+    <div class="lado-direito">
+
+
+
+      <div class="card-dashboard" id="despesasPrincipais">
+        <div class="cabecalho-card despesas-card">
+          <span>Maiores Receitas Previstas do mês</span>
+
+        </div>
+        <p class="msg"> {{this.receitasPrevistas.length <= 0 ? 'Sem dados no momento para gerar o gráfico 😔' :''}}</p>
+
+            <div *ngIf="mostrarReceitasPrevistas && graficoReceitasPrevistas" class="wrapper-despesas-com-icones">
+              <div class="grafico-despesas">
+                <apx-chart [series]="graficoReceitasPrevistas.series" [chart]="graficoReceitasPrevistas.chart"
+                  [colors]="graficoReceitasPrevistas.colors || []" [plotOptions]="graficoReceitasPrevistas.plotOptions"
+                  [dataLabels]="graficoReceitasPrevistas.dataLabels" [xaxis]="graficoReceitasPrevistas.xaxis"
+                  [yaxis]="graficoReceitasPrevistas.yaxis" [grid]="graficoReceitasPrevistas.grid"
+                  [fill]="graficoReceitasPrevistas.fill" [tooltip]="graficoReceitasPrevistas.tooltip"
+                  [legend]="graficoReceitasPrevistas.legend"></apx-chart>
+              </div>
+
+              <div class="icones-despesas">
+                
+                <div class="icone-despesa" *ngFor="let receita of receitasPrevistas"
+                  [ngClass]="(receita.categoryName || '').toLowerCase() || 'categoria-desconhecida'"
+                  [style.backgroundColor]="receita.color"
+                  [title]="(receita.categoryName || 'N/A') + ': R$ ' + (receita.totalValue ?? 0).toFixed(2)">
+                  <i class="iconCincoDespesas" [class]="receita.iconClass || 'fa fa-question-circle'"></i>
+                  <div class="dados-despesa">
+                    <div class="valor-despesa">R$ {{ (receita.totalValue ?? 0) | number:'1.2-2' }}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Modal de confirmação -->
-  <div *ngIf="confirmacaoAberta" class="modal-confirmacao">
-    <div class="modal-content">
-      <p>Tem certeza que deseja remover <strong>{{ nomeBloco(confirmacaoAberta) }}?</strong></p>
-      <button (click)="confirmarExclusao(confirmacaoAberta)">Sim</button>
-      <button (click)="cancelarExclusao()">Não</button>
-    </div>
-  </div>
 </section>
