@@ -16,6 +16,7 @@ interface Gasto {
   percentual: number;
   previsto?: boolean;
   transactionType?: string; 
+  state?: string; // Adicionado para armazenar o estado da transação
 }
 
 @Component({
@@ -56,7 +57,7 @@ exibirDadosRelatorio(dadosRecebidos: any): void {
       case 'CATEGORY_SUMMARY':
         this.gastos.push({
           nome: item.categoryName || 'Categoria Desconhecida',
-          descricaoTransacao: 'Resumo por Categoria',
+          descricaoTransacao: 'Soma',
           iconClass: 'bi bi-pie-chart-fill',
           cor: '#007bff',
           nomeCategoria: item.categoryName,
@@ -85,6 +86,7 @@ exibirDadosRelatorio(dadosRecebidos: any): void {
           valor: item.value,
           percentual: 0,
           transactionType: item.transactionType,
+          state: item.state
         });
         break;
 

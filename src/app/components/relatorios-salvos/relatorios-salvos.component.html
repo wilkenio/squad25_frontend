@@ -11,6 +11,8 @@
       <div class="tituloEconta">
         <label class="titulo">{{ gasto.nome }}</label>
         <label class="subtitulo">{{ gasto.descricaoTransacao }}</label>
+        <label class="subtitulo">{{ gasto.state === 'EFFECTIVE' ? 'Efetivado' : 'Pendente' }}
+        </label>
       </div>
       <div class="valorEdadoAdicional">
         <label class="titulo"
