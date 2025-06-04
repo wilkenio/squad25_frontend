@@ -24,9 +24,15 @@
       <!-- Importar CSV -->
       <div class="nome border-bottom">
         <h5>Importar CSV</h5>
-        <!-- <label for="arquivoCsv" class="icon-file"><i class="bi bi-upload"></i></label> -->
-        <input id="arquivoCsv" type="file" (change)="onCsvFileChange($event)" accept=".csv" />
+      
+        <label for="arquivoCsv" class="upload-botao">
+          Escolher arquivo
+          <i class="bi bi-upload upload-icon"></i>
+        </label>
+      
+        <input id="arquivoCsv" type="file" (change)="onCsvFileChange($event)" accept=".csv" hidden />
       </div>
+      
 
       <!-- Categoria -->
       <div class="nome border-bottom">
