@@ -3,6 +3,23 @@
 
 
 <div class="container">
+
+  <div class="mes-navegacao">
+    <button class="seta" (click)="voltarMes()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+  
+    <span class="mes-atual">
+      <b>{{ nomeMesAtual }}</b> {{ anoAtual }}
+    </span>
+  
+    <button class="seta" (click)="avancarMes()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+  
+  
+  
   <div>
   <!-- Cabeçalho da Tabela -->
   <div class="row header ">

@@ -420,3 +420,11 @@
 }
 
 
+.erro-campo {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-left: 50%;
+}
+

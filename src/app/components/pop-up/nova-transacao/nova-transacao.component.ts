@@ -53,16 +53,18 @@ export class NovaTransacaoComponent {
     this.typePopUp = typePopUp;
     this.typeTransation = typeTransation;
     this.idTransacao = transacaoId ?? '';
-
+  
+    this.mensagemErroForm = ''; // <<< LIMPA MENSAGEM AO MUDAR DE ABA
+  
     this.dataLancamento = typePopUp ? this.getDataAtualFormatada() : 'add';
- 
-
+  
     this.carregarDadosIniciais().then(() => {
       if (typePopUp === 'edit' && transacaoId) {
         this.carregarTransacao(transacaoId);
       }
     });
   }
+  
 
   carregarDadosIniciais(): Promise<void> {
     return Promise.all([
@@ -120,13 +122,16 @@ export class NovaTransacaoComponent {
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
+        console.log(data)
         this.nome = data.name;
         this.valor = data.value;
-        this.dataLancamento = data.date;
+        this.dataLancamento = this.formatarData(data.releaseDate);
         this.infoAdicional = data.additionalInformation;
         this.categoriaId = data.categoryId;
+
         this.subcategoriaId = data.subcategoryId;
         this.contaId = data.accountId;
+
         this.onCategoriaChange(); // carregar subcategorias
       },
       error: (err) => {
@@ -134,6 +139,12 @@ export class NovaTransacaoComponent {
       }
     });
   }
+formatarData(array: number[]): string {
+  const [ano, mes, dia, hora, minuto] = array;
+  // Preenche com 0 à esquerda se necessário
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${ano}-${pad(mes)}-${pad(dia)}T${pad(hora)}:${pad(minuto)}`;
+}
 
   onCategoriaChange() {
     if (!this.categoriaId) return;
@@ -252,5 +263,54 @@ export class NovaTransacaoComponent {
   
     return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
   }
+  mensagemErroForm: string = '';
+
+validarCampos(): void {
+  if (!this.nome || this.nome.trim() === '') {
+    this.mensagemErroForm = 'Preencha o campo Descrição.';
+    return;
+  }
   
+
+  if (!this.valor || this.valor <= 0) {
+    this.mensagemErroForm = 'Preencha o campo Valor.';
+    return;
+  }
+
+  if (!this.dataLancamento) {
+    this.mensagemErroForm = 'Preencha a Data de lançamento.';
+    return;
+  }
+
+  if (!this.categoriaId) {
+    this.mensagemErroForm = 'Selecione uma Categoria.';
+    return;
+  }
+
+  if (!this.subcategoriaId) {
+    this.mensagemErroForm = 'Selecione uma Subcategoria.';
+    return;
+  }
+
+  if (!this.contaId) {
+    this.mensagemErroForm = 'Selecione uma Conta.';
+    return;
+  }
+  if (this.tipoFrequencia === 'REPEAT') {
+    if (!this.parcelas || this.parcelas <= 0) {
+      this.mensagemErroForm = 'Informe o número de parcelas.';
+      return;
+    }
+  
+    if (!this.periodicidade) {
+      this.mensagemErroForm = 'Selecione a periodicidade.';
+      return;
+    }
+  }
+  
+  // Se tudo estiver válido
+  this.mensagemErroForm = '';
+  this.salvarTransacao(); // chama o método real de salvar
+}
+
 }

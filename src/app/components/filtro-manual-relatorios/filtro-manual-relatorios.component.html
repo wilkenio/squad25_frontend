@@ -1,6 +1,16 @@
 <div class="relatorios-container">
   <div class="filtro-topo">
     <button class="botao-filtrar" (click)="filtrar()">Filtrar</button>
+    <i class="bi bi-filetype-pdf"
+    style="cursor: pointer; font-size: 24px; "
+    (click)="baixarArquivo('pdf')">
+ </i>
+ 
+ <i class="bi bi-filetype-csv"
+    style="cursor: pointer; font-size: 24px; "
+    (click)="baixarArquivo('csv')">
+ </i>
+ 
   </div>
 
   <div class="filtros-wrapper">
@@ -18,6 +28,7 @@
         <span class="espaco-ate">Até</span>
         <input type="date" [(ngModel)]="dataFim" />
       </div>
+      
       <div class="linha-horizontal"></div>
 
       <!-- Data de Referência 
@@ -77,8 +88,9 @@
       <div class="opcao-principal">
         <label class="mostrarSaldo">
           <input type="checkbox" [(ngModel)]="mostrarApenasSaldo" (change)="onMostrarSaldoChange()" />
-          Mostrar apenas o saldo
+          Mostrar o saldo Total
         </label>
+        
         <label class="mostrarSaldo">
           <input type="checkbox" [(ngModel)]="incluirSaldoPrevistoModel" />
           Incluir Saldo Previsto
@@ -307,13 +319,23 @@
             Limite de Resultados
           </label>
 
-          <label class="opcao">
-            <input type="checkbox" name="mostrar" [(ngModel)]="mostrarApenasSoma" (change)="onMostrarApenasSomaChange()"
-              [disabled]="filtroTransferencia" />
-            Apenas a soma total dos resultados
-          </label>
+         <label class="opcao">
+  <input
+    type="checkbox"
+    name="mostrar"
+    [checked]="mostrarApenasSoma === 'SOMA'"
+    (change)="onMostrarApenasSomaChange()"
+    [disabled]="mostrarListaLimitada"
+  />
+  Apenas a soma total dos resultados
+</label>
+
+          
         </div>
       </div>
     </div>
   </div>
 </div>
+<div></div>
+<button class="pagination" (click)="paginaAnterior()">Anterior</button>
+<button class="pagination" (click)="proximaPagina()">Próxima</button>

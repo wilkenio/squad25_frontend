@@ -1,3 +1,14 @@
+.pagination{
+  border: none;
+  background-color: var(--cor-5);
+  color: var(--cor-1);
+  padding: 0.5% 1% 0.5% 1%;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-left: 2%;
+  z-index: 88;
+  position: relative;
+}
 .relatorios-container {
     padding: 1%;
     background-color: var(--cor-2);
@@ -7,8 +18,9 @@
 .filtros-wrapper {
     display: flex;
     gap: 1.5rem;
-    margin-bottom: 0;
     margin: 0;
+    margin-bottom: 3%;
+    margin-top: 1%;
   }
   .filtro-bloco {
     flex: 1;
@@ -548,6 +560,7 @@
     display: flex;
     justify-content: flex-end;
     padding: 10px 20px;
+    gap: 1.5%;
   }
   
   .botao-filtrar {
