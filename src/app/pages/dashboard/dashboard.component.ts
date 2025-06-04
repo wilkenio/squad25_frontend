@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
@@ -10,7 +10,8 @@ import { EvolucaoDoBalancoComponent } from '../../components/dashboard/evolucao-
 import { ReceitasComponent } from '../../components/dashboard/receitas/receitas.component';
 import { IncluirNoDashboardComponent } from '../../components/pop-up/incluir-no-dashboard/incluir-no-dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
-
+import { GlobalService } from '../../services/global.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
   ApexAxisChartSeries,
@@ -54,82 +55,130 @@ export type ChartOptions = {
     ReceitasComponent,
     IncluirNoDashboardComponent,
     NgApexchartsModule,
-   
+
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-nomeBloco(arg0: string) {
-throw new Error('Method not implemented.');
-}
-
+  nomeBloco(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
+  private globalService = inject(GlobalService);
+  private http = inject(HttpClient);
   // Controle de visibilidade dos cards
   mostrarDespesasPrincipais = true;
   mostrarSaldoAtual = true;
   mostrarGraficoBalanco = true;
-  mostrarComprasParceladas = true;
-  mostrarPagamentosreceber = true;
+
 
   // Arrays com os cards que podem ser rearranjados
   cardsDireita: string[] = ['grafico', 'saldo'];
   cardsEsquerda: string[] = ['despesas', 'parceladas', 'pagamentos'];
 
-  // Controle modal de confirmação de exclusão
-  confirmacaoAberta: string | null = null;
-
-  // Controle modal popup incluir no dashboard
-  modalAberto = false;
-
   // Dados para saldo e meses
-  saldoAtual: number = 1250.75;
-  meses: string[] = [
-    'Janeiro 2025', 'Fevereiro 2025', 'Março 2025', 'Abril 2025',
-    'Maio 2025', 'Junho 2025', 'Julho 2025', 'Agosto 2025',
-    'Setembro 2025', 'Outubro 2025', 'Novembro 2025', 'Dezembro 2025'
-  ];
+  saldoAtual: number = 0;
+  saldoPrevisto: number = 0;
+
   mesSelecionado: string = '';
+  nomeDoUsuario: string | null = null;
 
   // Configurações dos gráficos ApexCharts
   chartOptions?: ChartOptions;
   graficoBalancoMesOptions?: ChartOptions;
 
+  dadosDespesas: any[] = [];
+  dadosSaldo: any[] = [];
+
   constructor() {
-    console.log('Usuário logado:', localStorage.getItem('nomeUsuario'));
+    this.nomeDoUsuario = localStorage.getItem('nomeUsuario');
   }
 
   ngOnInit(): void {
-    const dataAtual = new Date();
-    const mesIndex = dataAtual.getMonth();
-    this.mesSelecionado = this.meses[mesIndex];
-
-    this.gerarGrafico();
     this.gerarGraficoBalancoDoMes();
+    this.buscarCincoPrincipaisDespesas()
+    this.buscarSaldo();
+  }
+
+  buscarCincoPrincipaisDespesas(): Promise<void> {
+    const url = `${this.globalService.apiUrl}/relatorios/summaries?dataInicio=1900-06-01T00:00:00&dataFim=3000-06-30T23:59:59&mostrarApenasSaldo=false&incluirSaldoPrevisto=false&incluirReceitas=false&incluirReceitasEfetivadas=false&incluirReceitasPrevistas=false&incluirDespesas=true&incluirDespesasEfetivadas=true&incluirDespesasPrevistas=true&incluirTransferencias=false&incluirTransferenciasEfetivadas=false&incluirTransferenciasPrevistas=false&incluirTodasCategoriasReceita=true&incluirTodasCategoriasDespesa=true&incluirFreqNaoRecorrente=true&incluirFreqFixaMensal=true&incluirFreqRepetida=true&ordenacao=VALOR_DECRESCENTE&tipoDado=CATEGORIA&apresentacao=LISTA_LIMITADA&pageNumber=0&pageSize=10`; 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(url, { headers }).subscribe({
+        next: (data) => {
+          if (data?.content) {
+            this.dadosDespesas = data.content;
+            this.gerarGrafico(); // chama a função após receber os dados
+          }
+          resolve();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar categorias:', err);
+          reject(err);
+        }
+      });
+    });
+  }
+
+  buscarSaldo(): Promise<void> {
+    const url = `${this.globalService.apiUrl}/relatorios/summaries?dataInicio=2025-06-01T00:00:00&dataFim=2025-06-30T23:59:59&mostrarApenasSaldo=true&incluirSaldoPrevisto=true&incluirReceitas=false&incluirReceitasEfetivadas=false&incluirReceitasPrevistas=false&incluirDespesas=false&incluirDespesasEfetivadas=false&incluirDespesasPrevistas=false&incluirTransferencias=false&incluirTransferenciasEfetivadas=false&incluirTransferenciasPrevistas=false&incluirTodasCategoriasReceita=true&incluirTodasCategoriasDespesa=true&incluirFreqNaoRecorrente=true&incluirFreqFixaMensal=true&incluirFreqRepetida=true&ordenacao=VALOR_CRESCENTE&tipoDado=TRANSACAO&apresentacao=SOMA&pageNumber=0&pageSize=10`; 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(url, { headers }).subscribe({
+        next: (data) => {
+          if (data?.content) {
+            this.dadosSaldo = data.content;
+
+            this.saldoAtual = this.dadosSaldo[0].balance
+            this.saldoPrevisto = this.dadosSaldo[1].balance
+            //saldoAtual
+            this.gerarGrafico(); // chama a função após receber os dados
+          }
+          resolve();
+        },
+        error: (err) => {
+          console.error('Erro ao carregar categorias:', err);
+          reject(err);
+        }
+      });
+    });
   }
 
 
-
   // Gerar gráfico básico de despesas principais (exemplo ApexCharts)
-
   gerarGrafico(): void {
+
+
+    const seriesData = this.dadosDespesas.map(item => ({
+      x: item.categoryName,
+      y: item.totalValue
+    }));
+
+    const cores = this.dadosDespesas.map(item => item.color);
+
+
+    console.log(cores)
+
+    console.log(this.dadosDespesas);
+
     this.chartOptions = {
       series: [
         {
-          name: 'Despesas',
-          data: [
-            { x: 'Parcela automóvel', y: 1350.00 },
-            { x: 'Prestação Apartamento', y: 980.00 },
-            { x: 'Aporto financeiro', y: 800.00 },
-            { x: 'Mensalidade escolar', y: 786.00 },
-            { x: 'Compras supermercado', y: 710.50 }
-          ]
+          name: 'Principais despesas',
+          data: seriesData
         }
       ],
       chart: { type: 'bar', height: 350, toolbar: { show: false } },
       plotOptions: {
         bar: { horizontal: true, distributed: true, borderRadius: 10 }
       },
-      colors: ['#F8AF7A', '#F8AF7A', '#F47922', '#F47922', '#F47922'],
+      colors:cores,
       dataLabels: { enabled: false },
       xaxis: {
         labels: { show: false },
@@ -157,143 +206,67 @@ throw new Error('Method not implemented.');
 
   // Gerar gráfico de evolução do balanço do mês (exemplo ApexCharts)
 
-gerarGraficoBalancoDoMes(): void {
-  this.graficoBalancoMesOptions = {
-    series: [
-      { name: 'Saldo', data: [1552] },
-      { name: 'Previsto', data: [252] },
-      { name: 'Despesas', data: [480] },
-      { name: 'Previsto Despesas', data: [1300] }
-    ],
-    chart: {
-      type: 'bar',
-      height: 350,
-      toolbar: { show: false }
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '55%',
-        borderRadius: 6
-      }
-    },
-    colors: ['#5A89F0', '#9CB8F6', '#F47922', '#FBC598'],
-    dataLabels: { enabled: false },
-    xaxis: {
-      categories: [''],
-      labels: { show: false },
-      axisBorder: { show: false },
-      axisTicks: { show: false }
-    },
-    yaxis: {
-      labels: {
-        formatter: (value: number) => 'R$ ' + value.toFixed(2).replace('.', ',')
-      }
-    },
-    grid: {
-      show: true, // Exibe a grade (linhas de fundo)
-      position: 'back', // Garante que fiquem atrás do gráfico
-      borderColor: '#e0e0e0', // Cor das linhas de fundo
-      strokeDashArray: 2, // Estilo pontilhado (pode remover se quiser linha sólida)
-      yaxis: {
-        lines: {
-          show: true // Mostra linhas horizontais (como na imagem)
+  gerarGraficoBalancoDoMes(): void {
+    this.graficoBalancoMesOptions = {
+      series: [
+        { name: 'Saldo', data: [1552] },
+        { name: 'Previsto', data: [252] },
+        { name: 'Despesas', data: [480] },
+        { name: 'Previsto Despesas', data: [1300] }
+      ],
+      chart: {
+        type: 'bar',
+        height: 350,
+        toolbar: { show: false }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          borderRadius: 6
         }
       },
+      colors: ['#5A89F0', '#9CB8F6', '#F47922', '#FBC598'],
+      dataLabels: { enabled: false },
       xaxis: {
-        lines: {
-          show: false
+        categories: [''],
+        labels: { show: false },
+        axisBorder: { show: false },
+        axisTicks: { show: false }
+      },
+      yaxis: {
+        labels: {
+          formatter: (value: number) => 'R$ ' + value.toFixed(2).replace('.', ',')
         }
+      },
+      grid: {
+        show: true, // Exibe a grade (linhas de fundo)
+        position: 'back', // Garante que fiquem atrás do gráfico
+        borderColor: '#e0e0e0', // Cor das linhas de fundo
+        strokeDashArray: 2, // Estilo pontilhado (pode remover se quiser linha sólida)
+        yaxis: {
+          lines: {
+            show: true // Mostra linhas horizontais (como na imagem)
+          }
+        },
+        xaxis: {
+          lines: {
+            show: false
+          }
+        }
+      },
+      fill: { opacity: 1 },
+      tooltip: {
+        y: {
+          formatter: (val: number) => 'R$ ' + val.toFixed(2).replace('.', ',')
+        }
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'right'
       }
-    },
-    fill: { opacity: 1 },
-    tooltip: {
-      y: {
-        formatter: (val: number) => 'R$ ' + val.toFixed(2).replace('.', ',')
-      }
-    },
-    legend: {
-      show: true,
-      position: 'top',
-      horizontalAlign: 'right'
-    }
-  };
-}
-
-
-  // Funções para toggle visibilidade dos cards
-
-  toggleDespesasPrincipais(): void {
-    this.mostrarDespesasPrincipais = !this.mostrarDespesasPrincipais;
+    };
   }
 
-  toggleSaldoAtual(): void {
-    this.mostrarSaldoAtual = !this.mostrarSaldoAtual;
-  }
-
-  toggleGraficoBalanco(): void {
-    this.mostrarGraficoBalanco = !this.mostrarGraficoBalanco;
-  }
-
-  togglePagamentosreceber(): void {
-    this.mostrarPagamentosreceber = !this.mostrarPagamentosreceber;
-  }
-
-  toggleComprasParceladas(): void {
-    this.mostrarComprasParceladas = !this.mostrarComprasParceladas;
-  }
-
-  // Funções para abrir modal de confirmação e exclusão
-
-  abrirConfirmacao(bloco: string): void {
-    this.confirmacaoAberta = bloco;
-  }
-
-  cancelarExclusao(): void {
-    this.confirmacaoAberta = null;
-  }
-
-  confirmarExclusao(bloco: string): void {
-    switch (bloco) {
-      case 'pagamentos':
-        this.mostrarPagamentosreceber = false;
-        break;
-      case 'grafico':
-        this.mostrarGraficoBalanco = false;
-        break;
-      case 'saldo':
-        this.mostrarSaldoAtual = false;
-        break;
-      case 'despesas':
-        this.mostrarDespesasPrincipais = false;
-        break;
-      case 'parceladas':
-        this.mostrarComprasParceladas = false;
-        break;
-    }
-    this.confirmacaoAberta = null;
-  }
-
-  // Funções para abrir e fechar modal de inclusão no dashboard
-
-  abrirModal(): void {
-    this.modalAberto = true;
-  }
-
-  fecharModal(): void {
-    this.modalAberto = false;
-  }
-
-  // Evento para inclusão via modal (recebe objeto com opções selecionadas)
-
-  onIncluir(event: { graficos: boolean; lista: boolean }): void {
-    console.log('Incluir opções selecionadas:', event);
-    // Aqui você pode implementar a lógica de inclusão conforme necessidade
-  }
-
-  // Evento exemplo de login
-
-  onLogin(): void {
-    console.log('Login acionado');
-  }
 }

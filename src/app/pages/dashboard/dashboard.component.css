@@ -43,11 +43,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* fundo preto com transparência */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* fundo preto com transparência */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* fica acima de tudo */
+  z-index: 1000;
+  /* fica acima de tudo */
 }
 
 /* Caixa branca centralizada do modal */
@@ -55,7 +57,7 @@
   background-color: #fff;
   padding: 25px 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   max-width: 400px;
   width: 90%;
   text-align: center;
@@ -88,7 +90,7 @@
 }
 
 .modal-content button:first-of-type:hover {
-  background-color:rgb(60, 33, 122) ;
+  background-color: rgb(60, 33, 122);
 }
 
 /* Botão de cancelar:*/
@@ -119,7 +121,8 @@
   height: 40px;
   border-radius: 50%;
   padding: 6px;
-  background-color: #ccc; /* será sobrescrito pelas classes */
+  background-color: #ccc;
+  /* será sobrescrito pelas classes */
 }
 
 .icone-despesa i {
@@ -138,41 +141,6 @@
   font-weight: 500;
   text-align: center;
 }
-
-/* Cores específicas */
-.aluguel {
-  background-color: red;
-  color: white;
-  padding: 2px;
-}
-
-.transporte {
-  background-color: #F91DB7;
-  color: white;
-  padding: 2px;
-}
-
-.alimentacao {
-  background-color: #F0B05B;
-  color: white;
-  padding: 2px;
-}
-
-.educacao {
-  background-color: #B61313;
-  color: white;
-  padding: 2px;
-}
-
-.outros {
-  background-color: #15953A;
-  color:white ;
-  padding: 2px;
-  
-}
-
-
-
 
 .seletor-mes select {
   padding: 10px 14px;
@@ -258,21 +226,22 @@
   border-radius: 12px;
   padding: 24px;
   font-family: 'Roboto', sans-serif;
-  
-  max-width: 400px; /* ou conforme seu layout */
+
+  max-width: 400px;
+  /* ou conforme seu layout */
 }
 
 .saldo-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* alinha título e "saldo previsto" à esquerda */
+  align-items: flex-start;
+  /* alinha título e "saldo previsto" à esquerda */
   position: relative;
 }
 
 .saldo-valor {
-  position: absolute;
-  right: 20px; /* distância da borda direita */
-  top: 20px;   /* distância do topo */
+
+  /* distância do topo */
   font-size: 32px;
   font-weight: bold;
   color: #5A89F0;
@@ -305,8 +274,15 @@
   padding-bottom: 5px;
 }
 
-.azul { height: 160px; background: #3b82f6; }
-.laranja { height: 130px; background: #fb923c; }
+.azul {
+  height: 160px;
+  background: #3b82f6;
+}
+
+.laranja {
+  height: 130px;
+  background: #fb923c;
+}
 
 .legenda {
   text-align: center;
@@ -338,12 +314,17 @@
   flex: 1;
 }
 
+.iconCincoDespesas {
+  color: var(--cor-1) !important;
+}
+
 .icones-despesas {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 10px;
+  justify-content: space-between;
   margin-left: 1rem;
+  height: 43.5vh;
+  margin-top: 7%;
 }
 
 .icones-despesas i {
@@ -406,14 +387,35 @@
 
 .linha-fundo {
   position: absolute;
-  bottom: 50%; /* altura da linha */
+  bottom: 50%;
+  /* altura da linha */
   width: 100%;
   height: 2px;
-  z-index: 0; /* Fica atrás das barras */
+  z-index: 0;
+  /* Fica atrás das barras */
 }
 
+.dados-despesa{
+  margin-left: -400%;
+  margin-top: -5%;
+  position: relative;
+}
+.valor-despesa{
+  margin-top: -17%;
+  color: var(--cor-3);
+  font-size: 0.9rem;
+  width: 11vh;
+  margin-left: 5%;
+  text-align: end;
+}
+.valorPrincialDespesa{
+  font-size: 0.8rem;
+}
 
-
+.saldo-atual-container,.saldo-previsto-container{
+  display: flex;
+  align-items: center;
+}
 /* Para telas menores que 1024px (tablets e pequenos laptops) */
 @media (max-width: 1024px) {
   .dashboard-topo {
@@ -432,10 +434,10 @@
   }
 
   .icones-despesas {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-left: 0;
+    margin-top: -115%;
+    height: 100%;
+    margin-left: 80%;
+    position: relative;
   }
 
   .grafico-despesas {
