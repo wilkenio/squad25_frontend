@@ -122,13 +122,16 @@ export class NovaTransacaoComponent {
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
+        console.log(data)
         this.nome = data.name;
         this.valor = data.value;
-        this.dataLancamento = data.date;
+        this.dataLancamento = this.formatarData(data.releaseDate);
         this.infoAdicional = data.additionalInformation;
         this.categoriaId = data.categoryId;
+
         this.subcategoriaId = data.subcategoryId;
         this.contaId = data.accountId;
+
         this.onCategoriaChange(); // carregar subcategorias
       },
       error: (err) => {
@@ -136,6 +139,12 @@ export class NovaTransacaoComponent {
       }
     });
   }
+formatarData(array: number[]): string {
+  const [ano, mes, dia, hora, minuto] = array;
+  // Preenche com 0 à esquerda se necessário
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${ano}-${pad(mes)}-${pad(dia)}T${pad(hora)}:${pad(minuto)}`;
+}
 
   onCategoriaChange() {
     if (!this.categoriaId) return;
