@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IncluirNoDashboardComponent } from '../../components/pop-up/incluir-no-dashboard/incluir-no-dashboard.component';
 import { ConfirmarExclusaoComponent } from '../../components/pop-up/confirmar-exclusao/confirmar-exclusao.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+
+import { RelatorioService } from '../../services/RelatorioService/RelatorioService';
+import { Subscription } from 'rxjs';
 
 import {
   ApexAxisChartSeries,
@@ -51,6 +54,9 @@ interface Gasto {
   styleUrl: './relatorios-salvos.component.css'
 })
 export class RelatoriosSalvosComponent implements OnInit {
+  constructor(private relatorioService: RelatorioService) {}
+
+  
     referenciaSelecionada: 'lancamento' | 'efetivacao' = 'lancamento';
     contaSelecionada: 'todas' | 'selecionar' = 'todas';
     categoriaSelecionada: string = 'todas';
@@ -69,8 +75,8 @@ export class RelatoriosSalvosComponent implements OnInit {
       { titulo: 'Valores depositados em investimentos', data: '28/04/2025, 14h34min' },
       { titulo: 'Dez maiores gastos do mês', data: '11/02/2025, 21h12min' },
       { titulo: 'Gastos por categoria ', data: '18/01/2025, 08h33min' },
-      { titulo: 'Receitas - Trabalhos extras', data: '18/01/2025, 08h33min' },
-      { titulo: 'Transferências de Abril', data: '18/01/2025, 08h33min' },
+      // { titulo: 'Receitas - Trabalhos extras', data: '18/01/2025, 08h33min' },
+      // { titulo: 'Transferências de Abril', data: '18/01/2025, 08h33min' },
     ];
   
     exemploGastos: Gasto[] = [
