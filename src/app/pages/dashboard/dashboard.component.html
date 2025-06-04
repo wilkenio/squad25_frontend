@@ -15,39 +15,6 @@
     <!-- LADO ESQUERDO -->
     <div class="lado-esquerdo">
 
-      <!-- Minhas cinco principais despesas -->
-      <div class="card-dashboard" id="despesasPrincipais">
-        <div class="cabecalho-card despesas-card">
-          <span>Minhas cinco categorias de maior despesa</span>
-
-        </div>
-
-        <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
-          <div class="grafico-despesas">
-            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [colors]="chartOptions.colors || []"
-              [plotOptions]="chartOptions.plotOptions" [dataLabels]="chartOptions.dataLabels"
-              [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [grid]="chartOptions.grid"
-              [fill]="chartOptions.fill" [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
-          </div>
-
-          <div class="icones-despesas">
-            <div class="icone-despesa" *ngFor="let despesa of dadosDespesas"
-              [ngClass]="despesa.categoryName.toLowerCase()" [style.backgroundColor]="despesa.color"
-              [title]="despesa.categoryName + ': R$ ' + despesa.totalValue.toFixed(2)">
-              <i class="iconCincoDespesas" [class]="despesa.iconClass"></i>
-              <div class="dados-despesa">
-                <div class="valor-despesa">R$ {{despesa.totalValue}}</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- LADO DIREITO -->
-    <div class="lado-direito">
-
       <!-- Meu saldo atual -->
       <div class="card-dashboard saldo" id="saldoAtual">
         <div class="cabecalho-card">
@@ -57,32 +24,90 @@
         <div *ngIf="mostrarSaldoAtual" class="saldo-container">
           <div class="saldo-info">
             <div class="saldo-atual-container">
-            <p class="saldo-titulo">Saldo Atual</p>
-            <h2 class="saldo-valor">{{ saldoAtual | currency:'BRL' }}</h2>
-          </div>
-          <div class="saldo-previsto-container">
-            <p class="saldo-previsto">Saldo Previsto</p>
-            <h2 class="valor-saldoPrevisto">{{ saldoPrevisto | currency:'BRL' }}</h2>
-          </div>
+              <p class="saldo-titulo">Saldo Atual:</p>
+              <h2 class="saldo-valor">{{ saldoAtual | currency:'BRL' }}</h2>
+            </div>
+            <div class="saldo-previsto-container">
+              <p class="saldo-previsto">Saldo Previsto:</p>
+              <h2 class="valor-saldoPrevisto">{{ saldoPrevisto | currency:'BRL' }}</h2>
+            </div>
           </div>
         </div>
+
+
       </div>
 
-      <!-- Gráfico do balanço do mês -->
-      <div class="card-dashboard" id="graficoBalanco">
-        <div class="cabecalho-card">
-          <span>Gráfico do balanço do mês</span>
-          <i class="bi bi-trash-fill" style="cursor: pointer;" title="Remover gráfico do balanço"></i>
+
+      <div class="card-dashboard" id="despesasPrincipais">
+        <div class="cabecalho-card despesas-card">
+          <span>Categorias com maiores gastos</span>
+
         </div>
-        <div *ngIf="mostrarGraficoBalanco && graficoBalancoMesOptions">
-          <apx-chart [series]="graficoBalancoMesOptions.series" [chart]="graficoBalancoMesOptions.chart"
-            [xaxis]="graficoBalancoMesOptions.xaxis" [plotOptions]="graficoBalancoMesOptions.plotOptions"
-            [dataLabels]="graficoBalancoMesOptions.dataLabels" [colors]="graficoBalancoMesOptions.colors"
-            [yaxis]="graficoBalancoMesOptions.yaxis" [grid]="graficoBalancoMesOptions.grid"
-            [fill]="graficoBalancoMesOptions.fill" [tooltip]="graficoBalancoMesOptions.tooltip"
-            [legend]="graficoBalancoMesOptions.legend"></apx-chart>
-        </div>
+        <p class="msg"> {{this.dadosDespesas.length <= 0 ? 'Sem dados no momento para gerar o gráfico 😔' :''}}</p>
+
+            <div *ngIf="mostrarDespesasPrincipais && chartOptions" class="wrapper-despesas-com-icones">
+              <div class="grafico-despesas">
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                  [colors]="chartOptions.colors || []" [plotOptions]="chartOptions.plotOptions"
+                  [dataLabels]="chartOptions.dataLabels" [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis"
+                  [grid]="chartOptions.grid" [fill]="chartOptions.fill" [tooltip]="chartOptions.tooltip"
+                  [legend]="chartOptions.legend"></apx-chart>
+              </div>
+
+              <div class="icones-despesas">
+                <div class="icone-despesa" *ngFor="let despesa of dadosDespesas"
+                  [ngClass]="despesa.categoryName.toLowerCase()" [style.backgroundColor]="despesa.color"
+                  [title]="despesa.categoryName + ': R$ ' + despesa.totalValue.toFixed(2)">
+                  <i class="iconCincoDespesas" [class]="despesa.iconClass"></i>
+                  <div class="dados-despesa">
+                    <div class="valor-despesa">R$ {{despesa.totalValue}}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
       </div>
+
+    </div>
+
+    <!-- LADO DIREITO -->
+    <div class="lado-direito">
+
+
+
+      <div class="card-dashboard" id="despesasPrincipais">
+        <div class="cabecalho-card despesas-card">
+          <span>Maiores Receitas Previstas do mês</span>
+
+        </div>
+        <p class="msg"> {{this.receitasPrevistas.length <= 0 ? 'Sem dados no momento para gerar o gráfico 😔' :''}}</p>
+
+            <div *ngIf="mostrarReceitasPrevistas && graficoReceitasPrevistas" class="wrapper-despesas-com-icones">
+              <div class="grafico-despesas">
+                <apx-chart [series]="graficoReceitasPrevistas.series" [chart]="graficoReceitasPrevistas.chart"
+                  [colors]="graficoReceitasPrevistas.colors || []" [plotOptions]="graficoReceitasPrevistas.plotOptions"
+                  [dataLabels]="graficoReceitasPrevistas.dataLabels" [xaxis]="graficoReceitasPrevistas.xaxis"
+                  [yaxis]="graficoReceitasPrevistas.yaxis" [grid]="graficoReceitasPrevistas.grid"
+                  [fill]="graficoReceitasPrevistas.fill" [tooltip]="graficoReceitasPrevistas.tooltip"
+                  [legend]="graficoReceitasPrevistas.legend"></apx-chart>
+              </div>
+
+              <div class="icones-despesas">
+                
+                <div class="icone-despesa" *ngFor="let receita of receitasPrevistas"
+                  [ngClass]="(receita.categoryName || '').toLowerCase() || 'categoria-desconhecida'"
+                  [style.backgroundColor]="receita.color"
+                  [title]="(receita.categoryName || 'N/A') + ': R$ ' + (receita.totalValue ?? 0).toFixed(2)">
+                  <i class="iconCincoDespesas" [class]="receita.iconClass || 'fa fa-question-circle'"></i>
+                  <div class="dados-despesa">
+                    <div class="valor-despesa">R$ {{ (receita.totalValue ?? 0) | number:'1.2-2' }}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+      </div>
+
     </div>
   </div>
 

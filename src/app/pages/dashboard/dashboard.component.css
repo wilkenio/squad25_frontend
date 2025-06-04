@@ -16,7 +16,10 @@
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9fafb;
 }
-
+.msg{
+  color: var(--cor-3);
+  margin-left: 2%;
+}
 .dashboard-topo {
   display: flex;
   justify-content: space-between;
@@ -226,8 +229,6 @@
   border-radius: 12px;
   padding: 24px;
   font-family: 'Roboto', sans-serif;
-
-  max-width: 400px;
   /* ou conforme seu layout */
 }
 
@@ -237,14 +238,14 @@
   align-items: flex-start;
   /* alinha título e "saldo previsto" à esquerda */
   position: relative;
+  justify-content: space-around;
 }
 
 .saldo-valor {
-
-  /* distância do topo */
-  font-size: 32px;
+  font-size: 20px;
   font-weight: bold;
   color: #5A89F0;
+  margin-left: 5%;
 }
 
 
@@ -307,6 +308,7 @@
   align-items: stretch;
   justify-content: space-between;
   padding: 1rem;
+  padding-top: 0;
   gap: 1rem;
 }
 
@@ -322,8 +324,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 1rem;
-  height: 43.5vh;
+  margin-left: 4rem;
+  height: 313px;
   margin-top: 7%;
 }
 
@@ -402,7 +404,7 @@
 }
 .valor-despesa{
   margin-top: -17%;
-  color: var(--cor-3);
+  color: #414141;
   font-size: 0.9rem;
   width: 11vh;
   margin-left: 5%;
@@ -415,7 +417,26 @@
 .saldo-atual-container,.saldo-previsto-container{
   display: flex;
   align-items: center;
+    width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
+
+.saldo-previsto-container{
+  color: var(--cor-3);
+  margin-top: -5%;
+}
+.valor-saldoPrevisto{
+  font-size: 15px;
+  font-weight: 400;
+  margin-left: 5%;
+}
+
+  .saldo-titulo{
+    font-size: 20px;
+    color: var(--cor-3);
+    font-weight: 600;
+  }
 /* Para telas menores que 1024px (tablets e pequenos laptops) */
 @media (max-width: 1024px) {
   .dashboard-topo {
