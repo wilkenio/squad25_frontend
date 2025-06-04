@@ -21,8 +21,8 @@
       <button [class.ativo]="abaSelecionada === 'EXPENSE'" (click)="selecionarAba('EXPENSE')" id="btn-despesas">
         Despesas
       </button>
-      <button [class.ativo]="abaSelecionada === 'ACCOUNT'" (click)="selecionarAba('ACCOUNT')" id="btn-contas">
-        Contas
+      <button [class.ativo]="abaSelecionada === 'TRANSFERENCIA'" (click)="selecionarAba('TRANSFERENCIA')" id="btn-transferencias">
+        Transferências
       </button>
     </div>
 
@@ -30,8 +30,17 @@
       <div class="tabela-transacoes">
         <div class="cabecalho">
           <div>Descrição</div>
-          <div>Categoria</div>
-          <div>Conta</div>
+
+          <ng-container *ngIf="abaSelecionada !== 'TRANSFERENCIA'; else transferenciasCabecalho">
+            <div>Categoria</div>
+            <div>Conta</div>
+          </ng-container>
+
+          <ng-template #transferenciasCabecalho>
+            <div>Conta de origem</div>
+            <div>Conta de destino</div>
+          </ng-template>
+
           <div>Situação</div>
           <div>Data Efetivação</div>
           <div>Valor</div>
@@ -130,9 +139,9 @@
             </div>
           </div>
 
-          <!-- CONTAS -->
-          <div *ngIf="abaSelecionada === 'ACCOUNT'">
-            <div *ngFor="let transacao of transacoesAccount; let i = index" class="linha">
+          <!-- TRANSFERÊNCIAS -->
+          <div *ngIf="abaSelecionada === 'TRANSFERENCIA'">
+            <div *ngFor="let transacao of transacoesTransferencia; let i = index" class="linha">
               <div>{{ transacao.descricao }}</div>
 
               <div class="coluna-conta">
