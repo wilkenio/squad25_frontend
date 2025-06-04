@@ -1,19 +1,30 @@
 <section class="resultados-relatorio">
+  <div class="dados-pagination">
   <p>Total:{{totalPage}}</p>
-  <p> Página Atual:{{page}}</p>
-  <div class="transacao" *ngFor="let gasto of gastos">
-    <div class="icon">
+  <p class="numero-page"><br><br>{{page + 1}}</p>
+</div>
+  <div class="transacao"  *ngFor="let gasto of gastos">
+    <div class="icon" [ngStyle]="{ 'background-color': gasto.cor }">
       <i [class]="gasto.iconClass"></i>
     </div>
     <div class="dados-transacao">
       <div class="tituloEconta">
-        <label>{{ gasto.nome }}</label>
-        <label>{{ gasto.descricaoTransacao }}</label>
+        <label class="titulo">{{ gasto.nome }}</label>
+        <label class="subtitulo">{{ gasto.descricaoTransacao }}</label>
       </div>
       <div class="valorEdadoAdicional">
-        <label>R$ {{ gasto.valor | number:'1.2-2' }}</label>
-        <label *ngIf="gasto.percentual">{{ gasto.percentual }}%</label>
-        <label *ngIf="gasto.data">{{ gasto.data }}</label>
+        <label class="titulo"
+        [ngStyle]="{
+          'color': gasto.transactionType === 'RECEITA' ? 'green' :
+                   gasto.transactionType === 'DESPESA' ? 'red' : null
+        }"
+        >
+   R$ {{ gasto.valor | number:'1.2-2' }}
+ </label>
+
+ 
+        <label *ngIf="gasto.percentual">{{ gasto.percentual }}d%</label>
+        <label class="subtitulo" *ngIf="gasto.data">{{ gasto.data }}</label>
       </div>
     </div>
   </div>

@@ -33,6 +33,7 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   categoriaSelecionadaDespesas: string = 'todas'; // Para despesas. Controla o modo "Todas" vs "Selecionar"
 
   pageNumber: number = 0;
+  totalPageForPagination: string =  localStorage.getItem('totalPageForPagination') ||  '0';
 
   mostrarModalCategoriasReceitas = false;
   mostrarModalCategoriasDespesas = false;
@@ -46,14 +47,14 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   categoriasDespesasSelecionadas: Categoria[] = []; // Categorias de despesa efetivamente selecionadas pelo usuário no modal
   contasSelecionadas: Conta[] = []; // Contas efetivamente selecionadas pelo usuário no modal
 
-  filtroReceita = false;
-  filtroDespesa = false;
+  filtroReceita = true;
+  filtroDespesa = true;
   filtroTransferencia = false;
 
-  receitaEfetivada = false;
-  receitaPrevista = false;
-  despesaEfetivada = false;
-  despesaPrevista = false;
+  receitaEfetivada = true;
+  receitaPrevista = true;
+  despesaEfetivada = true;
+  despesaPrevista = true;
   transferenciaEfetivada = false;
   transferenciaPrevista = false;
 
@@ -73,12 +74,13 @@ export class FiltroManualRelatoriosComponent implements OnInit {
   tipoDadoSelecionado: 'TRANSACOES' | 'CATEGORIA' = 'TRANSACOES';
   ordenacaoSelecionada: string = 'VALOR_CRESCENTE';
   resultadosLimite: number = 0;
-
+  apiUrlRelatorio: string = '';
   constructor(private http: HttpClient, public globalService: GlobalService, private relatorioService: RelatorioService) { }
 
   ngOnInit(): void {
     this.buscarCategorias();
     this.buscarContas();
+    this.filtrar();
   }
 
   selecionarCategoriaDespesas(valor: string): void {
@@ -254,8 +256,9 @@ onMostrarApenasSomaChange(): void {
 }
 
 proximaPagina() {
-  this.pageNumber++;
-  this.filtrar();
+if( this.pageNumber < parseInt(this.totalPageForPagination) - 1) { 
+    this.pageNumber++;
+    this.filtrar();}
 }
 
   filtrar(): void {
@@ -347,6 +350,7 @@ proximaPagina() {
       if (Array.isArray(value)) {
         value.forEach(v => {
           httpParams = httpParams.append(key, String(v));
+          console.log(`Adicionando parâmetro: ${key}=${v}`);
         });
       } else {
         if (value !== undefined && value !== null) {
@@ -356,10 +360,50 @@ proximaPagina() {
     });
 
     const queryString = httpParams.toString();
-    const apiUrlRelatorio = `${this.globalService.apiUrl}/relatorios/summaries?${queryString}`;
-    console.log(apiUrlRelatorio)
+     this.apiUrlRelatorio = `${this.globalService.apiUrl}/relatorios/summaries?${queryString}`;
+    console.log( this.apiUrlRelatorio)
     console.log('Objeto de Parâmetros completo (para API):', params);
     this.relatorioService.aplicarFiltros(params);
 
   }
+
+  baixarArquivo(tipo: 'pdf' | 'csv') {
+    const token = this.globalService.userToken; // pegar token diretamente do globalService
+  
+    if (!token) {
+      console.error('Token não encontrado!');
+      return;
+    }
+  
+    const headers = new Headers({
+      'Authorization': `Bearer ${this.globalService.userToken}`
+    });
+  
+    const url = `/summaries/export/${tipo}/${this.apiUrlRelatorio}`;
+  
+    fetch(url, {
+      method: 'GET',
+      headers: headers
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Erro na requisição: ${res.status} ${res.statusText}`);
+      }
+      return res.blob();
+    })
+    .then(blob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `relatorio.${tipo}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    })
+    .catch(err => {
+      console.error('Erro ao baixar arquivo:', err);
+    });
+  }
+  
+
 }

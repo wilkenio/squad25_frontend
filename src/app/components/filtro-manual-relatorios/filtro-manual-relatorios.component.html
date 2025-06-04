@@ -1,6 +1,16 @@
 <div class="relatorios-container">
   <div class="filtro-topo">
     <button class="botao-filtrar" (click)="filtrar()">Filtrar</button>
+    <i class="bi bi-filetype-pdf"
+    style="cursor: pointer; font-size: 24px; "
+    (click)="baixarArquivo('pdf')">
+ </i>
+ 
+ <i class="bi bi-filetype-csv"
+    style="cursor: pointer; font-size: 24px; "
+    (click)="baixarArquivo('csv')">
+ </i>
+ 
   </div>
 
   <div class="filtros-wrapper">
@@ -77,7 +87,7 @@
       <div class="opcao-principal">
         <label class="mostrarSaldo">
           <input type="checkbox" [(ngModel)]="mostrarApenasSaldo" (change)="onMostrarSaldoChange()" />
-          Mostrar apenas o saldo
+          Mostrar o saldo Total
         </label>
         
         <label class="mostrarSaldo">
@@ -326,5 +336,5 @@
   </div>
 </div>
 <div></div>
-<button (click)="paginaAnterior()">Anterior</button>
-<button (click)="proximaPagina()">Próxima</button>
+<button class="pagination" (click)="paginaAnterior()">Anterior</button>
+<button class="pagination" (click)="proximaPagina()">Próxima</button>

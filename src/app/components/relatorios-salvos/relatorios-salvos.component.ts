@@ -15,6 +15,7 @@ interface Gasto {
   valor: number;
   percentual: number;
   previsto?: boolean;
+  transactionType?: string; 
 }
 
 @Component({
@@ -48,6 +49,8 @@ exibirDadosRelatorio(dadosRecebidos: any): void {
   this.totalPage = dadosRecebidos.totalPages
   this.page = dadosRecebidos.number
 
+  localStorage.setItem('totalPageForPagination', dadosRecebidos.totalPages);
+
   for (const item of dadosRecebidos.content) {
     switch (item.itemType) {
       case 'CATEGORY_SUMMARY':
@@ -73,14 +76,15 @@ exibirDadosRelatorio(dadosRecebidos: any): void {
         ).toLocaleString('pt-BR') : '';
 
         this.gastos.push({
-          nome: item.name || 'Transação',
-          descricaoTransacao: item.accountName || 'Conta',
-          iconClass: item.transactionType === 'RECEITA' ? 'bi bi-cash-coin' : 'bi bi-credit-card-2-back-fill',
-          cor: item.transactionType === 'RECEITA' ? '#28a745' : '#dc3545',
+          nome: item.name || 'SEM NOME',
+          descricaoTransacao: item.accountName,
+          iconClass: item.categoryIconClass,
+          cor: item.categoryColor,
           nomeCategoria: item.categoryName,
           data: dataFormatada,
           valor: item.value,
-          percentual: 0
+          percentual: 0,
+          transactionType: item.transactionType,
         });
         break;
 
