@@ -130,26 +130,30 @@ export class ContasComponent implements OnInit {
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ];
-
-  dataAtual: Date = new Date(); 
-
+  
+  dataAtual: Date = new Date(); // Inicia com o mês atual
+  
   get nomeMesAtual(): string {
     return this.meses[this.dataAtual.getMonth()];
   }
-
+  
   get anoAtual(): number {
     return this.dataAtual.getFullYear();
   }
-
+  
   voltarMes(): void {
-    this.dataAtual = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() - 1));
+    const novoMes = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() - 1));
+    this.dataAtual = novoMes;
     this.getContas(this.anoAtual, this.dataAtual.getMonth() + 1);
   }
   
   avancarMes(): void {
-    this.dataAtual = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() + 1));
+    const novoMes = new Date(this.dataAtual.setMonth(this.dataAtual.getMonth() + 1));
+    this.dataAtual = novoMes;
     this.getContas(this.anoAtual, this.dataAtual.getMonth() + 1);
   }
+  
+ 
   
 
 }
