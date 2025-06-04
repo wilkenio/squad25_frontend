@@ -81,8 +81,25 @@ export class FiltroManualRelatoriosComponent implements OnInit {
     this.buscarCategorias();
     this.buscarContas();
     this.filtrar();
-  }
 
+    const hoje = new Date();
+
+    // Primeiro dia do mês atual
+    const primeiroDia = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+
+    // Último dia do mês atual:
+    const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+
+    // Formatar para yyyy-MM-dd
+    this.dataInicio = this.formatarData(primeiroDia);
+    this.dataFim = this.formatarData(ultimoDia);
+  }
+  private formatarData(data: Date): string {
+    const ano = data.getFullYear();
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const dia = data.getDate().toString().padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+  }
   selecionarCategoriaDespesas(valor: string): void {
     this.categoriaSelecionadaDespesas = valor;
     if (valor === 'selecionar') {
@@ -360,7 +377,7 @@ if( this.pageNumber < parseInt(this.totalPageForPagination) - 1) {
     });
 
     const queryString = httpParams.toString();
-     this.apiUrlRelatorio = `${this.globalService.apiUrl}/relatorios/summaries?${queryString}`;
+     this.apiUrlRelatorio = queryString;
     console.log( this.apiUrlRelatorio)
     console.log('Objeto de Parâmetros completo (para API):', params);
     this.relatorioService.aplicarFiltros(params);
@@ -379,8 +396,8 @@ if( this.pageNumber < parseInt(this.totalPageForPagination) - 1) {
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
   
-    const url = `/summaries/export/${tipo}/${this.apiUrlRelatorio}`;
-  
+    const url = `${this.globalService.apiUrl}/relatorios/summaries/export/${tipo}?${this.apiUrlRelatorio}`;
+  console.log(url)
     fetch(url, {
       method: 'GET',
       headers: headers

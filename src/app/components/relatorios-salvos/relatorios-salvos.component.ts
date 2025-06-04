@@ -78,7 +78,7 @@ exibirDadosRelatorio(dadosRecebidos: any): void {
         this.gastos.push({
           nome: item.name || 'SEM NOME',
           descricaoTransacao: item.accountName,
-          iconClass: item.categoryIconClass,
+          iconClass: item.categoryIconClass || 'bi bi-arrow-left-right',
           cor: item.categoryColor,
           nomeCategoria: item.categoryName,
           data: dataFormatada,

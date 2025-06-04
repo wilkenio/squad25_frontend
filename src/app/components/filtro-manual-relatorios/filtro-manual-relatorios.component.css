@@ -6,6 +6,8 @@
   border-radius: 7px;
   cursor: pointer;
   margin-left: 2%;
+  z-index: 88;
+  position: relative;
 }
 .relatorios-container {
     padding: 1%;
