@@ -17,10 +17,10 @@
 
   <div class="container-dashboard">
     <!-- LADO ESQUERDO -->
-    <div class="lado-esquerdo" cdkDropList (cdkDropListDropped)="dropEsquerda($event)">
+    <div class="lado-esquerdo">
 
       <!-- Minhas cinco principais despesas -->
-      <div class="card-dashboard" id="despesasPrincipais" cdkDrag>
+      <div class="card-dashboard" id="despesasPrincipais">
         <div class="cabecalho-card despesas-card" (click)="toggleDespesasPrincipais()">
           <span>Minhas cinco principais despesas</span>
           <i class="bi bi-trash-fill" (click)="abrirConfirmacao('despesas'); $event.stopPropagation()" style="cursor: pointer;" title="Remover despesas principais"></i>
@@ -54,7 +54,7 @@
       </div>
 
       <!-- Pagamentos a receber -->
-      <div class="card-dashboard simples" id="pagamentosReceber" cdkDrag>
+      <div class="card-dashboard simples" id="pagamentosReceber">
         <div class="cabecalho-card" (click)="togglePagamentosreceber()">
           <span>Pagamentos a receber</span>
           <i class="bi bi-trash-fill" (click)="abrirConfirmacao('pagamentos'); $event.stopPropagation()" style="cursor: pointer;" title="Remover pagamentos a receber"></i>
@@ -63,7 +63,7 @@
       </div>
 
       <!-- Compras parceladas do cartão -->
-      <div class="card-dashboard simples" id="comprasParceladas" cdkDrag>
+      <div class="card-dashboard simples" id="comprasParceladas">
         <div class="cabecalho-card" (click)="toggleComprasParceladas()">
           <span>Compras parceladas do cartão</span>
           <i class="bi bi-trash-fill" (click)="abrirConfirmacao('parceladas'); $event.stopPropagation()" style="cursor: pointer;" title="Remover compras parceladas"></i>
@@ -73,10 +73,10 @@
     </div>
 
     <!-- LADO DIREITO -->
-    <div class="lado-direito" cdkDropList (cdkDropListDropped)="dropDireita($event)">
+    <div class="lado-direito">
 
       <!-- Meu saldo atual -->
-      <div class="card-dashboard saldo" id="saldoAtual" cdkDrag>
+      <div class="card-dashboard saldo" id="saldoAtual">
         <div class="cabecalho-card" (click)="toggleSaldoAtual()">
           <span>Meu saldo atual</span>
           <i class="bi bi-trash-fill" (click)="abrirConfirmacao('saldo'); $event.stopPropagation()" style="cursor: pointer;" title="Remover saldo atual"></i>
@@ -91,7 +91,7 @@
       </div>
 
       <!-- Gráfico do balanço do mês -->
-      <div class="card-dashboard" id="graficoBalanco" cdkDrag>
+      <div class="card-dashboard" id="graficoBalanco" >
         <div class="cabecalho-card" (click)="toggleGraficoBalanco()">
           <span>Gráfico do balanço do mês</span>
           <i class="bi bi-trash-fill" (click)="abrirConfirmacao('grafico'); $event.stopPropagation()" style="cursor: pointer;" title="Remover gráfico do balanço"></i>

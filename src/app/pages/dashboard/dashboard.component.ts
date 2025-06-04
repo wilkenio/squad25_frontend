@@ -10,7 +10,7 @@ import { EvolucaoDoBalancoComponent } from '../../components/dashboard/evolucao-
 import { ReceitasComponent } from '../../components/dashboard/receitas/receitas.component';
 import { IncluirNoDashboardComponent } from '../../components/pop-up/incluir-no-dashboard/incluir-no-dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 
 import {
   ApexAxisChartSeries,
@@ -54,7 +54,7 @@ export type ChartOptions = {
     ReceitasComponent,
     IncluirNoDashboardComponent,
     NgApexchartsModule,
-    DragDropModule
+   
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -107,15 +107,7 @@ throw new Error('Method not implemented.');
     this.gerarGraficoBalancoDoMes();
   }
 
-  // Funções para drag and drop dos cards (usando Angular CDK)
 
-  dropDireita(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.cardsDireita, event.previousIndex, event.currentIndex);
-  }
-
-  dropEsquerda(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.cardsEsquerda, event.previousIndex, event.currentIndex);
-  }
 
   // Gerar gráfico básico de despesas principais (exemplo ApexCharts)
 
