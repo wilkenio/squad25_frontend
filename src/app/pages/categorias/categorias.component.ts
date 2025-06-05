@@ -8,6 +8,7 @@ import { MenuComponent } from '../../components/menu/menu.component';
 import { GlobalService } from '../../services/global.service';
 import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/confirm-popup.component';
 
+
 @Component({
   selector: 'app-categorias',
   standalone: true,

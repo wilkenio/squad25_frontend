@@ -1,10 +1,11 @@
-import { Component, HostListener, inject, OnInit,ViewChild } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sideBar/sideBar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalService } from '../../services/global.service';
 import { NovaTransacaoComponent } from '../../components/pop-up/nova-transacao/nova-transacao.component';
+import { ConfirmPopupComponent } from '../../components/pop-up/confirm-popup/confirm-popup.component';
 
 interface ApiTransacao {
   transactionId: string;
@@ -39,12 +40,12 @@ interface TransacaoFormatada {
 @Component({
   selector: 'app-transacoes',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, MenuComponent,NovaTransacaoComponent],
+  imports: [CommonModule, SidebarComponent, MenuComponent, NovaTransacaoComponent, ConfirmPopupComponent],
   templateUrl: './transacoes.component.html',
   styleUrls: ['./transacoes.component.css']
 })
 export class TransacoesComponent implements OnInit {
-   @ViewChild(NovaTransacaoComponent) novaTransacaoComponent!: NovaTransacaoComponent;
+  @ViewChild(NovaTransacaoComponent) novaTransacaoComponent!: NovaTransacaoComponent;
 
   abaSelecionada: 'REVENUE' | 'EXPENSE' | 'TPDAS' = 'REVENUE';
   // abaContasSelecionada: boolean = false; // Não mais necessário para o cabeçalho unificado
@@ -62,6 +63,8 @@ export class TransacoesComponent implements OnInit {
   transacoesRevenue: TransacaoFormatada[] = [];
   transacoesExpense: TransacaoFormatada[] = [];
   transacoesTpdas: TransacaoFormatada[] = []; // Para a aba "Todas"
+  confirmPopupTransacaoVisible = false;
+  idTransacaoParaExcluir = '';
 
   meses: string[] = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -127,15 +130,40 @@ export class TransacoesComponent implements OnInit {
   editarTransacao(transacao: TransacaoFormatada) {
     console.log(transacao)
 
-    this.novaTransacaoComponent.togglePopup('Despesa','edit',transacao.apiObject.transactionId)
+    this.novaTransacaoComponent.togglePopup('Despesa', 'edit', transacao.apiObject.transactionId)
 
     this.menuAbertoIndex = null;
   }
 
   excluirTransacao(transacao: TransacaoFormatada) {
-    console.log('Excluir', transacao.apiObject);
-    this.menuAbertoIndex = null;
-    // Adicionar lógica de exclusão e recarregar transações
+    this.idTransacaoParaExcluir = transacao.idOriginal;
+    this.confirmPopupTransacaoVisible = true;
+  }
+
+  deletarTransacao(idTransacao: string) {
+    console.log(idTransacao)
+
+    const token = this.globalService.userToken;
+    if (!token) return;
+
+    fetch(`${this.globalService.apiUrl}/transaction/${idTransacao}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir a categoria');
+        }
+        this.confirmPopupTransacaoVisible = false;
+        // Atualiza a lista de categorias após exclusão
+         this.buscartransacoes()
+      })
+      .catch(error => {
+        console.error('Erro ao deletar categoria:', error);
+      });
   }
 
   @HostListener('document:click', ['$event'])
@@ -163,11 +191,11 @@ export class TransacoesComponent implements OnInit {
 
   private getAccountIcon(accountName?: string): string {
     if (accountName) {
-        const lowerAccountName = accountName.toLowerCase();
-        if (lowerAccountName.includes('salário') || lowerAccountName.includes('receita')) return 'bi-wallet2';
-        if (lowerAccountName.includes('investimento')) return 'bi-graph-up-arrow';
-        if (lowerAccountName.includes('despesa') || lowerAccountName.includes('cartão')) return 'bi-credit-card';
-        if (lowerAccountName.includes('casa') || lowerAccountName.includes('água')) return 'bi-house-door';
+      const lowerAccountName = accountName.toLowerCase();
+      if (lowerAccountName.includes('salário') || lowerAccountName.includes('receita')) return 'bi-wallet2';
+      if (lowerAccountName.includes('investimento')) return 'bi-graph-up-arrow';
+      if (lowerAccountName.includes('despesa') || lowerAccountName.includes('cartão')) return 'bi-credit-card';
+      if (lowerAccountName.includes('casa') || lowerAccountName.includes('água')) return 'bi-house-door';
     }
     return 'bi-bank'; // Ícone padrão
   }
@@ -240,9 +268,9 @@ export class TransacoesComponent implements OnInit {
 
             // Ordenar todas as transações por data (mais recentes primeiro)
             todasTransacoesFormatadas.sort((a, b) => {
-                const dateA = this.parseApiDateArray(a.apiObject.date);
-                const dateB = this.parseApiDateArray(b.apiObject.date);
-                return dateB.getTime() - dateA.getTime();
+              const dateA = this.parseApiDateArray(a.apiObject.date);
+              const dateB = this.parseApiDateArray(b.apiObject.date);
+              return dateB.getTime() - dateA.getTime();
             });
 
             todasTransacoesFormatadas.forEach(transacao => {

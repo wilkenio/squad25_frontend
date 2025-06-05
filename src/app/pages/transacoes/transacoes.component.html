@@ -162,4 +162,11 @@
   </div>
 </div>
 
+<app-confirm-popup
+  [message]="'Tem certeza que deseja excluir esta transação?'"
+  [visible]="confirmPopupTransacaoVisible"
+  (confirm)="deletarTransacao(idTransacaoParaExcluir)"
+  (cancel)="confirmPopupTransacaoVisible = false">
+</app-confirm-popup>
+
 <app-nova-transacao (transacaoSalva)="buscartransacoes()"></app-nova-transacao>

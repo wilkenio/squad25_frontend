@@ -62,7 +62,7 @@
 
 .tabela-transacoes {
   margin: 20px;
-  height: 30vw;
+  height: 40vw;
   background: white;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
@@ -153,7 +153,7 @@
   display: flex;
   flex-direction: column;
   padding: 8px 0;
-  z-index: 10;
+  z-index: 99;
 }
 
 .menu-dropdown button {
