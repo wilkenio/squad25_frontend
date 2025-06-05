@@ -12,9 +12,7 @@
         <div>
             <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
         </div>
-        <div>
-             <i class="bi bi-person-circle"></i>
-        </div>
+        
         <div class="menu-categorias-direita">
             <h1 class="titulo">{{nomeDaRota}}</h1>
           </div>
@@ -32,7 +30,7 @@
 <div class="options" [class.optionsShow]="optionsContas">
     <div  (click)="toggleNovaTransacaoPopup('Receita');fecharTodosOsMenus();">Nova receita</div>
     <div (click)="toggleNovaTransacaoPopup('Despesa');fecharTodosOsMenus();">Nova despesa</div>
-    <div>Nova despesa de cartão (Mvp2)</div>
+    
     <div (click)="toggleNovaTransferenciaPopup();fecharTodosOsMenus();">Nova transfêrencia</div>
     <div (click)="toggleNovaContaPopup();fecharTodosOsMenus();">Nova conta</div>
   </div>
@@ -48,7 +46,6 @@
 <div class="options" [class.optionsShow]="optionsTransacoes">
     <div (click)="toggleNovaContaPopup()">Nova Receita</div>
     <div>Nova Despesa</div>
-    <div>Nova Despesa de Cartão</div>
     <div>Nova Transação</div>
     <div>Cadastrar Conta</div>
 </div>
@@ -57,8 +54,7 @@
     <div (click)="toggleNovaTransacaoPopup('Receita');fecharTodosOsMenus();">Nova receita</div>
     <div (click)="toggleNovaTransacaoPopup('Despesa');fecharTodosOsMenus();">Nova despesa</div>
     <div (click)="toggleNovaTransferenciaPopup();fecharTodosOsMenus();">Nova transferência</div>
-    <div>Por Conta</div>
-    <div (click)="toggleNovaContaPopup()">Personalizado</div>
+
 </div>
 
 <div class="options" [class.optionsShow]="optionsCategorias">

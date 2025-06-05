@@ -146,4 +146,48 @@ export class NovaTransferenciaComponent {
     // O input datetime-local NÃO usa segundos, por isso vamos ignorar para não dar problema
     return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
   }
+
+  // Variável para mensagens de erro
+mensagensErro: string[] = [];
+
+validarEEnviar() {
+  this.mensagensErro = []; // limpa mensagens anteriores
+
+  // Validações simples
+  if (!this.nome || this.nome.trim() === '') {
+    this.mensagensErro.push('Preencha o campo Descrição.');
+  }
+  if (this.valor == null || this.valor <= 0) {
+    this.mensagensErro.push('Preencha o campo Valor.');
+  }
+  if (!this.dataLancamento) {
+    this.mensagensErro.push('Preencha a Data de lançamento.');
+  }
+  if (!this.contaSaidaId) {
+    this.mensagensErro.push('Selecione a Conta de saída.');
+  }
+  if (!this.contaEntradaId) {
+    this.mensagensErro.push('Selecione a Conta de entrada.');
+  }
+  if (this.contaEntradaId === this.contaSaidaId) {
+    this.mensagensErro.push('Conta de entrada e saída não podem ser iguais.');
+  }
+  if (!this.tipoFrequencia) {
+    this.mensagensErro.push('Selecione o tipo de transferência.');
+  }
+  if (this.tipoFrequencia === 'REPEAT') {
+    if (!this.parcelas || this.parcelas < 2 || this.parcelas > 7) {
+      this.mensagensErro.push('Informe um número válido de parcelas entre 2 e 7.');
+    }
+    if (!this.periodicidade) {
+      this.mensagensErro.push('Informe a periodicidade da transferência.');
+    }
+  }
+
+  // Se não houver erro, chama o salvar
+  if (this.mensagensErro.length === 0) {
+    this.salvarTransferencia();
+  }
+}
+
 }
