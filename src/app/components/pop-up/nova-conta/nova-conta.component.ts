@@ -169,7 +169,8 @@ export class NovaContaComponent {
           if (this.router.url.includes('/contas')) {
             this.contaSalva.emit();
           }
-      
+          window.location.reload();
+
           this.fecharNovaConta();
         },
         error: (err) => {
