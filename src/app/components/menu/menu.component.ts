@@ -35,7 +35,8 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     const path = this.router.url;
-    this.nomeDaRota = path.replace("/", "").replace(/^./, (c) => c.toUpperCase());
+  this.nomeDaRota = path.replace("/", "").replace(/^./, (c) => c.toUpperCase());
+  console.log('nomeDaRota:', this.nomeDaRota);
   }
 
   toggleOptions() {
@@ -77,6 +78,10 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  isCategoriaRoute(): boolean {
+    return this.router.url.startsWith('/categorias');
+  }
+  
   selecionarOpcao(acao?: Function) {
     this.fecharTodosOsMenus();
     if (acao) acao();
