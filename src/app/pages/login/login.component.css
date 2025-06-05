@@ -5,6 +5,7 @@
   width: 115%;
   height: 100vh;
   margin-left: -15%;
+  flex-direction: row; 
 }
 
 .contain-1 {
@@ -14,13 +15,10 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(120deg, #3C217A, #5A89F0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
   animation: gradient-animation 6s ease infinite;
   background-size: 300% 300%;
   transition: 1s ease-in-out;
-}
-
-.contain-1:hover {
-  width: 50%;
 }
 
 .branding {
@@ -33,16 +31,25 @@
 }
 
 .logo-contain-1 {
-  width: 170px;
-  animation: flutuando 3s ease-in-out infinite;
-  margin-bottom: 15px;
+  width: 180px;
+  max-width: 190px;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+  transition: filter 0.3s ease;
+}
+.logo-contain-1:hover {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
 }
 
 .frase-logo {
-  font-size: 1.1rem;
-  font-family: 'Nunito', sans-serif;
-  line-height: 1.4;
-  animation: fadeIn 2s ease-in-out;
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 @keyframes flutuando {
@@ -168,20 +175,24 @@ button:hover {
 /* Responsivo */
 @media screen and (max-width: 800px) {
   #login {
-    flex-direction: column;
+    flex-direction: column; 
+    width: 100%;
+    margin-left: 0;
+    height: auto;
   }
 
   .contain-1 {
     width: 100%;
     height: 35vh;
-    clip-path: polygon(100% 0, 100% 93%, 55% 100%, 0 93%, 0 0);
     margin-bottom: 10%;
   }
 
   .contain-2 {
-    width: 85%;
-    margin-left: 12%;
+    width: 100%;
+    margin-left: 0;
     align-items: flex-start;
+    height: auto;
+    padding: 20px;
   }
 
   .branding {
