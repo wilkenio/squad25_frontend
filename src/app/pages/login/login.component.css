@@ -4,7 +4,7 @@
   flex-direction: wrap;
   width: 115%;
   height: 100vh;
-  margin-left: -15%;
+  margin-left: -195px;
 }
 
 .contain-1 {
@@ -36,7 +36,7 @@
 .logo-contain-1 {
   width: 170px;
   animation: flutuando 3s ease-in-out infinite;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 .frase-logo {
@@ -44,6 +44,7 @@
   font-family: 'Nunito', sans-serif;
   line-height: 1.4;
   animation: fadeIn 2s ease-in-out;
+  margin-top: -8px;
 }
 
 @keyframes flutuando {
@@ -180,7 +181,7 @@ button:hover {
 
   .contain-2 {
     width: 85%;
-    margin-left: 12%;
+    /* margin-left: 12%; */
     align-items: start;
   }
 
@@ -189,13 +190,13 @@ button:hover {
   }
 
   .logo-contain-1 {
-    margin-left: 10%;
     width: 120px;
   }
 
   .frase-logo {
     font-size: 1rem;
-    margin-top: 8px;
+    margin-top: -4px;
+    width: 70%;
   }
   
   .pagina-login {
