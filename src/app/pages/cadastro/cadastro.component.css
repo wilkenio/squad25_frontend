@@ -4,7 +4,7 @@
   flex-direction: wrap;
   width: 115%;
   height: 100vh;
-  margin-left: -195px;
+  margin-left: -15%;
 }
 
 .contain-1 {
@@ -13,12 +13,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   background: linear-gradient(120deg, #3C217A, #5A89F0);
   animation: gradient-animation 6s ease infinite;
   background-size: 300% 300%;
+  clip-path: polygon(87% 0, 97% 47%, 91% 100%, 0 100%, 0 0);
   transition: 1s ease-in-out;
 }
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  max-width: 80%;
+}
+
 
 .contain-1:hover {
   width: 50%;
@@ -128,7 +138,11 @@ button:hover {
   font-size: 14px;
   margin-top: 10px;
 }
-
+.logo-contain-1 {
+  width: 170px;
+  animation: flutuando 3s ease-in-out infinite;
+  margin-bottom: 15px;
+}
 .pagina-login {
   color: var(--cor-5);
   text-decoration: none;
@@ -154,7 +168,12 @@ button:hover {
   height: 16px;
 
 }
-
+.frase-logo {
+  font-size: 1.1rem;
+  font-family: 'Nunito', sans-serif;
+  line-height: 1.4;
+  animation: fadeIn 2s ease-in-out;
+}
 .spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid var(--cor-5);
@@ -194,9 +213,20 @@ button:hover {
     margin-left: 12%;
     align-items: start;
   }
+  .branding {
+    max-width: 100%;
+  }
+  .logo-contain-1 {
+    margin-left: 12%;
+  }
+  .frase-logo {
+    font-size: 1rem;
+    margin-top: 8px;
+  }
 
   .logo-contain-1 {
     margin-left: 12%;
+    width: 120px;
   }
 }
 
@@ -222,5 +252,3 @@ button:hover {
   margin-right: 5%;
   right: 0;
 }
-
-
