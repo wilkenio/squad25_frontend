@@ -144,7 +144,7 @@ const url = `${this.globalService.apiUrl}/relatorios/summaries?dataInicio=${data
   }
 
   buscarSaldo(): Promise<void> {
-    const url = `${this.globalService.apiUrl}/relatorios/summaries?dataInicio=2025-06-01T00:00:00&dataFim=2025-06-30T23:59:59&mostrarApenasSaldo=true&incluirSaldoPrevisto=true&incluirReceitas=false&incluirReceitasEfetivadas=false&incluirReceitasPrevistas=false&incluirDespesas=false&incluirDespesasEfetivadas=false&incluirDespesasPrevistas=false&incluirTransferencias=false&incluirTransferenciasEfetivadas=false&incluirTransferenciasPrevistas=false&incluirTodasCategoriasReceita=true&incluirTodasCategoriasDespesa=true&incluirFreqNaoRecorrente=true&incluirFreqFixaMensal=true&incluirFreqRepetida=true&ordenacao=VALOR_CRESCENTE&tipoDado=TRANSACAO&apresentacao=SOMA&pageNumber=0&pageSize=10`;
+    const url = `${this.globalService.apiUrl}/relatorios/summaries?dataInicio=1900-06-01T00:00:00&dataFim=2900-06-30T23:59:59&mostrarApenasSaldo=true&incluirSaldoPrevisto=true&incluirReceitas=true&incluirReceitasEfetivadas=true&incluirReceitasPrevistas=true&incluirDespesas=true&incluirDespesasEfetivadas=true&incluirDespesasPrevistas=true&incluirTransferencias=true&incluirTransferenciasEfetivadas=true&incluirTransferenciasPrevistas=true&incluirTodasCategoriasReceita=true&incluirTodasCategoriasDespesa=true&incluirFreqNaoRecorrente=true&incluirFreqFixaMensal=true&incluirFreqRepetida=true&ordenacao=VALOR_CRESCENTE&tipoDado=TRANSACAO&apresentacao=SOMA&pageNumber=0&pageSize=10`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.globalService.userToken}`
     });
