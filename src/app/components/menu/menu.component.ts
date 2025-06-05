@@ -4,13 +4,14 @@ import { NovaContaComponent } from '../pop-up/nova-conta/nova-conta.component';
 import { NovoCartaoComponent } from '../pop-up/novo-cartao/novo-cartao.component';
 import { NovaTransacaoComponent } from '../pop-up/nova-transacao/nova-transacao.component';
 import { NovaTransferenciaComponent } from '../pop-up/nova-transferencia/nova-transferencia.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
   standalone: true,
-  imports: [NovaContaComponent,NovaTransacaoComponent,NovaTransferenciaComponent],
+  imports: [NovaContaComponent,NovaTransacaoComponent,NovaTransferenciaComponent,CommonModule],
 })
 export class MenuComponent implements OnInit {
   @ViewChild(NovaContaComponent) novaContaComponent!: NovaContaComponent;
@@ -38,7 +39,10 @@ export class MenuComponent implements OnInit {
   this.nomeDaRota = path.replace("/", "").replace(/^./, (c) => c.toUpperCase());
   console.log('nomeDaRota:', this.nomeDaRota);
   }
-
+  exibirBotaoAdicionar(): boolean {
+    return this.nomeDaRota !== 'Relatorios' && this.nomeDaRota !== 'Categorias';
+  }
+  
   toggleOptions() {
     switch (this.router.url) {
       case '/dashboard':
@@ -78,9 +82,11 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  isCategoriaRoute(): boolean {
-    return this.router.url.startsWith('/categorias');
+  isCategoriaOuRelatorioRoute(): boolean {
+    const rota = this.router.url;
+    return rota.startsWith('/categorias') || rota.startsWith('/relatorios');
   }
+  
   
   selecionarOpcao(acao?: Function) {
     this.fecharTodosOsMenus();

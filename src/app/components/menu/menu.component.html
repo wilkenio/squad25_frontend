@@ -9,9 +9,13 @@
                 <option value="">Fevereiro</option>
             </select>
         </div> -->
-        <div >
+        <div *ngIf="exibirBotaoAdicionar()">
             <i (click)="toggleOptions()" class="bi bi-plus-circle"></i>
-        </div>
+          </div>
+          
+          
+          
+          
         
         <div class="menu-categorias-direita">
             <h1 class="titulo">{{nomeDaRota}}</h1>
@@ -20,8 +24,8 @@
 </div>
 
 <div class="options" [class.optionsShow]="optionsDashboard">
+    <div> Novo card no Dashboard</div>
     <div>Nova conta</div>
-    <div>Novo cartão</div>
     <div>Receita</div>
     <div>Despesa</div>
     <div (click)="toggleNovaContaPopup()">Nova transfêrencia entre contas</div>
