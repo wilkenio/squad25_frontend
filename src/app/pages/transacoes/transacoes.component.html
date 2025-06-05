@@ -21,8 +21,8 @@
       <button [class.ativo]="abaSelecionada === 'EXPENSE'" (click)="selecionarAba('EXPENSE')" id="btn-despesas">
         Despesas
       </button>
-      <button [class.ativo]="abaSelecionada === 'TRANSFERENCIA'" (click)="selecionarAba('TRANSFERENCIA')" id="btn-transferencias">
-        Transferências
+      <button [class.ativo]="abaSelecionada === 'TPDAS'" (click)="selecionarAba('TPDAS')" id="btn-transferencias">
+        Todas
       </button>
     </div>
 
@@ -30,17 +30,8 @@
       <div class="tabela-transacoes">
         <div class="cabecalho">
           <div>Descrição</div>
-
-          <ng-container *ngIf="abaSelecionada !== 'TRANSFERENCIA'; else transferenciasCabecalho">
-            <div>Categoria</div>
-            <div>Conta</div>
-          </ng-container>
-
-          <ng-template #transferenciasCabecalho>
-            <div>Conta de origem</div>
-            <div>Conta de destino</div>
-          </ng-template>
-
+          <div>Categoria</div>
+          <div>Conta</div>
           <div>Situação</div>
           <div>Data Efetivação</div>
           <div>Valor</div>
@@ -50,41 +41,35 @@
 
         <div class="conteudo-aba">
 
-          <!-- RECEITAS -->
           <div *ngIf="abaSelecionada === 'REVENUE'">
+            <div *ngIf="transacoesRevenue.length === 0" class="sem-transacoes">Nenhuma receita encontrada. 😔</div>
             <div *ngFor="let transacao of transacoesRevenue; let i = index" class="linha">
               <div>{{ transacao.descricao }}</div>
-
               <div class="coluna-categoria">
                 <ng-container *ngFor="let cat of transacao.categoria">
                   <div class="icone-colorido" [style.backgroundColor]="cat.corHex">
-                    <i class="fa {{ cat.icone }}"></i>
+                    <i class="bi {{ cat.icone }}"></i>
                   </div>
                 </ng-container>
                 <span>{{ transacao.categoriaTexto }}</span>
               </div>
-
               <div class="coluna-conta">
                 <div class="icone-colorido" [style.backgroundColor]="transacao.conta.corHex">
-                  <i class="fa {{ transacao.conta.icone }}"></i>
+                  <i class="bi {{ transacao.conta.icone }}"></i>
                 </div>
                 <span>{{ transacao.conta.nome }}</span>
               </div>
-
               <div [ngClass]="{
                 'situacao-efetivada': transacao.situacao === 'Efetivada',
                 'situacao-prevista': transacao.situacao === 'Prevista'
               }">
                 {{ transacao.situacao }}
               </div>
-
               <div>{{ transacao.data }}</div>
-
               <div class="valor-destaque" [style.color]="getCorValor()">{{ transacao.valor }}</div>
-
               <div class="icone-acao">
                 <div class="icone-acao-wrapper">
-                  <i class="fa fa-ellipsis icone-acao" (click)="abrirMenu(i)"></i>
+                  <i class="bi bi-three-dots-vertical icone-hover" (click)="abrirMenu(i)"></i>
                   <div class="menu-dropdown" *ngIf="menuAbertoIndex === i">
                     <button (click)="editarTransacao(transacao)">Editar Receita</button>
                     <button class="excluir" (click)="excluirTransacao(transacao)">Excluir Receita</button>
@@ -94,42 +79,35 @@
             </div>
           </div>
 
-          <!-- DESPESAS -->
           <div *ngIf="abaSelecionada === 'EXPENSE'">
+            <div *ngIf="transacoesExpense.length === 0" class="sem-transacoes">Nenhuma despesa encontrada.</div>
             <div *ngFor="let transacao of transacoesExpense; let i = index" class="linha">
-              <div class="coluna">{{ transacao.descricao }}</div>
-
-              <div class="coluna coluna-categoria">
+              <div>{{ transacao.descricao }}</div>
+              <div class="coluna-categoria">
                 <ng-container *ngFor="let cat of transacao.categoria">
                   <div class="icone-colorido" [style.backgroundColor]="cat.corHex">
-                    <i class="fa {{ cat.icone }}"></i>
+                    <i class="bi {{ cat.icone }}"></i>
                   </div>
                 </ng-container>
                 <span>{{ transacao.categoriaTexto }}</span>
               </div>
-
-              <div class="coluna coluna-conta">
+              <div class="coluna-conta">
                 <div class="icone-colorido" [style.backgroundColor]="transacao.conta.corHex">
-                  <i class="fa {{ transacao.conta.icone }}"></i>
+                  <i class="bi {{ transacao.conta.icone }}"></i>
                 </div>
                 <span>{{ transacao.conta.nome }}</span>
               </div>
-
-              <div class="coluna"
-                   [ngClass]="{
-                     'situacao-efetivada': transacao.situacao === 'Efetivada',
-                     'situacao-prevista': transacao.situacao === 'Prevista'
-                   }">
+              <div [ngClass]="{
+                'situacao-efetivada': transacao.situacao === 'Efetivada',
+                'situacao-prevista': transacao.situacao === 'Prevista'
+              }">
                 {{ transacao.situacao }}
               </div>
-
-              <div class="coluna">{{ transacao.data }}</div>
-
-              <div class="coluna valor-destaque" [style.color]="getCorValor()">{{ transacao.valor }}</div>
-
-              <div class="coluna-acoes">
+              <div>{{ transacao.data }}</div>
+              <div class="valor-destaque" [style.color]="getCorValor()">{{ transacao.valor }}</div>
+              <div class="icone-acao">
                 <div class="icone-acao-wrapper">
-                  <i class="fa fa-ellipsis icone-acao" (click)="abrirMenu(i)"></i>
+                  <i class="bi bi-three-dots-vertical icone-hover" (click)="abrirMenu(i)"></i>
                   <div class="menu-dropdown" *ngIf="menuAbertoIndex === i">
                     <button (click)="editarTransacao(transacao)">Editar Despesa</button>
                     <button class="excluir" (click)="excluirTransacao(transacao)">Excluir Despesa</button>
@@ -139,42 +117,39 @@
             </div>
           </div>
 
-          <!-- TRANSFERÊNCIAS -->
-          <div *ngIf="abaSelecionada === 'TRANSFERENCIA'">
-            <div *ngFor="let transacao of transacoesTransferencia; let i = index" class="linha">
+          <div *ngIf="abaSelecionada === 'TPDAS'">
+            <div *ngIf="transacoesTpdas.length === 0" class="sem-transacoes">Nenhuma transação encontrada.</div>
+            <div *ngFor="let transacao of transacoesTpdas; let i = index" class="linha">
               <div>{{ transacao.descricao }}</div>
-
-              <div class="coluna-conta">
-                <div class="icone-colorido" [style.backgroundColor]="transacao.contaOrigem.corHex">
-                  <i class="fa {{ transacao.contaOrigem.icone }}"></i>
-                </div>
-                <span>{{ transacao.contaOrigem.nome }}</span>
+              <div class="coluna-categoria">
+                <ng-container *ngFor="let cat of transacao.categoria">
+                  <div class="icone-colorido" [style.backgroundColor]="cat.corHex">
+                    <i class="bi {{ cat.icone }}"></i>
+                  </div>
+                </ng-container>
+                <span>{{ transacao.categoriaTexto }}</span>
               </div>
-
               <div class="coluna-conta">
-                <div class="icone-colorido" [style.backgroundColor]="transacao.contaDestino.corHex">
-                  <i class="fa {{ transacao.contaDestino.icone }}"></i>
+                <div class="icone-colorido" [style.backgroundColor]="transacao.conta.corHex">
+                  <i class="bi {{ transacao.conta.icone }}"></i>
                 </div>
-                <span>{{ transacao.contaDestino.nome }}</span>
+                <span>{{ transacao.conta.nome }}</span>
               </div>
-
               <div [ngClass]="{
                 'situacao-efetivada': transacao.situacao === 'Efetivada',
-                'situacao-prevista': transacao.situacao === 'Prevista'
+                'situacao-prevista': transacao.situacao === 'Prevista',
+                'situacao-outra': transacao.situacao !== 'Efetivada' && transacao.situacao !== 'Prevista'
               }">
                 {{ transacao.situacao }}
               </div>
-
               <div>{{ transacao.data }}</div>
-
-              <div class="valor-destaque" [style.color]="getCorValor()">{{ transacao.valor }}</div>
-
+              <div class="valor-destaque" [style.color]="getCorValor(transacao.tipo)">{{ transacao.valor }}</div>
               <div class="icone-acao">
                 <div class="icone-acao-wrapper">
-                  <i class="fa fa-ellipsis icone-acao" (click)="abrirMenu(i)"></i>
+                  <i class="bi bi-three-dots-vertical icone-hover" (click)="abrirMenu(i)"></i>
                   <div class="menu-dropdown" *ngIf="menuAbertoIndex === i">
-                    <button (click)="editarTransacao(transacao)">Editar Transferência</button>
-                    <button class="excluir" (click)="excluirTransacao(transacao)">Excluir Transferência</button>
+                    <button (click)="editarTransacao(transacao)">Editar Transação</button>
+                    <button class="excluir" (click)="excluirTransacao(transacao)">Excluir Transação</button>
                   </div>
                 </div>
               </div>
@@ -186,3 +161,5 @@
     </div>
   </div>
 </div>
+
+<app-nova-transacao (transacaoSalva)="buscartransacoes()"></app-nova-transacao>

@@ -19,7 +19,10 @@
   position: relative;
   color: black;
 }
-
+.sem-transacoes{
+  color: var(--cor-3);
+  padding: 2%;
+}
 #btn-receitas {
   border-bottom: 2px solid var(--cor-5);
   color: var(--cor-5);
