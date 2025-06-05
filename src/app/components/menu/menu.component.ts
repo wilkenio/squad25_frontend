@@ -35,12 +35,22 @@ export class MenuComponent implements OnInit {
   constructor(private router: Router, private eRef: ElementRef) {}
 
   ngOnInit() {
-    const path = this.router.url;
-  this.nomeDaRota = path.replace("/", "").replace(/^./, (c) => c.toUpperCase());
-  console.log('nomeDaRota:', this.nomeDaRota);
+    const rawPath = this.router.url.replace("/", "");
+  
+    const nomesAmigaveis: { [key: string]: string } = {
+      dashboard: 'Dashboard',
+      contas: 'Contas',
+      transacoes: 'Transações',
+      relatorios: 'Relatórios',
+      categorias: 'Categorias',
+      
+    };
+  
+    this.nomeDaRota = nomesAmigaveis[rawPath] || rawPath.charAt(0).toUpperCase() + rawPath.slice(1);
   }
+  
   exibirBotaoAdicionar(): boolean {
-    return this.nomeDaRota !== 'Relatorios' && this.nomeDaRota !== 'Categorias';
+    return this.nomeDaRota !== 'Categorias' && this.nomeDaRota !== 'Dashboard' ;
   }
   
   toggleOptions() {
