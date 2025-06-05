@@ -40,7 +40,7 @@ export class MenuComponent implements OnInit {
   console.log('nomeDaRota:', this.nomeDaRota);
   }
   exibirBotaoAdicionar(): boolean {
-    return this.nomeDaRota !== 'Relatorios' && this.nomeDaRota !== 'Categorias';
+    return this.nomeDaRota !== 'Categorias' && this.nomeDaRota !== 'Dashboard' ;
   }
   
   toggleOptions() {
