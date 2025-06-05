@@ -48,16 +48,17 @@
   </div>  
 
 <div class="options" [class.optionsShow]="optionsTransacoes">
-    <div (click)="toggleNovaContaPopup()">Nova Receita</div>
-    <div>Nova Despesa</div>
-    <div>Nova Transação</div>
-    <div>Cadastrar Conta</div>
+    <div (click)="toggleNovaTransacaoPopup('Receita');fecharTodosOsMenus()">Nova Receita</div>
+    <div (click)="toggleNovaTransacaoPopup('Despesa');fecharTodosOsMenus();">Nova Despesa</div>
+    <div (click)="toggleNovaTransferenciaPopup();fecharTodosOsMenus();">Nova transfêrencia</div>
+  
 </div>
 
 <div class="options" [class.optionsShow]="optionsRelatorios">
     <div (click)="toggleNovaTransacaoPopup('Receita');fecharTodosOsMenus();">Nova receita</div>
     <div (click)="toggleNovaTransacaoPopup('Despesa');fecharTodosOsMenus();">Nova despesa</div>
     <div (click)="toggleNovaTransferenciaPopup();fecharTodosOsMenus();">Nova transferência</div>
+    
 
 </div>
 
