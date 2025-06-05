@@ -53,7 +53,7 @@ export class NovaTransacaoComponent {
     this.typePopUp = typePopUp;
     this.typeTransation = typeTransation;
     this.idTransacao = transacaoId ?? '';
-  
+
     this.mensagemErroForm = ''; // <<< LIMPA MENSAGEM AO MUDAR DE ABA
   
     this.dataLancamento = typePopUp ? this.getDataAtualFormatada() : 'add';
@@ -128,7 +128,7 @@ export class NovaTransacaoComponent {
         this.dataLancamento = this.formatarData(data.releaseDate);
         this.infoAdicional = data.additionalInformation;
         this.categoriaId = data.categoryId;
-
+        this.typeTransation = data.type === 'RECEITA' ? 'Receita' : 'Despesa'
         this.subcategoriaId = data.subcategoryId;
         this.contaId = data.accountId;
 
