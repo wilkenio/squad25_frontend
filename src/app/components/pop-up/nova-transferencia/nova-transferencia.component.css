@@ -385,6 +385,15 @@
   font-size: 13px;
 }
 
+.mensagem-erro {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-left: 50%;
+}
+
+
 /* Responsivo */
 @media screen and (max-width: 800px) {
   .popUp {

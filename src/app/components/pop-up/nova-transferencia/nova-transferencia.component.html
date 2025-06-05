@@ -1,10 +1,12 @@
 <div class="contain-popup" [style.visibility]="mostrarNovaTransferencia ? 'visible' : 'hidden'">
 
-
-
   <div class="popUp">
-    <div class="titulo">Nova tranferência <p>Ao realizar a transferência, será criada uma transação de tipo receita em
-        uma conta e uma de tipo despesa na outra conta selecionada.</p>
+    <div class="titulo">
+      Nova tranferência
+      <p>
+        Ao realizar a transferência, será criada uma transação de tipo receita em
+        uma conta e uma de tipo despesa na outra conta selecionada.
+      </p>
     </div>
 
     <div class="flex">
@@ -27,106 +29,94 @@
           <input type="datetime-local" [(ngModel)]="dataLancamento" placeholder="Digite aqui" />
         </div>
 
-        <!-- Status da Transação -->
-        <!-- <div class="nome border-bottom">
-        
-          <label>
-            <input type="radio" name="status" value="efetivada" />
-            <p>Efetivada</p>
-          </label><br>
-        
-          <label>
-            <input type="radio" name="status" value="previsto" />
-            <p>Previsto</p>
-          </label>
-        </div> -->
-
         <!-- Informações Adicionais -->
         <div class="nome border-bottom column remover-border-bottom">
           <h5>Informações Adicionais</h5>
           <textarea [(ngModel)]="infoAdicional" placeholder="Digite aqui..."></textarea>
         </div>
-
       </div>
 
       <div class="popup-2">
-  <!-- Conta de saída -->
-  <div class="nome border-bottom">
-    <h5>Conta (Á retirar Valor)</h5>
-    <select [(ngModel)]="contaSaidaId">
-      <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaEntradaId">
-        {{ conta.accountName }}
-      </option>
-    </select>
-  </div>
+        <!-- Conta de saída -->
+        <div class="nome border-bottom">
+          <h5>Conta (Á retirar Valor)</h5>
+          <select [(ngModel)]="contaSaidaId">
+            <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaEntradaId">
+              {{ conta.accountName }}
+            </option>
+          </select>
+        </div>
 
-  <!-- Conta de entrada -->
-  <div class="nome border-bottom remover-border-bottom">
-    <h5>Conta 2 (Á receber Valor)</h5>
-    <select [(ngModel)]="contaEntradaId">
-      <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaSaidaId">
-        {{ conta.accountName }}
-      </option>
-    </select>
-  </div>
+        <!-- Conta de entrada -->
+        <div class="nome border-bottom remover-border-bottom">
+          <h5>Conta 2 (Á receber Valor)</h5>
+          <select [(ngModel)]="contaEntradaId">
+            <option *ngFor="let conta of contas" [value]="conta.id" [disabled]="conta.id === contaSaidaId">
+              {{ conta.accountName }}
+            </option>
+          </select>
+        </div>
 
-<div class="despesa-container">
-  <label class="radio-option">
-    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="NON_RECURRING" />
-    Transferência não recorrente
-  </label>
+        <div class="despesa-container">
+          <label class="radio-option">
+            <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="NON_RECURRING" />
+            Transferência não recorrente
+          </label>
 
-  <label class="radio-option">
-    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="FIXED_MONTHLY" />
-    Transferência fixa mensal
-  </label>
+          <label class="radio-option">
+            <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="FIXED_MONTHLY" />
+            Transferência fixa mensal
+          </label>
 
-  <label class="radio-option">
-    <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="REPEAT" />
-    Repetir Transferência
+          <label class="radio-option">
+            <input type="radio" name="tipoDespesa" [(ngModel)]="tipoFrequencia" value="REPEAT" />
+            Repetir Transferência
 
-    <!-- Este campo só aparece se o valor for 'repetir' -->
-    <span class="parcelas" *ngIf="tipoFrequencia === 'REPEAT'">
-      Parcelas
-      <input type="number" [(ngModel)]="parcelas" min="2" max="7"/>
-    </span>
-  </label>
+            <!-- Este campo só aparece se o valor for 'repetir' -->
+            <span class="parcelas" *ngIf="tipoFrequencia === 'REPEAT'">
+              Parcelas
+              <input type="number" [(ngModel)]="parcelas" min="2" max="7" />
+            </span>
+          </label>
 
-  <!-- Aparece apenas se tipo for 'repetir' -->
-  <div class="periodicidade" *ngIf="tipoFrequencia === 'REPEAT'">
-    <label>Periodicidade</label>
-    <select [(ngModel)]="periodicidade">
-      <option value="DIARIO">DIARIO</option>
-      <option value="SEMANAL">SEMANAL</option>
-      <option value="QUINZENAL">QUINZENAL</option>
-      <option value="MENSAL">MENSAL</option>
-      <option value="TRIMESTRAL">TRIMESTRAL</option>
-      <option value="SEMESTRAL">SEMESTRAL</option>
-      <option value="ANUAL">ANUAL</option>
-    </select>
-  </div>
+          <!-- Aparece apenas se tipo for 'repetir' -->
+          <div class="periodicidade" *ngIf="tipoFrequencia === 'REPEAT'">
+            <label>Periodicidade</label>
+            <select [(ngModel)]="periodicidade">
+              <option value="DIARIO">DIARIO</option>
+              <option value="SEMANAL">SEMANAL</option>
+              <option value="QUINZENAL">QUINZENAL</option>
+              <option value="MENSAL">MENSAL</option>
+              <option value="TRIMESTRAL">TRIMESTRAL</option>
+              <option value="SEMESTRAL">SEMESTRAL</option>
+              <option value="ANUAL">ANUAL</option>
+            </select>
+          </div>
 
-  <!-- Toggle de dias úteis -->
-  <div class="toggle-container" *ngIf="tipoFrequencia === 'REPEAT'">
-    <label>Despesa recorrente em dias úteis:</label>
-    <span class="toggle-label">Não</span>
-    <label class="switch">
-      <input type="checkbox" [(ngModel)]="businessDayOnly" />
-      <span class="slider"></span>
-    </label>
-    <span class="toggle-label">Sim</span>
-  </div>
+          <!-- Toggle de dias úteis -->
+          <div class="toggle-container" *ngIf="tipoFrequencia === 'REPEAT'">
+            <label>Despesa recorrente em dias úteis:</label>
+            <span class="toggle-label">Não</span>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="businessDayOnly" />
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Sim</span>
+          </div>
+        </div>
+
+        <!-- Mensagens de erro -->
+        <!-- Mensagem de erro única -->
+<div class="mensagem-erro" *ngIf="mensagensErro.length > 0">
+  {{ mensagensErro[0] }}
 </div>
 
 
         <div class="btns">
           <button id="cancelar" (click)="fecharNovaTransferencia()">Cancelar</button>
-          <button id="salvar" (click)="salvarTransferencia()">Salvar</button>
+          <button id="salvar" (click)="validarEEnviar()">Salvar</button>
         </div>
-
       </div>
-
     </div>
-
   </div>
 </div>
