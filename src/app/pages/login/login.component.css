@@ -1,7 +1,7 @@
 #login {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-direction: wrap;
   width: 115%;
   height: 100vh;
   margin-left: -15%;
@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  clip-path: polygon(87% 0, 97% 47%, 91% 100%, 0 100%, 0 0);
   background: linear-gradient(120deg, #3C217A, #5A89F0);
   animation: gradient-animation 6s ease infinite;
   background-size: 300% 300%;
@@ -51,10 +52,7 @@
   100% { transform: translateY(0px); }
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
+
 
 @keyframes gradient-animation {
   0% { background-position: 0% 50%; }
@@ -73,7 +71,6 @@
 .contain-2 h2 {
   font-family: 'Nunito', sans-serif;
 }
-
 .login-container {
   width: 100%;
   max-width: 300px;
@@ -98,9 +95,10 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.7s ease-in-out;
+  transition: background 0.3s;
   margin-top: 2%;
   margin-left: 1%;
+  transition: 0.7s ease-in-out;
 }
 
 button:hover {
@@ -169,6 +167,8 @@ button:hover {
 @media screen and (max-width: 800px) {
   #login {
     flex-direction: column;
+    width: 100%;
+    margin-left: 0;
   }
 
   .contain-1 {
@@ -181,7 +181,7 @@ button:hover {
   .contain-2 {
     width: 85%;
     margin-left: 12%;
-    align-items: flex-start;
+    align-items: start;
   }
 
   .branding {
@@ -189,7 +189,7 @@ button:hover {
   }
 
   .logo-contain-1 {
-    margin-left: 0;
+    margin-left: 10%;
     width: 120px;
   }
 
@@ -197,4 +197,10 @@ button:hover {
     font-size: 1rem;
     margin-top: 8px;
   }
+  
+  .pagina-login {
+    margin-left: 0;
+    text-align: center;
+  }
 }
+

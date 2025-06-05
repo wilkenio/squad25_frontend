@@ -33,11 +33,6 @@ Com o Lúmen, você pode:
 
 ---
 
-## 🚀 Tecnologias
-🔗 Acesse o repositório: [Acessar](https://github.com/wilkenio/squad25_backend.git) 
-
----
-
 ## 📝 Requisitos
 
 Antes de executar o projeto, você precisa ter os seguintes itens instalados na sua máquina:
