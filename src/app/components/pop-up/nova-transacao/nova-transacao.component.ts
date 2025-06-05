@@ -244,6 +244,7 @@ formatarData(array: number[]): string {
     request.subscribe({
       next: () => {
         this.transacaoSalva.emit();
+        window.location.reload();
         this.fecharNovaConta();
       },
       error: (err) => {

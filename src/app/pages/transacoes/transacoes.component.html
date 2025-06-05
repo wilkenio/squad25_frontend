@@ -155,6 +155,24 @@
               </div>
             </div>
           </div>
+          
+          <div class="paginacao-container" *ngIf="totalDePaginas > 0">
+            <button class="btn-paginacao" (click)="paginaAnterior()" [disabled]="paginaAtual === 0">
+              Anterior
+            </button>
+          
+            <ng-container *ngFor="let page of paginasMostradas">
+              <button *ngIf="page !== '...'" class="btn-paginacao" [class.active]="page === paginaAtual"
+                (click)="mudarPagina(+page)">
+                {{ +page + 1 }} </button>
+              <span *ngIf="page === '...'" class="paginacao-ellipsis">...</span>
+            </ng-container>
+          
+            <button class="btn-paginacao" (click)="proximaPagina()"
+              [disabled]="paginaAtual >= totalDePaginas - 1 || totalDePaginas === 0">
+              Próxima
+            </button>
+          </div>
 
         </div>
       </div>
@@ -162,11 +180,14 @@
   </div>
 </div>
 
-<app-confirm-popup
-  [message]="'Tem certeza que deseja excluir esta transação?'"
-  [visible]="confirmPopupTransacaoVisible"
-  (confirm)="deletarTransacao(idTransacaoParaExcluir)"
-  (cancel)="confirmPopupTransacaoVisible = false">
+
+
+<div>
+</div>
+
+
+<app-confirm-popup [message]="'Tem certeza que deseja excluir esta transação?'" [visible]="confirmPopupTransacaoVisible"
+  (confirm)="deletarTransacao(idTransacaoParaExcluir)" (cancel)="confirmPopupTransacaoVisible = false">
 </app-confirm-popup>
 
 <app-nova-transacao (transacaoSalva)="buscartransacoes()"></app-nova-transacao>
