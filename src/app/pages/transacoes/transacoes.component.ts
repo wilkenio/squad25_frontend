@@ -15,10 +15,12 @@ interface ApiTransacao {
   accountName: string;
   categoryName: string;
   state: 'EFFECTIVE' | 'PENDING' | string; // Pode haver outros estados
-  categoryIconClass: string;
+  categoryIconClass: string; // Adicionado para corrigir o erro
   categoryColor: string;
   subcategoryName?: string;
   itemType: string;
+  accountIconClass: string; // Added property to match the usage
+  accountColor: string; // Added property to match the usage
 }
 
 interface TransacaoFormatada {
@@ -214,6 +216,7 @@ export class TransacoesComponent implements OnInit {
                 categoriaTextoConcatenado += ` / ${item.subcategoryName}`;
               }
 
+
               return {
                 idOriginal: item.transactionId,
                 apiObject: item,
@@ -224,8 +227,8 @@ export class TransacoesComponent implements OnInit {
                 }],
                 categoriaTexto: categoriaTextoConcatenado,
                 conta: {
-                  icone: this.getAccountIcon(item.accountName),
-                  corHex: this.getAccountColor(item.accountName),
+                  icone: item.accountIconClass,
+                  corHex: item.accountColor,
                   nome: item.accountName
                 },
                 situacao: item.state === 'EFFECTIVE' ? 'Efetivada' : (item.state === 'PENDING' ? 'Prevista' : item.state),
